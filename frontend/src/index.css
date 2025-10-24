@@ -1,0 +1,10 @@
+/* index.css */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f6ff;
+}
+
+* {
+  box-sizing: border-box;
+}
