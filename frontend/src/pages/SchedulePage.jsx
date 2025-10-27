@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/SchedulePage.css";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 
 const SchedulePage = () => {
+  const [activeTab, setActiveTab] = useState("Van");
+
+  const scheduleData = [
+    { driver: "Vaugn Ashton", vehicle: "Van", seats: 10, terminal: "Cubao", departure: "8:00 AM" },
+    { driver: "Klayd Dranreb", vehicle: "Bus", seats: 30, terminal: "Pasay", departure: "9:15 AM" },
+    { driver: "Marjun Mapa", vehicle: "Jeepney", seats: 8, terminal: "Caloocan", departure: "10:00 AM" },
+  ];
+
+  const filteredData = scheduleData.filter((row) => row.vehicle === activeTab);
+
+  const vehicleImage = {
+    Van: "/src/assets/images/Vehicle-van.jpg",
+    Bus: "/src/assets/images/Vehicle-bus.jpg",
+    Jeepney: "/src/assets/images/Vehicle-jeepney.jpg",
+  };
+
   return (
     <div className="schedule-page">
       <nav className="navbar">
@@ -14,14 +32,27 @@ const SchedulePage = () => {
         <div className="nav-icons">
           <Link to="/" className="icon" aria-label="Home"><Home /></Link>
           <button className="icon active" aria-label="Schedule"><CalendarDays /></button>
-          <Link to="/login" className="icon" aria-label="/login"><Car /></Link>
-          <Link to="/about" className="icon" aria-label="/about"><Info /></Link>
+          <Link to="/login" className="icon" aria-label="Login"><Car /></Link>
+          <Link to="/about" className="icon" aria-label="About"><Info /></Link>
         </div>
       </nav>
 
+      <section className="vehicle-tabs">
+        {["Van", "Bus", "Jeepney"].map((type) => (
+          <button
+            key={type}
+            className={`tab-btn ${activeTab === type ? "active" : ""}`}
+            onClick={() => setActiveTab(type)}
+          >
+            <img src={vehicleImage[type]} alt={type} className="tab-image" />
+            <span>{type}</span>
+          </button>
+        ))}
+      </section>
+
       <section className="schedule-section">
         <div className="schedule-card">
-          <h2 className="schedule-heading">SCHEDULE</h2>
+          <h2 className="schedule-heading">{activeTab}</h2>
 
           <div className="table-wrap">
             <table className="schedule-table">
@@ -35,39 +66,49 @@ const SchedulePage = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                {filteredData.map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.driver}</td>
+                    <td>{row.vehicle}</td>
+                    <td>{row.seats}</td>
+                    <td>{row.terminal}</td>
+                    <td>{row.departure}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
       </section>
-      <footer className="footer">
-        <footer className="footer">
-  <div className="footer-column">
-    <p>About Us</p>
-    <p>Customer Privacy</p>
-    <p>Customer Support</p>
-  </div>
-  <div className="footer-column">
-    <p>Vehicle Available</p>
-    <p>Trip Schedule</p>
-    <p>Terms & Conditions</p>
-  </div>
-</footer>
-
-        <div className="footer-social">
-          <div className="icons">
-            <a href="#">📘</a>
-            <a href="#">🐦</a>
-            <a href="#">📸</a>
-          </div>
-          <a href="#" className="privacy-link">Privacy Policy</a>
-        </div>
-      </footer>
+       {/* FOOTER */}
+            <footer className="footer">
+              <div className="footer-links">
+                <div>
+                  <p>About us</p>
+                  <p>Customer Support</p>
+                  <p>Terms & Condition</p>
+                </div>
+                <div>
+                  <p>Vehicle Available</p>
+                  <p>Trip Schedule</p>
+                </div>
+              </div>
+      
+              <div className="footer-social">
+                <div className="icons">
+                  <a href="#" aria-label="Facebook" className="social-link">
+                    <FaFacebook />
+                  </a>
+                  <a href="#" aria-label="Twitter" className="social-link">
+                    <FaTwitter />
+                  </a>
+                  <a href="#" aria-label="Instagram" className="social-link">
+                    <FaInstagram />
+                  </a>
+                </div>
+                <a href="#" className="privacy-link">Privacy Policy</a>
+              </div>
+            </footer>
     </div>
   );
 };

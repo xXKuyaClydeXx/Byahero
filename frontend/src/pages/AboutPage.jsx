@@ -2,6 +2,8 @@ import React from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/AboutPage.css";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 
 const teamMembers = [
   { name: "Clyde Arizala", role: "Frontend Developer", initials: "CA" },
@@ -73,27 +75,35 @@ const AboutPage = () => {
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="footer-column">
-          <p>About Us</p>
-          <p>Customer Privacy</p>
-          <p>Customer Support</p>
-        </div>
-        <div className="footer-column">
-          <p>Vehicle Available</p>
-          <p>Trip Schedule</p>
-          <p>Terms & Conditions</p>
-        </div>
-        <div className="footer-social">
-          <div className="icons">
-            <a href="#">📘</a>
-            <a href="#">🐦</a>
-            <a href="#">📸</a>
-          </div>
-          <a href="#" className="privacy-link">Privacy Policy</a>
-          <p style={{ marginTop: "8px", fontSize: "12px" }}>© Byahero | Since 2025</p>
-        </div>
-      </footer>
+       {/* FOOTER */}
+            <footer className="footer">
+              <div className="footer-links">
+                <div>
+                  <p>About us</p>
+                  <p>Customer Support</p>
+                  <p>Terms & Condition</p>
+                </div>
+                <div>
+                  <p>Vehicle Available</p>
+                  <p>Trip Schedule</p>
+                </div>
+              </div>
+      
+              <div className="footer-social">
+                <div className="icons">
+                  <a href="#" aria-label="Facebook" className="social-link">
+                    <FaFacebook />
+                  </a>
+                  <a href="#" aria-label="Twitter" className="social-link">
+                    <FaTwitter />
+                  </a>
+                  <a href="#" aria-label="Instagram" className="social-link">
+                    <FaInstagram />
+                  </a>
+                </div>
+                <a href="#" className="privacy-link">Privacy Policy</a>
+              </div>
+            </footer>
     </div>
   );
 };

@@ -243,12 +243,14 @@
   flex-wrap: wrap;                    /* makes it responsive */
 }
 
+
 /* individual column styling */
 .footer-column {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 
 /* optional: make links or text hover nicely */
 .footer-column p,
@@ -259,10 +261,12 @@
   transition: color 0.3s;
 }
 
+
 .footer-column p:hover,
 .footer-column a:hover {
   color: #4a63e7;
 }
+
 
 /* mobile responsiveness */
 @media (max-width: 768px) {

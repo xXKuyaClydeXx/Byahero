@@ -2,10 +2,13 @@ import React from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/LoginPage.css";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 
 const LoginPage = () => {
   return (
     <div className="login-page">
+      {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
           <h1 className="title">BYAHERO TERMINAL</h1>
@@ -19,46 +22,57 @@ const LoginPage = () => {
         </div>
       </nav>
 
+      {/* ===== LOGIN SECTION ===== */}
       <section className="login-section">
         <div className="login-box">
           <form>
             <label>Email</label>
-            <input type="email" placeholder="Enter your email" />
+            <input type="email" placeholder="vaprams@gbox.adnu.edu.ph" />
 
             <label>Password</label>
             <input type="password" placeholder="********" />
 
             <a href="#" className="forgot">Forgot password?</a>
 
-            <div className="auth-buttons">
-              <Link to="/register" className="primary-btn">Register</Link>
-            </div>
+            <button type="submit" className="signin-btn">Sign in</button>
+
+            <p className="create-account">
+              Don’t have an account?{" "}
+              <Link to="/register" className="create-link">Create Account</Link>
+            </p>
           </form>
         </div>
       </section>
 
-      <footer className="footer">
-        <footer className="footer">
-  <div className="footer-column">
-    <p>About Us</p>
-    <p>Customer Privacy</p>
-    <p>Customer Support</p>
-  </div>
-  <div className="footer-column">
-    <p>Vehicle Available</p>
-    <p>Trip Schedule</p>
-    <p>Terms & Conditions</p>
-  </div>
-</footer>
-        <div className="footer-social">
-          <div className="icons">
-            <a href="#">📘</a>
-            <a href="#">🐦</a>
-            <a href="#">📸</a>
-          </div>
-          <a href="#" className="privacy-link">Privacy Policy</a>
-        </div>
-      </footer>
+      {/* FOOTER */}
+           <footer className="footer">
+             <div className="footer-links">
+               <div>
+                 <p>About us</p>
+                 <p>Customer Support</p>
+                 <p>Terms & Condition</p>
+               </div>
+               <div>
+                 <p>Vehicle Available</p>
+                 <p>Trip Schedule</p>
+               </div>
+             </div>
+     
+             <div className="footer-social">
+               <div className="icons">
+                 <a href="#" aria-label="Facebook" className="social-link">
+                   <FaFacebook />
+                 </a>
+                 <a href="#" aria-label="Twitter" className="social-link">
+                   <FaTwitter />
+                 </a>
+                 <a href="#" aria-label="Instagram" className="social-link">
+                   <FaInstagram />
+                 </a>
+               </div>
+               <a href="#" className="privacy-link">Privacy Policy</a>
+             </div>
+           </footer>
     </div>
   );
 };
