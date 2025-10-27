@@ -63,7 +63,7 @@ const AboutPage = () => {
 
       {/* Meet the Team Section */}
       <section className="team-section">
-        <h2 className="team-heading">Meet the Team</h2>
+        <h2 className="team-heading">MEET THE TEAM</h2>
         <div className="team-grid">
           {teamMembers.map((member, index) => (
             <div className="team-card" key={index}>
