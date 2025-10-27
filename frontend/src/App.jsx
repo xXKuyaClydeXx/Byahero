@@ -1,10 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import PassengerPage from "./components/PassengerPage";
-import SchedulePage from "./components/SchedulePage";
-import LoginPage from "./components/LoginPage";
-import AboutPage from "./components/AboutPage";
-import RegisterPage from "./components/RegisterPage";
-import Dashboard from "./components/Dashboard";
+import PassengerPage from "./pages/PassengerPage";
+import SchedulePage from "./pages/SchedulePage";
+import LoginPage from "./pages/LoginPage";
+import AboutPage from "./pages/AboutPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }
