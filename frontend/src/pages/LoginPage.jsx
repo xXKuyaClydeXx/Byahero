@@ -6,6 +6,7 @@ import "../css/LoginPage.css";
 const LoginPage = () => {
   return (
     <div className="login-page">
+      {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
           <h1 className="title">BYAHERO TERMINAL</h1>
@@ -19,20 +20,24 @@ const LoginPage = () => {
         </div>
       </nav>
 
+      {/* ===== LOGIN SECTION ===== */}
       <section className="login-section">
         <div className="login-box">
           <form>
             <label>Email</label>
-            <input type="email" placeholder="Enter your email" />
+            <input type="email" placeholder="vaprams@gbox.adnu.edu.ph" />
 
             <label>Password</label>
             <input type="password" placeholder="********" />
 
             <a href="#" className="forgot">Forgot password?</a>
 
-            <div className="auth-buttons">
-              <Link to="/register" className="primary-btn">Register</Link>
-            </div>
+            <button type="submit" className="signin-btn">Sign in</button>
+
+            <p className="create-account">
+              Don’t have an account?{" "}
+              <Link to="/register" className="create-link">Create Account</Link>
+            </p>
           </form>
         </div>
       </section>
