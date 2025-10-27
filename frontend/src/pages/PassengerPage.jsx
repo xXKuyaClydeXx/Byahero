@@ -9,6 +9,9 @@ import VehicleBus from "../assets/images/Vehicle-bus.jpg";
 import VehicleJeepney from "../assets/images/Vehicle-jeepney.jpg";
 import VehicleVan from "../assets/images/Vehicle-van.jpg";
 
+// Import icons from react-icons
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 const PassengerPage = () => {
   const navigate = useNavigate();
 
@@ -67,7 +70,14 @@ const PassengerPage = () => {
 
             <div className="input-group">
               <label htmlFor="vehicle">Vehicle</label>
-              <input type="text" id="vehicle" placeholder="Vehicle Type" />
+              <select id="vehicle" className="vehicle-select" defaultValue="">
+                <option value="" disabled>
+                  Select Vehicle Type
+                </option>
+                <option value="bus">Bus</option>
+                <option value="jeepney">Jeepney</option>
+                <option value="van">Van</option>
+              </select>
             </div>
 
             <div className="action-cell">
@@ -99,21 +109,26 @@ const PassengerPage = () => {
         <div className="footer-links">
           <div>
             <p>About us</p>
-            <p>Customer Privacy</p>
             <p>Customer Support</p>
+            <p>Terms & Condition</p>
           </div>
           <div>
             <p>Vehicle Available</p>
             <p>Trip Schedule</p>
-            <p>Terms & Conditions</p>
           </div>
         </div>
 
         <div className="footer-social">
           <div className="icons">
-            <a href="#">📘</a>
-            <a href="#">🐦</a>
-            <a href="#">📸</a>
+            <a href="#" aria-label="Facebook" className="social-link">
+              <FaFacebook />
+            </a>
+            <a href="#" aria-label="Twitter" className="social-link">
+              <FaTwitter />
+            </a>
+            <a href="#" aria-label="Instagram" className="social-link">
+              <FaInstagram />
+            </a>
           </div>
           <a href="#" className="privacy-link">Privacy Policy</a>
         </div>
