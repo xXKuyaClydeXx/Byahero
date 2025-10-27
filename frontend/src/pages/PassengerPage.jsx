@@ -96,18 +96,18 @@ const PassengerPage = () => {
 
       {/* FOOTER */}
       <footer className="footer">
-        <div className="footer-links">
-          <div>
-            <p>About us</p>
+        <footer className="footer">
+          <div className="footer-column">
+            <p>About Us</p>
             <p>Customer Privacy</p>
             <p>Customer Support</p>
           </div>
-          <div>
+          <div className="footer-column">
             <p>Vehicle Available</p>
             <p>Trip Schedule</p>
             <p>Terms & Conditions</p>
           </div>
-        </div>
+        </footer>
 
         <div className="footer-social">
           <div className="icons">

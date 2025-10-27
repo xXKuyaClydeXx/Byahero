@@ -45,6 +45,29 @@ const SchedulePage = () => {
           </div>
         </div>
       </section>
+      <footer className="footer">
+        <footer className="footer">
+  <div className="footer-column">
+    <p>About Us</p>
+    <p>Customer Privacy</p>
+    <p>Customer Support</p>
+  </div>
+  <div className="footer-column">
+    <p>Vehicle Available</p>
+    <p>Trip Schedule</p>
+    <p>Terms & Conditions</p>
+  </div>
+</footer>
+
+        <div className="footer-social">
+          <div className="icons">
+            <a href="#">📘</a>
+            <a href="#">🐦</a>
+            <a href="#">📸</a>
+          </div>
+          <a href="#" className="privacy-link">Privacy Policy</a>
+        </div>
+      </footer>
     </div>
   );
 };

@@ -116,3 +116,48 @@
 .schedule-table tbody tr:last-child td {
   border-bottom: 0;
 }
+
+.footer {
+  display: flex;
+  justify-content: center;            /* center the columns horizontally */
+  align-items: center;                /* center vertically */
+  text-align: center;
+  gap: 80px;                          /* space between the two columns */
+  padding: 40px 0;
+  font-size: 14px;
+  color: #070202;
+  background-color: rgba(86, 115, 255, 0.1); /* 10% blue opacity */
+  margin-top: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;                    /* makes it responsive */
+}
+
+/* individual column styling */
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* optional: make links or text hover nicely */
+.footer-column p,
+.footer-column a {
+  margin: 0;
+  color: #070202;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column p:hover,
+.footer-column a:hover {
+  color: #4a63e7;
+}
+
+/* mobile responsiveness */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    gap: 30px;
+  }
+}

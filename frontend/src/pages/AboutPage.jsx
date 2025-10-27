@@ -3,6 +3,13 @@ import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/AboutPage.css";
 
+const teamMembers = [
+  { name: "Clyde Arizala", role: "Frontend Developer", initials: "CA" },
+  { name: "Karie Magalona", role: "UI/UX Designer", initials: "KM" },
+  { name: "Marjun Mapa", role: "Backend Developer", initials: "MM" },
+  { name: "Vaugn Pramis", role: "Project Manager", initials: "VP" },
+];
+
 const AboutPage = () => {
   return (
     <div className="about-page">
@@ -22,9 +29,71 @@ const AboutPage = () => {
       <section className="about-section">
         <div className="about-card">
           <h2 className="about-heading">About Us</h2>
-          <p className="about-text">alaws pa ma construct na essay</p>
+          <div className="about-text">
+            <p>
+              Welcome to <strong>Byahero</strong> — your modern travel companion built for local commuters and travelers.
+              We’re a team of passionate IT students from <strong>Ateneo de Naga University – College of Computer Studies</strong> 
+               who believe that traveling across the region shouldn’t be stressful or uncertain.
+            </p>
+
+            <h3>Our Mission</h3>
+            <p>
+              To bridge the gap between passengers and operators through a digital platform that simplifies booking,
+              enhances accessibility, and brings convenience to everyday travel.
+            </p>
+
+            <h3>Our Vision</h3>
+            <p>
+              We envision a future where every commuter can book bus or van trips with ease — 
+              no more long lines, guesswork, or missed schedules. Just smooth, smart, and reliable travel.
+            </p>
+
+            <h3>Why Choose Byahero?</h3>
+            <p>
+              Unlike other booking systems, <strong>Byahero</strong> focuses on local and regional routes that 
+              are often overlooked by large platforms. With real-time seat updates, transparent schedules, 
+              and a simple user interface, we’re bringing digital transformation to local transportation — 
+              one trip at a time.
+            </p>
+          </div>
         </div>
       </section>
+
+      {/* Meet the Team Section */}
+      <section className="team-section">
+        <h2 className="team-heading">Meet the Team</h2>
+        <div className="team-grid">
+          {teamMembers.map((member, index) => (
+            <div className="team-card" key={index}>
+              <div className="avatar">{member.initials}</div>
+              <h3>{member.name}</h3>
+              <p>{member.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="footer">
+        <div className="footer-column">
+          <p>About Us</p>
+          <p>Customer Privacy</p>
+          <p>Customer Support</p>
+        </div>
+        <div className="footer-column">
+          <p>Vehicle Available</p>
+          <p>Trip Schedule</p>
+          <p>Terms & Conditions</p>
+        </div>
+        <div className="footer-social">
+          <div className="icons">
+            <a href="#">📘</a>
+            <a href="#">🐦</a>
+            <a href="#">📸</a>
+          </div>
+          <a href="#" className="privacy-link">Privacy Policy</a>
+          <p style={{ marginTop: "8px", fontSize: "12px" }}>© Byahero | Since 2025</p>
+        </div>
+      </footer>
     </div>
   );
 };
