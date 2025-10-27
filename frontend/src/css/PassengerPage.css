@@ -229,3 +229,19 @@
   background: #f5f6ff;
   padding: 36px;
 } 
+
+.vehicle-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #fff;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.vehicle-select:focus {
+  border-color: #3b82f6;
+}
