@@ -21,7 +21,7 @@ const AboutPage = () => {
 
       <section className="about-section">
         <div className="about-card">
-          <h2 className="about-heading">About us</h2>
+          <h2 className="about-heading">About Us</h2>
           <p className="about-text">alaws pa ma construct na essay</p>
         </div>
       </section>
