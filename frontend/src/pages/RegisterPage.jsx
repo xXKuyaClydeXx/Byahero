@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info, Upload, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -205,7 +207,38 @@ const RegisterPage = () => {
           </div>
         </div>
       </section>
+
+      {/* FOOTER */}
+           <footer className="footer">
+             <div className="footer-links">
+               <div>
+                 <p>About us</p>
+                 <p>Customer Support</p>
+                 <p>Terms & Condition</p>
+               </div>
+               <div>
+                 <p>Vehicle Available</p>
+                 <p>Trip Schedule</p>
+               </div>
+             </div>
+     
+             <div className="footer-social">
+               <div className="icons">
+                 <a href="#" aria-label="Facebook" className="social-link">
+                   <FaFacebook />
+                 </a>
+                 <a href="#" aria-label="Twitter" className="social-link">
+                   <FaTwitter />
+                 </a>
+                 <a href="#" aria-label="Instagram" className="social-link">
+                   <FaInstagram />
+                 </a>
+               </div>
+               <a href="#" className="privacy-link">Privacy Policy</a>
+             </div>
+           </footer>
     </div>
+
   );
 };
 

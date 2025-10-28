@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/SchedulePage.css";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
@@ -78,6 +80,35 @@ const SchedulePage = () => {
           </div>
         </div>
       </section>
+       {/* FOOTER */}
+            <footer className="footer">
+              <div className="footer-links">
+                <div>
+                  <p>About us</p>
+                  <p>Customer Support</p>
+                  <p>Terms & Condition</p>
+                </div>
+                <div>
+                  <p>Vehicle Available</p>
+                  <p>Trip Schedule</p>
+                </div>
+              </div>
+      
+              <div className="footer-social">
+                <div className="icons">
+                  <a href="#" aria-label="Facebook" className="social-link">
+                    <FaFacebook />
+                  </a>
+                  <a href="#" aria-label="Twitter" className="social-link">
+                    <FaTwitter />
+                  </a>
+                  <a href="#" aria-label="Instagram" className="social-link">
+                    <FaInstagram />
+                  </a>
+                </div>
+                <a href="#" className="privacy-link">Privacy Policy</a>
+              </div>
+            </footer>
     </div>
   );
 };

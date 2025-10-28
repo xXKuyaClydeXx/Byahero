@@ -1,10 +1,12 @@
 .about-page {
   font-family: 'Poppins', sans-serif;
-  background-color: #5673ff;
+  background: linear-gradient(180deg, #5673ff 0%, #7a8bff 100%);
   min-height: 100vh;
   color: #111827;
+  overflow-x: hidden;
 }
 
+/* --- NAVBAR --- */
 .navbar {
   background-color: #ffffff;
   border-bottom: 4px solid #5673ff;
@@ -55,28 +57,209 @@
   display: block;
 }
 
+/* --- ABOUT SECTION --- */
 .about-section {
-  padding: 36px 28px 64px;
+  padding: 60px 28px;
 }
 
 .about-card {
   background: #ffffff;
-  border-radius: 8px;
-  padding: 28px;
+  border-radius: 16px;
+  padding: 40px;
   max-width: 1160px;
   margin: 0 auto;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.15);
 }
 
 .about-heading {
   color: #4c63e6;
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .about-text {
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
-  line-height: 1.6;
+  line-height: 1.8;
+}
+
+.about-text h3 {
+  margin-top: 24px;
+  color: #4a56d3;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* --- TEAM SECTION --- */
+.team-section {
+  text-align: center;
+  padding: 90px 24px;
+  background: linear-gradient(180deg, rgba(33, 60, 136, 0.15) 0%, rgba(20, 20, 60, 0.05) 100%);
+  position: relative;
+}
+
+.team-heading {
+  font-size: 36px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 50px;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px 70px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.team-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f3f6ff 100%);
+  border-radius: 20px;
+  padding: 40px 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at top left, rgba(86, 115, 255, 0.1), transparent 70%);
+  transform: rotate(25deg);
+}
+
+.team-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 35px rgba(86, 115, 255, 0.35);
+}
+
+/* --- Avatar Glow Animation --- */
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5673ff, #4b63f0);
+  color: white;
+  font-weight: 700;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px auto;
+  box-shadow: 0 0 25px rgba(86, 115, 255, 0.7);
+  position: relative;
+  z-index: 2;
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Pulsing glow effect behind avatar */
+.avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(86, 115, 255, 0.6) 0%, transparent 70%);
+  z-index: -1;
+  animation: glowWave 3s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(86, 115, 255, 0.6); }
+  50% { box-shadow: 0 0 40px rgba(86, 115, 255, 0.9); }
+}
+
+@keyframes glowWave {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 0.3; }
+}
+
+.team-card h3 {
+  font-size: 20px;
+  color: #1a1a3a;
+  margin-bottom: 8px;
+}
+
+.team-card p {
+  color: #5a5a7a;
+  font-size: 15px;
+}
+
+/* --- FOOTER --- */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 80px;
+  padding: 40px 0;
+  font-size: 14px;
+  color: #fff;
+  background-color: transparent;
+  margin-top: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-column p,
+.footer-column a {
+  margin: 0;
+  color: #f0f0f0;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column p:hover,
+.footer-column a:hover {
+  color: #b6c4ff;
+}
+
+.footer-social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-social .icons a {
+  font-size: 20px;
+  margin: 0 8px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.footer-social .icons a:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 30px;
+  }
 }
