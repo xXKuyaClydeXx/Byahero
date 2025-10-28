@@ -6,10 +6,10 @@ import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 
 const teamMembers = [
-  { name: "Clyde Arizala", role: "Frontend Developer", initials: "CA" },
+  { name: "Clyde Arizala", role: "Tech Lead, Full Stack Developer", initials: "CA" },
   { name: "Karie Magalona", role: "UI/UX Designer", initials: "KM" },
-  { name: "Marjun Mapa", role: "Backend Developer", initials: "MM" },
-  { name: "Vaugn Pramis", role: "Project Manager", initials: "VP" },
+  { name: "Marjun Mapa", role: "Frontend Developer", initials: "MM" },
+  { name: "Vaugn Pramis", role: "Frontend Developer", initials: "VP" },
 ];
 
 const AboutPage = () => {
