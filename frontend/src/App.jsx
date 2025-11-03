@@ -5,6 +5,7 @@ import SchedulePage from "./pages/SchedulePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AboutPage from "./pages/AboutPage";
+import Dashboard from "./pages/DriverDashboard";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -39,6 +40,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/driver-dashboard" element={<Dashboard />} />
     </Routes>
   );
 }

@@ -28,6 +28,20 @@
     font-size: 1.5rem;
 }
 
+.nav-icons button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-icons button:hover {
+  transform: scale(1.2);
+  color: #4a63e7;
+}
+
 
 
 

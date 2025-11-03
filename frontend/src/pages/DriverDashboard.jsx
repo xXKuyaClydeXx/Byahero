@@ -1,23 +1,23 @@
 import React, { useEffect, useRef } from "react";
-import "./../css/Dashboard.css";
+import { useNavigate } from "react-router-dom";
+import "./../css/DriverDashboard.css";
 import { Chart } from "chart.js/auto"; // ✅ auto-registers everything
+import { Home, CalendarDays, Car, Info } from "lucide-react";
 
 
 const Dashboard = () => {
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
-
+  const navigate = useNavigate(); // ✅ navigation hook
 
   useEffect(() => {
     const ctx = chartRef.current;
     if (!ctx) return;
 
-
     // ✅ Destroy existing chart before creating a new one
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
     }
-
 
     chartInstanceRef.current = new Chart(ctx, {
       type: "pie",
@@ -43,7 +43,6 @@ const Dashboard = () => {
       },
     });
 
-
     // ✅ Cleanup on unmount
     return () => {
       if (chartInstanceRef.current) {
@@ -52,26 +51,31 @@ const Dashboard = () => {
     };
   }, []);
 
-
   const trips = [
     { plate: "NGA-3456", cap: 15, dest: "Naga", arr: "10:30 AM", status: "Arrived" },
     { plate: "BIC-6789", cap: 12, dest: "Legazpi", arr: "11:00 AM", status: "On Route" },
     { plate: "CAM-1122", cap: 14, dest: "Pili", arr: "12:00 PM", status: "Pending" },
   ];
 
-
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>BYAHERO TERMINAL</h1>
         <nav className="nav-icons">
-          <i className="fas fa-home"></i>
-          <i className="fas fa-calendar-alt"></i>
-          <i className="fas fa-car"></i>
-          <i className="fas fa-info-circle"></i>
+          <button className="icon" onClick={() => navigate("/driver-dashboard")} title="Driver Dashboard">
+            <Home size={26} />
+          </button>
+          <button className="icon" onClick={() => navigate("/schedule")} title="Schedule">
+            <CalendarDays size={26} />
+          </button>
+          <button className="icon" onClick={() => navigate("/vehicles")} title="Vehicles">
+            <Car size={26} />
+          </button>
+          <button className="icon" onClick={() => navigate("/about")} title="About">
+            <Info size={26} />
+          </button>
         </nav>
       </header>
-
 
       <section className="dashboard-overview">
         <h2>Dashboard Overview</h2>
@@ -80,7 +84,7 @@ const Dashboard = () => {
             <p>Today's Trip</p>
             <h3>48</h3>
           </div>
-         <div className="card">
+          <div className="card">
             <p>Onboard</p>
             <h3>50</h3>
           </div>
@@ -94,7 +98,6 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
-
 
       <section className="trip-section">
         <div className="trip-status">
@@ -123,7 +126,6 @@ const Dashboard = () => {
           </table>
         </div>
 
-
         <div className="recent-report">
           <h3>Recent Report</h3>
           <canvas id="reportChart" ref={chartRef}></canvas>
@@ -132,6 +134,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
 
 export default Dashboard;
