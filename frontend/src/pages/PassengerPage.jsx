@@ -8,6 +8,8 @@ import BGbusInside from "../assets/images/BG-busInside.jpg";
 import VehicleBus from "../assets/images/Vehicle-bus.jpg";
 import VehicleJeepney from "../assets/images/Vehicle-jeepney.jpg";
 import VehicleVan from "../assets/images/Vehicle-van.jpg";
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
+
 
 // Import icons from react-icons
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
@@ -25,7 +27,7 @@ const PassengerPage = () => {
       {/* NAVIGATION */}
       <nav className="navbar">
         <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
+          <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
 
         <div className="nav-icons">

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./../css/DriverDashboard.css";
 import { Chart } from "chart.js/auto"; // ✅ auto-registers everything
 import { Home, CalendarDays, Car, Info } from "lucide-react";
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
+
 
 
 const Dashboard = () => {
@@ -60,7 +62,9 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
-        <h1>BYAHERO TERMINAL</h1>
+              <div className="nav-header">
+                  <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
+              </div>
         <nav className="nav-icons">
           <button className="icon" onClick={() => navigate("/driver-dashboard")} title="Driver Dashboard">
             <Home size={26} />

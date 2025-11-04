@@ -3,6 +3,7 @@ import { Home, CalendarDays, Car, Info, Upload, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 
 const RegisterPage = () => {
@@ -61,7 +62,7 @@ const RegisterPage = () => {
     <div className="register-page">
       <nav className="navbar">
         <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
+          <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
         <div className="nav-icons">
           <Link to="/" className="icon" aria-label="Home"><Home /></Link>

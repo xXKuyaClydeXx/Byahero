@@ -1,6 +1,6 @@
 .login-page {
   font-family: 'Poppins', sans-serif;
-  background-color: #5673ff; /* blue background as in Figma */
+  background-color:rgb(45, 85, 188);
   min-height: 100vh;
   color: #111827;
 }
@@ -94,7 +94,7 @@
 
 /* ===== BUTTONS ===== */
 .signin-btn {
-  background-color: #111;
+  background-color: rgb(45, 85, 188);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -106,14 +106,14 @@
 }
 
 .signin-btn:hover {
-  background-color: #333;
+  background-color: #DEB7D7;
 }
 
 /* ===== LINKS ===== */
 .forgot {
   display: inline-block;
   font-size: 12px;
-  color: #111;
+  color: rgb(45, 85, 188);
   text-decoration: none;
   margin-top: 6px;
 }
@@ -126,7 +126,7 @@
 }
 
 .create-link {
-  color: #111;
+  color: rgb(45, 85, 188);
   font-weight: 600;
   text-decoration: none;
 }
@@ -137,18 +137,19 @@
 
 .footer {
   display: flex;
-  justify-content: center;            /* center the columns horizontally */
-  align-items: center;                /* center vertically */
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  gap: 80px;                          /* space between the two columns */
+  gap: 80px;
   padding: 40px 0;
   font-size: 14px;
-  color: #070202;
-  background-color: rgba(86, 115, 255, 0.1); /* 10% blue opacity */
+  color: #fff;
+  background: rgb(45, 85, 188); 
   margin-top: 40px;
   width: 100%;
   box-sizing: border-box;
-  flex-wrap: wrap;                    /* makes it responsive */
+  flex-wrap: wrap;
+  backdrop-filter: blur(6px);
 }
 
 

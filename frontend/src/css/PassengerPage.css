@@ -125,7 +125,7 @@ background-image:
 
 .input-group input:focus,
 .vehicle-select:focus {
-  border-color: #6b7cff;
+  border-color: rgb(45, 85, 188);
   box-shadow: 0 0 0 3px rgba(107, 124, 255, 0.18);
 }
 
@@ -140,7 +140,7 @@ background-image:
   padding: 0 18px;
   border: none;
   border-radius: 8px;
-  background-color: #4b63ce;
+  background-color: rgb(45, 85, 188);
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.3px;
@@ -149,7 +149,7 @@ background-image:
 }
 
 .search-btn:hover {
-  background-color: #5283c4;
+  background-color: #DEB7D7;
 }
 
 .search-btn:active {
@@ -197,21 +197,20 @@ background-image:
 /* 5. FOOTER (CONFLICT RESOLVED: Using Light Style) */
 /* ======================================= */
 .footer {
-  /* Using the light, centered footer style to resolve conflict */
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Aligning links to the top */
-  text-align: left;
+  align-items: center;
+  text-align: center;
   gap: 80px;
-  padding: 40px 24px;
+  padding: 40px 0;
   font-size: 14px;
-  color: #070202;
-  /* 10% blue opacity (rgba(86, 115, 255, 0.1)) */
-  background-color: rgba(86, 115, 255, 0.1);
+  color: #fff;
+  background: rgba(74, 99, 231, 0.85); /* blue overlay to match header and cards */
   margin-top: 40px;
   width: 100%;
   box-sizing: border-box;
   flex-wrap: wrap;
+  backdrop-filter: blur(6px);
 }
 
 .footer-links {

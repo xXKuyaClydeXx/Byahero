@@ -3,7 +3,7 @@ import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/AboutPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 const teamMembers = [
   { name: "Clyde Arizala", role: "Tech Lead, Full Stack Developer", initials: "CA" },
@@ -17,7 +17,9 @@ const AboutPage = () => {
     <div className="about-page">
       <nav className="navbar">
         <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
+          <div className="nav-header">
+            <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
+          </div>
         </div>
 
         <div className="nav-icons">
@@ -27,39 +29,49 @@ const AboutPage = () => {
           <button className="icon active" aria-label="about"><Info /></button>
         </div>
       </nav>
-
       <section className="about-section">
         <div className="about-card">
-          <h2 className="about-heading">About Us</h2>
+          <h2 className="about-heading">ABOUT US</h2>
           <div className="about-text">
             <p>
-              Welcome to <strong>Byahero</strong> — your modern travel companion built for local commuters and travelers.
-              We’re a team of passionate IT students from <strong>Ateneo de Naga University – College of Computer Studies</strong> 
-               who believe that traveling across the region shouldn’t be stressful or uncertain.
+              Welcome to <strong>Byahero</strong>, your trusted digital travel companion designed to make commuting across Bicol
+              simpler, smarter, and more efficient. We are a team of IT students from
+              <strong> Ateneo de Naga University – College of Computer Studies</strong>,
+              driven by a shared goal to bring innovation to local transportation systems.
             </p>
 
-            <h3>Our Mission</h3>
-            <p>
-              To bridge the gap between passengers and operators through a digital platform that simplifies booking,
-              enhances accessibility, and brings convenience to everyday travel.
-            </p>
+            <div className="about-highlight">
+              <h3>Our Mission</h3>
+              <p>
+                Our mission is to bridge the gap between passengers and transport operators
+                through a reliable online platform that streamlines booking, improves accessibility,
+                and promotes a more convenient travel experience for everyone.
+              </p>
+            </div>
 
-            <h3>Our Vision</h3>
-            <p>
-              We envision a future where every commuter can book bus or van trips with ease — 
-              no more long lines, guesswork, or missed schedules. Just smooth, smart, and reliable travel.
-            </p>
+            <div className="about-highlight">
+              <h3>Our Vision</h3>
+              <p>
+                We envision a community where every commuter can reserve a seat with confidence and ease
+                without the long queues, uncertainty, or last-minute rush.
 
-            <h3>Why Choose Byahero?</h3>
-            <p>
-              Unlike other booking systems, <strong>Byahero</strong> focuses on local and regional routes that 
-              are often overlooked by large platforms. With real-time seat updates, transparent schedules, 
-              and a simple user interface, we’re bringing digital transformation to local transportation — 
-              one trip at a time.
-            </p>
+                <strong>Byahero</strong> aims to redefine regional travel through technology and efficiency.
+              </p>
+            </div>
+
+            <div className="about-highlight">
+              <h3>Why Choose Byahero?</h3>
+              <p>
+                Unlike larger booking systems that focus on major routes, <strong>Byahero</strong> is built for
+                local and regional travelers. Our platform provides real-time seat availability,
+                accurate schedules, and a user-friendly interface empowering commuters and operators
+                alike to experience a smoother, more connected journey.
+              </p>
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* Meet the Team Section */}
       <section className="team-section">

@@ -3,6 +3,8 @@ import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/SchedulePage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
+
 
 
 const SchedulePage = () => {
@@ -26,7 +28,7 @@ const SchedulePage = () => {
     <div className="schedule-page">
       <nav className="navbar">
         <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
+          <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
 
         <div className="nav-icons">

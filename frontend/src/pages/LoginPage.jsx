@@ -3,6 +3,8 @@ import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/LoginPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
+
 
 
 const LoginPage = () => {
@@ -11,7 +13,7 @@ const LoginPage = () => {
       {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
+          <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
 
         <div className="nav-icons">

@@ -13,7 +13,7 @@
 
 .navbar {
   background-color: #ffffff;
-  border-bottom: 4px solid #5673ff;
+  border-bottom: 4px solid rgb(45, 85, 188);
   padding: 10px 24px 14px;
 }
 
@@ -100,7 +100,7 @@
   letter-spacing: .3px;
   padding: 10px 12px;
   text-align: left;
-  border-right: 1px solid #3e52c7;
+  border-right: 1px solid rgb(45, 85, 188);
 }
 
 .schedule-table thead th:last-child {
@@ -167,20 +167,20 @@
 
 .footer {
   display: flex;
-  justify-content: center;            /* center the columns horizontally */
-  align-items: center;                /* center vertically */
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  gap: 80px;                          /* space between the two columns */
+  gap: 80px;
   padding: 40px 0;
   font-size: 14px;
-  color: #070202;
-  background-color: rgba(86, 115, 255, 0.1); /* 10% blue opacity */
+  color: #fff;
+  background: rgb(45, 85, 188); /* blue overlay to match header and cards */
   margin-top: 40px;
   width: 100%;
   box-sizing: border-box;
-  flex-wrap: wrap;                    /* makes it responsive */
+  flex-wrap: wrap;
+  backdrop-filter: blur(6px);
 }
-
 
 /* individual column styling */
 .footer-column {
@@ -202,7 +202,7 @@
 
 .footer-column p:hover,
 .footer-column a:hover {
-  color: #4a63e7;
+  color: rgb(45, 85, 188);
 }
 
 
