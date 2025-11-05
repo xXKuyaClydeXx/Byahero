@@ -1,0 +1,270 @@
+.trip-schedule-page {
+  min-height: 100vh;
+  background-color: #e7e9fb;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3454d1;
+}
+
+.nav-icons {
+  display: flex;
+  gap: 25px;
+}
+
+.icon {
+  color: #555;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon:hover,
+.icon.active {
+  color: #3454d1;
+}
+
+/* ===== HERO SECTION ===== */
+.hero-section {
+  position: relative;
+  height: 60vh;
+  background: linear-gradient(rgba(52, 84, 209, 0.45), rgba(52, 84, 209, 0.45)),
+    url("../assets/images/BG-busInside.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 120px 5%;
+  color: white;
+}
+
+.hero-section h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-section p {
+  font-size: 18px;
+}
+
+/* ===== SEARCH SECTION ===== */
+.search-section {
+  margin-top: -80px;
+  position: relative;
+  z-index: 10;
+  padding: 0 20px;
+}
+
+.search-box {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 35px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.search-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 140px;
+  column-gap: 20px;
+  row-gap: 12px;
+}
+
+.input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.input-group input,
+.vehicle-select {
+  width: 100%;
+  height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0 12px;
+  outline: none;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.input-group input:focus,
+.vehicle-select:focus {
+  border-color: #3454d1;
+  box-shadow: 0 0 0 3px rgba(52, 84, 209, 0.18);
+}
+
+.search-btn {
+  background-color: #3454d1;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-btn:hover {
+  background-color: #253b96;
+}
+
+/* ===== SCHEDULE RESULTS ===== */
+.schedule-results {
+  margin: 60px auto;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.schedule-results h3 {
+  color: #3454d1;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.trip-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.trip-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  width: 280px;
+  text-align: left;
+  transition: transform 0.2s;
+}
+
+.trip-card:hover {
+  transform: translateY(-4px);
+}
+
+.trip-card h4 {
+  color: #3454d1;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.trip-card p {
+  margin: 4px 0;
+  color: #444;
+}
+
+.trip-card .price {
+  font-weight: 600;
+  color: #22c55e;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  gap: 80px;
+  padding: 40px 24px;
+  font-size: 14px;
+  color: #070202;
+  background-color: rgba(52, 84, 209, 0.05);
+  margin-top: 60px;
+  flex-wrap: wrap;
+}
+
+.footer-links {
+  display: flex;
+  gap: 80px;
+}
+
+.footer-links div p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #070202;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-links div p:hover {
+  color: #3454d1;
+}
+
+.footer-social {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.footer-social .icons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.footer-social .social-link {
+  color: #070202;
+  transition: color 0.3s;
+}
+
+.footer-social .social-link:hover {
+  color: #3454d1;
+}
+
+.privacy-link {
+  color: #070202;
+  text-decoration: underline;
+  font-size: 13px;
+  transition: color 0.3s;
+}
+
+.privacy-link:hover {
+  color: #3454d1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .search-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer-social {
+    align-items: center;
+  }
+}
