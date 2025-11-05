@@ -1,143 +1,162 @@
-import React from "react";
+import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/PassengerPage.css";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
-// Import your local images
 import BGbusInside from "../assets/images/BG-busInside.jpg";
 import VehicleBus from "../assets/images/Vehicle-bus.jpg";
 import VehicleJeepney from "../assets/images/Vehicle-jeepney.jpg";
 import VehicleVan from "../assets/images/Vehicle-van.jpg";
 
-// Import icons from react-icons
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import TermsAndConditions from "./TermsAndCondintions";
+import CustomerSupport from "./CostumerSupport";
 
 const PassengerPage = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [showTerms, setShowTerms] = useState(false); // 🔹 Modal visibility
+    const [showSupport, setShowSupport] = useState(false); // ✅ Customer Support Modal visibility
 
-  const handleSearch = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    navigate("/schedule");
-  };
+    const handleSearch = (e) => {
+        e.preventDefault();
+        navigate("/schedule");
+    };
 
-  return (
-    <div className="passenger-page">
-      {/* NAVIGATION */}
-      <nav className="navbar">
-        <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
-        </div>
 
-        <div className="nav-icons">
-          <button className="icon active" aria-label="Home">
-            <Home />
-          </button>
-          <Link to="/schedule" className="icon" aria-label="Schedule">
-            <CalendarDays />
-          </Link>
-          <Link to="/login" className="icon" aria-label="Driver">
-            <Car />
-          </Link>
-          <Link to="/about" className="icon" aria-label="Info">
-            <Info />
-          </Link>
-        </div>
-      </nav>
+    return (
+        <div className="passenger-page">
+            {/* NAVIGATION */}
+            <nav className="navbar">
+                <div className="nav-header">
+                    <h1 className="title">BYAHERO TERMINAL</h1>
+                </div>
 
-      {/* HERO BACKGROUND SECTION (IMAGE READABILITY FIXED) */}
-      <section className="hero-section">
-        <div className="hero-text">
-          <div className="overlay"> {/* ADDED FOR READABILITY */}
-            <h2>
-              Check your route, plan your trip
-              <span className="highlight-line"> — all online.</span>
-            </h2>
-            <p>Easily check if there's a trip available to your destination.</p>
-          </div>
-        </div>
-      </section>
+                <div className="nav-icons">
+                    <button className="icon active" aria-label="Home">
+                        <Home />
+                    </button>
+                    <Link to="/schedule" className="icon" aria-label="Schedule">
+                        <CalendarDays />
+                    </Link>
+                    <Link to="/login" className="icon" aria-label="Driver">
+                        <Car />
+                    </Link>
+                    <Link to="/about" className="icon" aria-label="Info">
+                        <Info />
+                    </Link>
+                </div>
+            </nav>
 
-      {/* SEARCH SECTION (OVERLAPPING THE HERO SECTION) */}
-      <section className="search-section">
-        <form className="search-box" onSubmit={handleSearch}>
-          <div className="search-grid">
-            <div className="input-group">
-              <label htmlFor="from">From</label>
-              <input type="text" id="from" placeholder="Current Destination" />
-            </div>
+            {/* HERO SECTION */}
+            <section className="hero-section">
+                <div className="hero-text">
+                    <div className="overlay">
+                        <h2>
+                            Check your route, plan your trip
+                            <span className="highlight-line"> — all online.</span>
+                        </h2>
+                        <p>Easily check if there's a trip available to your destination.</p>
+                    </div>
+                </div>
+            </section>
 
-            <div className="input-group">
-              <label htmlFor="to">To</label>
-              <input type="text" id="to" placeholder="Destination" />
-            </div>
+            {/* SEARCH SECTION */}
+            <section className="search-section">
+                <form className="search-box" onSubmit={handleSearch}>
+                    <div className="search-grid">
+                        <div className="input-group">
+                            <label htmlFor="from">From</label>
+                            <input type="text" id="from" placeholder="Current Destination" />
+                        </div>
 
-            <div className="input-group">
-              <label htmlFor="vehicle">Vehicle</label>
-              <select id="vehicle" className="vehicle-select" defaultValue="">
-                <option value="" disabled>
-                  Select Vehicle Type
-                </option>
-                <option value="bus">Bus</option>
-                <option value="jeepney">Jeepney</option>
-                <option value="van">Van</option>
-              </select>
-            </div>
+                        <div className="input-group">
+                            <label htmlFor="to">To</label>
+                            <input type="text" id="to" placeholder="Destination" />
+                        </div>
 
-            <div className="action-cell">
-              <button type="submit" className="search-btn">
-                SEARCH
-              </button>
-            </div>
-          </div>
-        </form>
-      </section>
+                        <div className="input-group">
+                            <label htmlFor="vehicle">Vehicle</label>
+                            <select id="vehicle" className="vehicle-select" defaultValue="">
+                                <option value="" disabled>
+                                    Select Vehicle Type
+                                </option>
+                                <option value="bus">Bus</option>
+                                <option value="jeepney">Jeepney</option>
+                                <option value="van">Van</option>
+                            </select>
+                        </div>
 
-      {/* VEHICLE SECTION */}
-      <section className="vehicle-section">
-        <h3 className="vehicle-title">Vehicle</h3>
-        <div className="vehicle-gallery">
-          {[VehicleBus, VehicleJeepney, VehicleVan].map((img, i) => (
-            <img
-              key={i}
-              src={img}
-              alt="vehicle"
-              className="vehicle-card"
-            />
-          ))}
-        </div>
-      </section>
+                        <div className="action-cell">
+                            <button type="submit" className="search-btn">
+                                SEARCH
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
 
-      {/* FOOTER */}
-      <footer className="footer">
-        <div className="footer-links">
-          <div>
-            <p>About us</p>
-            <p>Customer Support</p>
-            <p>Terms & Condition</p>
-          </div>
-          <div>
-            <p>Vehicle Available</p>
-            <p>Trip Schedule</p>
-          </div>
-        </div>
+            {/* VEHICLE SECTION */}
+            <section className="vehicle-section">
+                <h3 className="vehicle-title">Vehicle</h3>
+                <div className="vehicle-gallery">
+                    {[VehicleBus, VehicleJeepney, VehicleVan].map((img, i) => (
+                        <img key={i} src={img} alt="vehicle" className="vehicle-card" />
+                    ))}
+                </div>
+            </section>
 
-        <div className="footer-social">
-          <div className="icons">
-            <a href="#" aria-label="Facebook" className="social-link">
-              <FaFacebook />
-            </a>
-            <a href="#" aria-label="Twitter" className="social-link">
-              <FaTwitter />
-            </a>
-            <a href="#" aria-label="Instagram" className="social-link">
-              <FaInstagram />
-            </a>
-          </div>
-          <a href="#" className="privacy-link">Privacy Policy</a>
-        </div>
-      </footer>
-    </div>
-  );
+            {/* FOOTER */}
+            <footer className="footer">
+                <div className="footer-links">
+                    <div>
+                        <p>About us</p>
+                        <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>
+                            Customer Support
+                        </p>
+                        {/* 🔹 Open Terms Modal on click */}
+                        <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>
+                            Terms & Condition
+                        </p>
+                    </div>
+                    <div>
+                        <p>Vehicle Available</p>
+                        <p>Trip Schedule</p>
+                    </div>
+                </div>
+
+                <div className="footer-social">
+                    <div className="icons">
+                        <a href="#" aria-label="Facebook" className="social-link">
+                            <FaFacebook />
+                        </a>
+                        <a href="#" aria-label="Twitter" className="social-link">
+                            <FaTwitter />
+                        </a>
+                        <a href="#" aria-label="Instagram" className="social-link">
+                            <FaInstagram />
+                        </a>
+                    </div>
+                    <a href="#" className="privacy-link">
+                        Privacy Policy
+                    </a>
+                </div>
+            </footer>
+
+            {/* ✅ TERMS & CONDITIONS MODAL */}
+            {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+            {/* ✅ CUSTOMER SUPPORT MODAL */}
+            {showSupport && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <CustomerSupport />
+                        <button onClick={() => setShowSupport(false)} className="close-btn">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default PassengerPage;
