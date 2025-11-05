@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "../css/SchedulePage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
-
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
 
@@ -15,12 +14,6 @@ const SchedulePage = () => {
   ];
 
   const filteredData = scheduleData.filter((row) => row.vehicle === activeTab);
-
-  const vehicleImage = {
-    Van: "/src/assets/images/Vehicle-van.jpg",
-    Bus: "/src/assets/images/Vehicle-bus.jpg",
-    Jeepney: "/src/assets/images/Vehicle-jeepney.jpg",
-  };
 
   return (
     <div className="schedule-page">
@@ -37,6 +30,7 @@ const SchedulePage = () => {
         </div>
       </nav>
 
+      {/* VEHICLE TABS */}
       <section className="vehicle-tabs">
         {["Van", "Bus", "Jeepney"].map((type) => (
           <button
@@ -44,12 +38,12 @@ const SchedulePage = () => {
             className={`tab-btn ${activeTab === type ? "active" : ""}`}
             onClick={() => setActiveTab(type)}
           >
-            <img src={vehicleImage[type]} alt={type} className="tab-image" />
             <span>{type}</span>
           </button>
         ))}
       </section>
 
+      {/* SCHEDULE TABLE */}
       <section className="schedule-section">
         <div className="schedule-card">
           <h2 className="schedule-heading">{activeTab}</h2>
@@ -80,35 +74,30 @@ const SchedulePage = () => {
           </div>
         </div>
       </section>
-       {/* FOOTER */}
-            <footer className="footer">
-              <div className="footer-links">
-                <div>
-                  <p>About us</p>
-                  <p>Customer Support</p>
-                  <p>Terms & Condition</p>
-                </div>
-                <div>
-                  <p>Vehicle Available</p>
-                  <p>Trip Schedule</p>
-                </div>
-              </div>
-      
-              <div className="footer-social">
-                <div className="icons">
-                  <a href="#" aria-label="Facebook" className="social-link">
-                    <FaFacebook />
-                  </a>
-                  <a href="#" aria-label="Twitter" className="social-link">
-                    <FaTwitter />
-                  </a>
-                  <a href="#" aria-label="Instagram" className="social-link">
-                    <FaInstagram />
-                  </a>
-                </div>
-                <a href="#" className="privacy-link">Privacy Policy</a>
-              </div>
-            </footer>
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="footer-links">
+          <div>
+            <p>About us</p>
+            <p>Customer Support</p>
+            <p>Terms & Condition</p>
+          </div>
+          <div>
+            <p>Vehicle Available</p>
+            <p>Trip Schedule</p>
+          </div>
+        </div>
+
+        <div className="footer-social">
+          <div className="icons">
+            <a href="#" aria-label="Facebook" className="social-link"><FaFacebook /></a>
+            <a href="#" aria-label="Twitter" className="social-link"><FaTwitter /></a>
+            <a href="#" aria-label="Instagram" className="social-link"><FaInstagram /></a>
+          </div>
+          <a href="#" className="privacy-link">Privacy Policy</a>
+        </div>
+      </footer>
     </div>
   );
 };
