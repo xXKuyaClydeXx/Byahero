@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import AboutPage from "./pages/AboutPage";
 import CustomerSupport from "./pages/CustomerSupport";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import TripSchedulePage from "./pages/TripSchedulePage";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -42,6 +43,7 @@ function App() {
       <Route path="/about" element={<AboutPage />} />
       <Route path="/support" element={<CustomerSupport />} />
       <Route path="/terms" element={<TermsAndConditions />} />
+      <Route path="/tripsched" element={<TripSchedulePage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
