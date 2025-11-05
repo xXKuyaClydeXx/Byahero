@@ -9,8 +9,8 @@ import VehicleBus from "../assets/images/Vehicle-bus.jpg";
 import VehicleJeepney from "../assets/images/Vehicle-jeepney.jpg";
 import VehicleVan from "../assets/images/Vehicle-van.jpg";
 
-import TermsAndConditions from "./TermsAndCondintions";
-import CustomerSupport from "./CostumerSupport";
+import TermsAndConditions from "./TermsAndConditions";
+import CustomerSupport from "./CustomerSupport";
 
 const PassengerPage = () => {
     const navigate = useNavigate();
@@ -66,7 +66,7 @@ const PassengerPage = () => {
                     <div className="search-grid">
                         <div className="input-group">
                             <label htmlFor="from">From</label>
-                            <input type="text" id="from" placeholder="Current Destination" />
+                            <input type="text" id="from" placeholder="Current Location" />
                         </div>
 
                         <div className="input-group">
