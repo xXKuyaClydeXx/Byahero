@@ -9,7 +9,7 @@ import User from "../models/User.js";
 
 const app = express();
 
-app.use(express.json({ limit: "2mb" }));
+app.use(express.json({ }));
 app.use(cookieParser());
 app.use(
   cors({

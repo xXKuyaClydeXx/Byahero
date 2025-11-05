@@ -5,11 +5,11 @@ import User from "../models/User.js";
 
 const router = Router();
 
-// POST /api/auth/register
+
 router.post("/register", async (req, res) => {
   try {
     const {
-      role,               // "driver" | "operator"
+      role,               
       fullName,
       email,
       password,
