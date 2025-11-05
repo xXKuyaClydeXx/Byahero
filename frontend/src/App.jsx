@@ -5,6 +5,8 @@ import SchedulePage from "./pages/SchedulePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AboutPage from "./pages/AboutPage";
+import CustomerSupport from "./pages/CustomerSupport";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -19,7 +21,7 @@ function App() {
         });
         if (!res.ok) throw new Error("Invalid token");
         const data = await res.json();
-        setUser(data); 
+        setUser(data);
       } catch {
         localStorage.removeItem("byahero_token");
         setUser(null);
@@ -38,6 +40,8 @@ function App() {
       />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/support" element={<CustomerSupport />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

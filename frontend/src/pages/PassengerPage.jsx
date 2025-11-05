@@ -9,8 +9,8 @@ import VehicleBus from "../assets/images/Vehicle-bus.jpg";
 import VehicleJeepney from "../assets/images/Vehicle-jeepney.jpg";
 import VehicleVan from "../assets/images/Vehicle-van.jpg";
 
-import TermsAndConditions from "./TermsAndCondintions";
-import CustomerSupport from "./CostumerSupport";
+import TermsAndConditions from "./TermsAndConditions";
+import CustomerSupport from "./CustomerSupport";
 
 const PassengerPage = () => {
     const navigate = useNavigate();
