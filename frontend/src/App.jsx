@@ -19,7 +19,7 @@ function App() {
         });
         if (!res.ok) throw new Error("Invalid token");
         const data = await res.json();
-        setUser(data); // me returns the user object directly
+        setUser(data); 
       } catch {
         localStorage.removeItem("byahero_token");
         setUser(null);

@@ -66,7 +66,7 @@ const PassengerPage = () => {
                     <div className="search-grid">
                         <div className="input-group">
                             <label htmlFor="from">From</label>
-                            <input type="text" id="from" placeholder="Current Destination" />
+                            <input type="text" id="from" placeholder="Current Location" />
                         </div>
 
                         <div className="input-group">
