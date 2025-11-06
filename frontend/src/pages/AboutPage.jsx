@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/AboutPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
+import TermsAndConditions from "./TermsAndConditions";
+import CustomerSupport from "./CustomerSupport";
 
 const teamMembers = [
   { name: "Clyde Arizala", role: "Tech Lead, Full Stack Developer", initials: "CA" },
@@ -13,8 +15,12 @@ const teamMembers = [
 ];
 
 const AboutPage = () => {
+  const [showTerms, setShowTerms] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
+
   return (
     <div className="about-page">
+      {/* NAVIGATION */}
       <nav className="navbar">
         <div className="nav-header">
           <h1 className="title">BYAHERO TERMINAL</h1>
@@ -24,18 +30,20 @@ const AboutPage = () => {
           <Link to="/" className="icon" aria-label="Home"><Home /></Link>
           <Link to="/schedule" className="icon" aria-label="Schedule"><CalendarDays /></Link>
           <Link to="/login" className="icon" aria-label="Driver"><Car /></Link>
-          <button className="icon active" aria-label="about"><Info /></button>
+          <button className="icon active" aria-label="About"><Info /></button>
         </div>
       </nav>
 
+      {/* ABOUT SECTION */}
       <section className="about-section">
         <div className="about-card">
           <h2 className="about-heading">About Us</h2>
+
           <div className="about-text">
             <p>
               Welcome to <strong>Byahero</strong> — your modern travel companion built for local commuters and travelers.
               We’re a team of passionate IT students from <strong>Ateneo de Naga University – College of Computer Studies</strong> 
-               who believe that traveling across the region shouldn’t be stressful or uncertain.
+              who believe that traveling across the region shouldn’t be stressful or uncertain.
             </p>
 
             <h3>Our Mission</h3>
@@ -52,16 +60,15 @@ const AboutPage = () => {
 
             <h3>Why Choose Byahero?</h3>
             <p>
-              Unlike other booking systems, <strong>Byahero</strong> focuses on local and regional routes that 
-              are often overlooked by large platforms. With real-time seat updates, transparent schedules, 
-              and a simple user interface, we’re bringing digital transformation to local transportation — 
-              one trip at a time.
+              <strong>Byahero</strong> focuses on local and regional routes often overlooked by large platforms.
+              With real-time seat updates, transparent schedules, and an easy-to-use interface,
+              we’re bringing digital transformation to local transportation — one trip at a time.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Meet the Team Section */}
+      {/* TEAM SECTION */}
       <section className="team-section">
         <h2 className="team-heading">MEET THE TEAM</h2>
         <div className="team-grid">
@@ -75,35 +82,41 @@ const AboutPage = () => {
         </div>
       </section>
 
-       {/* FOOTER */}
-            <footer className="footer">
-              <div className="footer-links">
-                <div>
-                  <p>About us</p>
-                  <p>Customer Support</p>
-                  <p>Terms & Condition</p>
-                </div>
-                <div>
-                  <p>Vehicle Available</p>
-                  <p>Trip Schedule</p>
-                </div>
-              </div>
-      
-              <div className="footer-social">
-                <div className="icons">
-                  <a href="#" aria-label="Facebook" className="social-link">
-                    <FaFacebook />
-                  </a>
-                  <a href="#" aria-label="Twitter" className="social-link">
-                    <FaTwitter />
-                  </a>
-                  <a href="#" aria-label="Instagram" className="social-link">
-                    <FaInstagram />
-                  </a>
-                </div>
-                <a href="#" className="privacy-link">Privacy Policy</a>
-              </div>
-            </footer>
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="footer-links">
+          <div>
+            <p>About us</p>
+            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
+            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
+          </div>
+          <div>
+            <p>Vehicle Available</p>
+            <p>Trip Schedule</p>
+          </div>
+        </div>
+
+        <div className="footer-social">
+          <div className="icons">
+            <a href="#" aria-label="Facebook" className="social-link"><FaFacebook /></a>
+            <a href="#" aria-label="Twitter" className="social-link"><FaTwitter /></a>
+            <a href="#" aria-label="Instagram" className="social-link"><FaInstagram /></a>
+          </div>
+          <a href="#" className="privacy-link">Privacy Policy</a>
+        </div>
+      </footer>
+
+      {/* MODALS */}
+      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+
+      {showSupport && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <CustomerSupport />
+            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
