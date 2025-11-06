@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import "../css/TripSchedulePage.css";
 
+import TermsAndConditions from "./TermsAndConditions";
+import CustomerSupport from "./CustomerSupport";
+
 const TripSchedulePage = () => {
+  const [showTerms, setShowTerms] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
+
   return (
     <div className="trip-schedule-page">
       {/* ===== NAVBAR ===== */}
@@ -20,7 +26,7 @@ const TripSchedulePage = () => {
           <button className="icon active" aria-label="Schedule">
             <CalendarDays />
           </button>
-          <Link to="/driver" className="icon" aria-label="Driver">
+          <Link to="/login" className="icon" aria-label="Driver">
             <Car />
           </Link>
           <Link to="/about" className="icon" aria-label="Info">
@@ -41,19 +47,17 @@ const TripSchedulePage = () => {
       <section className="search-section">
         <div className="search-box">
           <div className="search-grid">
-            {/* Origin */}
+
             <div className="input-group">
               <label>From</label>
               <input type="text" placeholder="Enter origin" />
             </div>
 
-            {/* Destination */}
             <div className="input-group">
               <label>To</label>
               <input type="text" placeholder="Enter destination" />
             </div>
 
-            {/* Vehicle Type */}
             <div className="input-group">
               <label>Vehicle</label>
               <select className="vehicle-select">
@@ -64,36 +68,34 @@ const TripSchedulePage = () => {
               </select>
             </div>
 
-            {/* Terminal */}
             <div className="input-group">
               <label>Terminal</label>
               <input type="text" placeholder="Enter terminal" />
             </div>
 
-            {/* Time of Departure */}
             <div className="input-group">
               <label>Time of Departure</label>
               <input type="time" />
             </div>
 
-            {/* Available Seats */}
             <div className="input-group">
               <label>Available Seat</label>
               <input type="number" placeholder="Enter number of seats" />
             </div>
 
-            {/* Add Trip Button */}
             <div className="action-cell">
               <button className="search-btn">Add Trip</button>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ===== SCHEDULE RESULTS ===== */}
+      {/* ===== TRIP RESULTS ===== */}
       <section className="schedule-results">
         <h3>Available Trips</h3>
         <div className="trip-cards">
+
           <div className="trip-card">
             <h4>Bus - Naga to Legazpi</h4>
             <p>Terminal: Naga Central Terminal</p>
@@ -107,6 +109,7 @@ const TripSchedulePage = () => {
             <p>Time of Departure: 9:30 AM</p>
             <p>Available Seats: 12</p>
           </div>
+
         </div>
       </section>
 
@@ -115,8 +118,8 @@ const TripSchedulePage = () => {
         <div className="footer-links">
           <div>
             <p>About us</p>
-            <p>Customer Support</p>
-            <p>Terms & Conditions</p>
+            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
+            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
           </div>
           <div>
             <p>Vehicle Available</p>
@@ -136,11 +139,22 @@ const TripSchedulePage = () => {
               <FaInstagram />
             </a>
           </div>
-          <a href="#" className="privacy-link">
-            Privacy Policy
-          </a>
+          <a href="#" className="privacy-link">Privacy Policy</a>
         </div>
       </footer>
+
+      {/* ===== MODALS ===== */}
+      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+
+      {showSupport && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <CustomerSupport />
+            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

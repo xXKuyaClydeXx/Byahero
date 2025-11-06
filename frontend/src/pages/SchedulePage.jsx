@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import "../css/SchedulePage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
+import TermsAndConditions from "./TermsAndConditions";
+import CustomerSupport from "./CustomerSupport";
+
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
 
@@ -14,6 +17,8 @@ const SchedulePage = () => {
   ];
 
   const filteredData = scheduleData.filter((row) => row.vehicle === activeTab);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
 
   return (
     <div className="schedule-page">
@@ -80,8 +85,8 @@ const SchedulePage = () => {
         <div className="footer-links">
           <div>
             <p>About us</p>
-            <p>Customer Support</p>
-            <p>Terms & Condition</p>
+            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
+            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
           </div>
           <div>
             <p>Vehicle Available</p>
@@ -98,6 +103,18 @@ const SchedulePage = () => {
           <a href="#" className="privacy-link">Privacy Policy</a>
         </div>
       </footer>
+
+      {/* MODALS */}
+      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+
+      {showSupport && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <CustomerSupport />
+            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

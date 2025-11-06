@@ -4,8 +4,15 @@ import { Link } from "react-router-dom";
 import "../css/LoginPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
+import TermsAndConditions from "./TermsAndConditions";
+import CustomerSupport from "./CustomerSupport"; 
+
 
 const LoginPage = () => {
+
+  const [showTerms, setShowTerms] = React.useState(false);
+  const [showSupport, setShowSupport] = React.useState(false);
+
   return (
     <div className="login-page">
       {/* ===== NAVBAR ===== */}
@@ -44,35 +51,41 @@ const LoginPage = () => {
         </div>
       </section>
 
-      {/* FOOTER */}
-           <footer className="footer">
-             <div className="footer-links">
-               <div>
-                 <p>About us</p>
-                 <p>Customer Support</p>
-                 <p>Terms & Condition</p>
-               </div>
-               <div>
-                 <p>Vehicle Available</p>
-                 <p>Trip Schedule</p>
-               </div>
-             </div>
-     
-             <div className="footer-social">
-               <div className="icons">
-                 <a href="#" aria-label="Facebook" className="social-link">
-                   <FaFacebook />
-                 </a>
-                 <a href="#" aria-label="Twitter" className="social-link">
-                   <FaTwitter />
-                 </a>
-                 <a href="#" aria-label="Instagram" className="social-link">
-                   <FaInstagram />
-                 </a>
-               </div>
-               <a href="#" className="privacy-link">Privacy Policy</a>
-             </div>
-           </footer>
+            {/* FOOTER */}
+      <footer className="footer">
+        <div className="footer-links">
+          <div>
+            <p>About us</p>
+            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
+            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
+          </div>
+          <div>
+            <p>Vehicle Available</p>
+            <p>Trip Schedule</p>
+          </div>
+        </div>
+
+        <div className="footer-social">
+          <div className="icons">
+            <a href="#" aria-label="Facebook" className="social-link"><FaFacebook /></a>
+            <a href="#" aria-label="Twitter" className="social-link"><FaTwitter /></a>
+            <a href="#" aria-label="Instagram" className="social-link"><FaInstagram /></a>
+          </div>
+          <a href="#" className="privacy-link">Privacy Policy</a>
+        </div>
+      </footer>
+
+      {/* MODALS */}
+      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+
+      {showSupport && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <CustomerSupport />
+            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
