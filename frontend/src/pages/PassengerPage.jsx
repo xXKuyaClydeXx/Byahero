@@ -11,11 +11,13 @@ import VehicleVan from "../assets/images/Vehicle-van.jpg";
 
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
+import PrivacyPolicy from "./Policy"; // ✅ IMPORT PRIVACY POLICY COMPONENT
 
 const PassengerPage = () => {
     const navigate = useNavigate();
-    const [showTerms, setShowTerms] = useState(false); // 🔹 Modal visibility
-    const [showSupport, setShowSupport] = useState(false); // ✅ Customer Support Modal visibility
+    const [showTerms, setShowTerms] = useState(false);
+    const [showSupport, setShowSupport] = useState(false);
+    const [showPrivacy, setShowPrivacy] = useState(false); // ✅ PRIVACY MODAL STATE
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -32,27 +34,18 @@ const PassengerPage = () => {
                 </div>
 
                 <div className="nav-icons">
-                    <button className="icon active" aria-label="Home">
-                        <Home />
-                    </button>
-                    <Link to="/schedule" className="icon" aria-label="Schedule">
-                        <CalendarDays />
-                    </Link>
-                    <Link to="/login" className="icon" aria-label="Driver">
-                        <Car />
-                    </Link>
-                    <Link to="/about" className="icon" aria-label="Info">
-                        <Info />
-                    </Link>
+                    <button className="icon active"><Home /></button>
+                    <Link to="/schedule" className="icon"><CalendarDays /></Link>
+                    <Link to="/login" className="icon"><Car /></Link>
+                    <Link to="/about" className="icon"><Info /></Link>
                 </div>
             </nav>
 
-            {/* HERO SECTION */}
+            {/* HERO */}
             <section className="hero-section">
                 <div className="hero-text">
                     <div className="overlay">
-                        <h2>
-                            Check your route, plan your trip
+                        <h2>Check your route, plan your trip
                             <span className="highlight-line"> — all online.</span>
                         </h2>
                         <p>Easily check if there's a trip available to your destination.</p>
@@ -60,7 +53,7 @@ const PassengerPage = () => {
                 </div>
             </section>
 
-            {/* SEARCH SECTION */}
+            {/* SEARCH */}
             <section className="search-section">
                 <form className="search-box" onSubmit={handleSearch}>
                     <div className="search-grid">
@@ -77,9 +70,7 @@ const PassengerPage = () => {
                         <div className="input-group">
                             <label htmlFor="vehicle">Vehicle</label>
                             <select id="vehicle" className="vehicle-select" defaultValue="">
-                                <option value="" disabled>
-                                    Select Vehicle Type
-                                </option>
+                                <option value="" disabled>Select Vehicle Type</option>
                                 <option value="bus">Bus</option>
                                 <option value="jeepney">Jeepney</option>
                                 <option value="van">Van</option>
@@ -95,7 +86,7 @@ const PassengerPage = () => {
                 </form>
             </section>
 
-            {/* VEHICLE SECTION */}
+            {/* VEHICLES */}
             <section className="vehicle-section">
                 <h3 className="vehicle-title">Vehicle</h3>
                 <div className="vehicle-gallery">
@@ -113,7 +104,6 @@ const PassengerPage = () => {
                         <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>
                             Customer Support
                         </p>
-                        {/* 🔹 Open Terms Modal on click */}
                         <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>
                             Terms & Condition
                         </p>
@@ -126,32 +116,35 @@ const PassengerPage = () => {
 
                 <div className="footer-social">
                     <div className="icons">
-                        <a href="#" aria-label="Facebook" className="social-link">
-                            <FaFacebook />
-                        </a>
-                        <a href="#" aria-label="Twitter" className="social-link">
-                            <FaTwitter />
-                        </a>
-                        <a href="#" aria-label="Instagram" className="social-link">
-                            <FaInstagram />
-                        </a>
+                        <a href="#"><FaFacebook /></a>
+                        <a href="#"><FaTwitter /></a>
+                        <a href="#"><FaInstagram /></a>
                     </div>
-                    <a href="#" className="privacy-link">
+                    {/* ✅ OPEN PRIVACY POLICY */}
+                    <p onClick={() => setShowPrivacy(true)} className="privacy-link" style={{ cursor: "pointer" }}>
                         Privacy Policy
-                    </a>
+                    </p>
                 </div>
             </footer>
 
-            {/* ✅ TERMS & CONDITIONS MODAL */}
+            {/* MODALS */}
             {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
-            {/* ✅ CUSTOMER SUPPORT MODAL */}
+
             {showSupport && (
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <CustomerSupport />
-                        <button onClick={() => setShowSupport(false)} className="close-btn">
-                            Close
-                        </button>
+                        <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+                    </div>
+                </div>
+            )}
+
+            {/* ✅ PRIVACY POLICY MODAL */}
+            {showPrivacy && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <PrivacyPolicy />
+                        <button onClick={() => setShowPrivacy(false)} className="close-btn">Close</button>
                     </div>
                 </div>
             )}
