@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/LoginPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport"; 
 
-
 const LoginPage = () => {
+  const navigate = useNavigate();
 
-  const [showTerms, setShowTerms] = React.useState(false);
-  const [showSupport, setShowSupport] = React.useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+    // You can replace this with real authentication
+    if (email && password) {
+      // Redirect to DriverProfilePage
+      navigate("/driverprofile");
+    } else {
+      alert("Please enter email and password");
+    }
+  };
 
   return (
     <div className="login-page">
@@ -32,12 +46,24 @@ const LoginPage = () => {
       {/* ===== LOGIN SECTION ===== */}
       <section className="login-section">
         <div className="login-box">
-          <form>
+          <form onSubmit={handleLogin}>
             <label>Email</label>
-            <input type="email" placeholder="vaprams@gbox.adnu.edu.ph" />
+            <input
+              type="email"
+              placeholder="vaprams@gbox.adnu.edu.ph"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
             <label>Password</label>
-            <input type="password" placeholder="********" />
+            <input
+              type="password"
+              placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
             <a href="#" className="forgot">Forgot password?</a>
 
@@ -51,7 +77,7 @@ const LoginPage = () => {
         </div>
       </section>
 
-            {/* FOOTER */}
+      {/* FOOTER */}
       <footer className="footer">
         <div className="footer-links">
           <div>

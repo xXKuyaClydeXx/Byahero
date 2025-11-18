@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { Home, CalendarDays, Car, Info, Upload, ArrowLeft } from "lucide-react";
+import {
+  Home,
+  CalendarDays,
+  Car,
+  Info,
+  Upload,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
-
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const [role, setRole] = useState("driver"); // or "operator"
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -15,40 +22,44 @@ const RegisterPage = () => {
   const [address, setAddress] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [vehicleType, setVehicleType] = useState("");
-  const [routes, setRoutes] = useState("");
+  const [routeFrom, setRouteFrom] = useState("");
+  const [routeTo, setRouteTo] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const locations = [
+    "Naga",
+    "Pili",
+    "Daraga",
+    "Legazpi",
+    "Pilar",
+    "Sorsogon",
+    "Tabaco",
+  ];
 
   async function handleRegister(e) {
     e.preventDefault();
-    if (!fullName || !email || !password) {
-      alert("Full name, email, and password are required.");
-      return;
-    }
     setLoading(true);
     try {
       const payload = {
-        role,
+        role: "driver",
         fullName,
         email,
         password,
-        birthday: birthday || null,
+        birthday,
         address,
         contactNumber,
         vehicleType,
-        routes,
-        profileImageUrl: "",
-        licenseImageUrl: "",
-        orcrImageUrl: ""
+        currentLocation: routeFrom,
+        destination: routeTo,
       };
-
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Registration failed");
-      alert("Registered successfully, please sign in.");
+      alert("Registered successfully!");
       navigate("/login");
     } catch (err) {
       alert(err.message);
@@ -64,59 +75,66 @@ const RegisterPage = () => {
           <h1 className="title">BYAHERO TERMINAL</h1>
         </div>
         <div className="nav-icons">
-          <Link to="/" className="icon" aria-label="Home"><Home /></Link>
-          <Link to="/schedule" className="icon" aria-label="Schedule"><CalendarDays /></Link>
-          <button className="icon active" aria-label="Driver"><Car /></button>
-          <Link to="/about" className="icon" aria-label="Info"><Info /></Link>
+          <Link to="/" className="icon">
+            <Home />
+          </Link>
+          <Link to="/schedule" className="icon">
+            <CalendarDays />
+          </Link>
+          <button className="icon active">
+            <Car />
+          </button>
+          <Link to="/about" className="icon">
+            <Info />
+          </Link>
         </div>
       </nav>
 
       <section className="register-section">
         <div className="register-card">
           <div className="register-header">
-            <Link to="/login" className="back-btn"><ArrowLeft size={18} /> Back</Link>
+            <Link to="/login" className="back-btn">
+              <ArrowLeft size={18} /> Back
+            </Link>
             <h3 className="register-heading">REGISTER</h3>
           </div>
 
           <div className="register-layout">
+            {/* Profile Upload Section */}
             <div className="profile-section">
               <div className="profile-circle"></div>
-              <label htmlFor="profileUpload" className="upload-picture-label">Upload Picture</label>
+              <label htmlFor="profileUpload" className="upload-picture-label">
+                Upload Picture
+              </label>
               <input type="file" id="profileUpload" hidden />
             </div>
 
+            {/* Registration Form */}
             <form className="register-form" onSubmit={handleRegister}>
               <div className="form-grid">
-                <div className="input-group">
-                  <label>Role</label>
-                  <select value={role} onChange={(e) => setRole(e.target.value)}>
-                    <option value="driver">Driver</option>
-                    <option value="operator">Operator</option>
-                  </select>
-                </div>
-
+                {/* Full Name */}
                 <div className="input-group">
                   <label>Full Name</label>
                   <input
                     type="text"
-                    placeholder="Juan Dela Cruz"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     required
                   />
                 </div>
 
+                {/* Email */}
                 <div className="input-group">
                   <label>Email</label>
                   <input
                     type="email"
-                    placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
 
+                {/* Birthday */}
                 <div className="input-group">
                   <label>Birthday</label>
                   <input
@@ -126,27 +144,28 @@ const RegisterPage = () => {
                   />
                 </div>
 
+                {/* Password */}
                 <div className="input-group">
                   <label>Password</label>
                   <input
                     type="password"
-                    placeholder="######"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </div>
 
+                {/* Address */}
                 <div className="input-group">
                   <label>Address</label>
                   <input
                     type="text"
-                    placeholder="P. Santos, Naga City"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
 
+                {/* Upload Section */}
                 <div className="upload-row">
                   <div className="input-group upload-group">
                     <label>Driver’s License</label>
@@ -169,37 +188,77 @@ const RegisterPage = () => {
                   </div>
                 </div>
 
+                {/* Contact Number */}
                 <div className="input-group">
                   <label>Contact Number</label>
                   <input
                     type="text"
-                    placeholder="639XXXXXXXXX"
                     value={contactNumber}
                     onChange={(e) => setContactNumber(e.target.value)}
                   />
                 </div>
 
+                {/* Vehicle Type */}
                 <div className="input-group">
                   <label>Vehicle Type</label>
-                  <input
-                    type="text"
-                    placeholder="van / bus"
+                  <select
                     value={vehicleType}
                     onChange={(e) => setVehicleType(e.target.value)}
-                  />
+                    required
+                  >
+                    <option value="">Select vehicle type</option>
+                    <option value="bus">Bus</option>
+                    <option value="van">Van</option>
+                    <option value="jeep">Jeep</option>
+                  </select>
                 </div>
 
-                <div className="input-group">
+                {/* Routes */}
+                <div className="input-group routes-group">
                   <label>Routes</label>
-                  <input
-                    type="text"
-                    placeholder="Naga -> Legazpi"
-                    value={routes}
-                    onChange={(e) => setRoutes(e.target.value)}
-                  />
+                  <div className="routes-row">
+                    <select
+                      value={routeFrom}
+                      onChange={(e) => {
+                        setRouteFrom(e.target.value);
+                        if (routeTo === e.target.value) setRouteTo("");
+                      }}
+                      required
+                    >
+                      <option value="">From</option>
+                      {locations
+                        .filter((loc) => loc !== routeTo)
+                        .map((loc) => (
+                          <option key={loc} value={loc}>
+                            {loc}
+                          </option>
+                        ))}
+                    </select>
+
+                    <ArrowRight className="route-arrow" size={20} />
+
+                    <select
+                      value={routeTo}
+                      onChange={(e) => {
+                        setRouteTo(e.target.value);
+                        if (routeFrom === e.target.value) setRouteFrom("");
+                      }}
+                      required
+                    >
+                      <option value="">To</option>
+                      {locations
+                        .filter((loc) => loc !== routeFrom)
+                        .map((loc) => (
+                          <option key={loc} value={loc}>
+                            {loc}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
                 </div>
               </div>
 
+              {/* Submit Button */}
               <button className="register-btn" type="submit" disabled={loading}>
                 {loading ? "Registering..." : "Register"}
               </button>
@@ -207,38 +266,7 @@ const RegisterPage = () => {
           </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-           <footer className="footer">
-             <div className="footer-links">
-               <div>
-                 <p>About us</p>
-                 <p>Customer Support</p>
-                 <p>Terms & Condition</p>
-               </div>
-               <div>
-                 <p>Vehicle Available</p>
-                 <p>Trip Schedule</p>
-               </div>
-             </div>
-     
-             <div className="footer-social">
-               <div className="icons">
-                 <a href="#" aria-label="Facebook" className="social-link">
-                   <FaFacebook />
-                 </a>
-                 <a href="#" aria-label="Twitter" className="social-link">
-                   <FaTwitter />
-                 </a>
-                 <a href="#" aria-label="Instagram" className="social-link">
-                   <FaInstagram />
-                 </a>
-               </div>
-               <a href="#" className="privacy-link">Privacy Policy</a>
-             </div>
-           </footer>
     </div>
-
   );
 };
 
