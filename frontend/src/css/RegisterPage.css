@@ -5,6 +5,7 @@
   color: #111827;
 }
 
+/* ===== NAVIGATION BAR ===== */
 .navbar {
   background-color: #ffffff;
   border-bottom: 4px solid #5673ff;
@@ -55,6 +56,7 @@
   display: block;
 }
 
+/* ===== REGISTER CARD ===== */
 .register-section {
   padding: 36px 28px 64px;
 }
@@ -104,12 +106,14 @@
   margin: 0;
 }
 
+/* ===== LAYOUT ===== */
 .register-layout {
   display: flex;
   align-items: flex-start;
   gap: 30px;
 }
 
+/* ===== PROFILE SECTION ===== */
 .profile-circle {
   width: 120px;
   height: 120px;
@@ -117,6 +121,7 @@
   background: #e4e8ff;
   flex-shrink: 0;
 }
+
 .profile-section {
   display: flex;
   flex-direction: column;
@@ -137,6 +142,7 @@
   color: #2f49c9;
 }
 
+/* ===== FORM ===== */
 .register-form {
   flex: 1;
 }
@@ -159,13 +165,26 @@
   margin-bottom: 4px;
 }
 
-.input-group input {
+.input-group input,
+.input-group select {
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   padding: 8px 10px;
   font-size: 13px;
   outline: none;
   width: 100%;
+  background-color: #fff;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #5673ff;
+}
+/* ===== UPLOAD FILES ===== */
+.upload-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
 }
 
 .upload-box {
@@ -184,8 +203,46 @@
   padding: 8px 12px;
   font-size: 12px;
   cursor: pointer;
+  transition: background 0.2s;
+  color: #333;
 }
 
+.upload-label:hover {
+  background: #e4e8ff;
+}
+
+/* ===== ROUTES ===== */
+.routes-group {
+  grid-column: 1 / span 2;
+}
+
+.routes-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.routes-row select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.routes-row select:focus {
+  border-color: #5673ff;
+  outline: none;
+}
+
+.route-arrow {
+  color: #333;
+}
+
+/* ===== BUTTON ===== */
 .register-btn {
   margin-top: 24px;
   width: 160px;
@@ -202,57 +259,30 @@
 .register-btn:hover {
   background-color: #333;
 }
-.upload-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-}
 
-.upload-group .upload-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  background: #f5f5f5;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  color: #333;
-  transition: background 0.2s;
-}
-
-.upload-group .upload-label:hover {
-  background: #e4e8ff;
-}
-
+/* ===== FOOTER ===== */
 .footer {
   display: flex;
-  justify-content: center;            /* center the columns horizontally */
-  align-items: center;                /* center vertically */
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  gap: 80px;                          /* space between the two columns */
+  gap: 80px;
   padding: 40px 0;
   font-size: 14px;
   color: #070202;
-  background-color: rgba(86, 115, 255, 0.1); /* 10% blue opacity */
+  background-color: rgba(86, 115, 255, 0.1);
   margin-top: 40px;
   width: 100%;
   box-sizing: border-box;
-  flex-wrap: wrap;                    /* makes it responsive */
+  flex-wrap: wrap;
 }
 
-
-/* individual column styling */
 .footer-column {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-
-/* optional: make links or text hover nicely */
 .footer-column p,
 .footer-column a {
   margin: 0;
@@ -261,17 +291,22 @@
   transition: color 0.3s;
 }
 
-
 .footer-column p:hover,
 .footer-column a:hover {
   color: #4a63e7;
 }
 
-
-/* mobile responsiveness */
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
     gap: 30px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .routes-group {
+    grid-column: 1;
   }
 }
