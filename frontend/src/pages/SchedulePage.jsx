@@ -36,22 +36,24 @@ const SchedulePage = () => {
         </div>
       </nav>
 
-      {/* ===== VEHICLE TABS ===== */}
-      <section className="vehicle-tabs">
-        {["Van", "Bus", "Jeepney"].map((type) => (
-          <button
-            key={type}
-            className={`tab-btn ${activeTab === type ? "active" : ""}`}
-            onClick={() => setActiveTab(type)}
-          >
-            <span>{type}</span>
-          </button>
-        ))}
-      </section>
 
-      {/* ===== TABLE SECTION ===== */}
+      {/* ===== TABLE + TABS IN ONE CARD ===== */}
       <section className="schedule-section">
         <div className="schedule-card">
+
+          {/* ===== VEHICLE TABS INSIDE WHITE BOX ===== */}
+          <div className="vehicle-tabs inside">
+            {["Van", "Bus", "Jeepney"].map((type) => (
+              <button
+                key={type}
+                className={`tab-btn ${activeTab === type ? "active" : ""}`}
+                onClick={() => setActiveTab(type)}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+
           <h2 className="schedule-heading">{activeTab}</h2>
 
           <div className="table-wrap">
@@ -81,13 +83,14 @@ const SchedulePage = () => {
         </div>
       </section>
 
+
       {/* ===== FOOTER ===== */}
       <footer className="footer">
         <div className="footer-links">
           <div>
             <p>About us</p>
-            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
-            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
+            <p onClick={() => setShowSupport(true)}>Customer Support</p>
+            <p onClick={() => setShowTerms(true)}>Terms & Condition</p>
           </div>
           <div>
             <p>Vehicle Available</p>
@@ -97,18 +100,17 @@ const SchedulePage = () => {
 
         <div className="footer-social">
           <div className="icons">
-            <a href="#" aria-label="Facebook" className="social-link"><FaFacebook /></a>
-            <a href="#" aria-label="Twitter" className="social-link"><FaTwitter /></a>
-            <a href="#" aria-label="Instagram" className="social-link"><FaInstagram /></a>
+            <a href="#" className="social-link"><FaFacebook /></a>
+            <a href="#" className="social-link"><FaTwitter /></a>
+            <a href="#" className="social-link"><FaInstagram /></a>
           </div>
           <a href="#" className="privacy-link">Privacy Policy</a>
         </div>
       </footer>
 
+
       {/* ===== MODALS ===== */}
-      {showTerms && (
-        <TermsAndConditions onClose={() => setShowTerms(false)} />
-      )}
+      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
 
       {showSupport && (
         <div className="modal-overlay">
@@ -118,6 +120,7 @@ const SchedulePage = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
