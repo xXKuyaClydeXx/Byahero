@@ -21,6 +21,11 @@
   min-height: 38px;
 }
 
+.nav-logo {
+  height: 75px;
+  width: auto;
+}
+
 .title {
   margin: 0;
   font-weight: 800;

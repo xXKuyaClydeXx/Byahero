@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import "../css/TripSchedulePage.css";
 
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
 
@@ -16,7 +17,7 @@ const TripSchedulePage = () => {
       {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
+          <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
 
         <div className="nav-icons">

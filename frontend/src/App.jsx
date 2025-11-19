@@ -9,6 +9,7 @@ import CustomerSupport from "./pages/CustomerSupport";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import TripSchedulePage from "./pages/TripSchedulePage";
 import DriverProfilePage from "./pages/DriverProfilePage";
+import DriverDashboard from "./pages/DriverDashboard";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -47,6 +48,7 @@ function App() {
       <Route path="/tripsched" element={<TripSchedulePage />} />
       <Route path="/driverprofile" element={<DriverProfilePage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/driverdashboard" element={<DriverDashboard />} />
     </Routes>
   );
 }

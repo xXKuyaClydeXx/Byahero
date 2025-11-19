@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../css/PassengerPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import BGbusInside from "../assets/images/BG-busInside.jpg";
 import VehicleBus from "../assets/images/Vehicle-bus.jpg";
 import VehicleJeepney from "../assets/images/Vehicle-jeepney.jpg";
@@ -29,9 +30,9 @@ const PassengerPage = () => {
         <div className="passenger-page">
             {/* NAVIGATION */}
             <nav className="navbar">
-                    <div className="nav-header">
-                      <h1 className="title">BYAHERO TERMINAL</h1>
-                    </div>
+                <div className="nav-header">
+                    <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
+                </div>
             
                     <div className="nav-links">
                       <span className="nav-link active">Home</span>
