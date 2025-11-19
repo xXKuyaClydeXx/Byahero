@@ -86,7 +86,12 @@ const AboutPage = () => {
       <footer className="footer">
 
         <div className="footer-column">
-          <p>About Us</p>
+            <p
+              onClick={() => navigate("/about")}
+              style={{ cursor: "pointer" }}
+            >
+              About Us
+            </p>
           <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
           <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
         </div>
