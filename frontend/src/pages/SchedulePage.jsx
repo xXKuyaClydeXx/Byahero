@@ -88,7 +88,12 @@ const SchedulePage = () => {
       <footer className="footer">
         <div className="footer-links">
           <div>
-            <p>About us</p>
+            <p
+              onClick={() => navigate("/about")}
+              style={{ cursor: "pointer" }}
+            >
+              About Us
+            </p>
             <p onClick={() => setShowSupport(true)}>Customer Support</p>
             <p onClick={() => setShowTerms(true)}>Terms & Condition</p>
           </div>
