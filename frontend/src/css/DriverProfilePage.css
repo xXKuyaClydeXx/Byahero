@@ -1,3 +1,5 @@
+/* Updated CSS for editable inputs and refined UI */
+
 .driver-profile-page {
   min-height: 100vh;
   background-color: #e7e9fb;
@@ -51,6 +53,7 @@
   width: 90%;
   max-width: 1000px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
 }
 
 /* Profile Header */
@@ -66,6 +69,12 @@
   height: 120px;
   border-radius: 50%;
   border: 5px solid #3454d1;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
 }
 
 .profile-info h2 {
@@ -91,18 +100,49 @@
   font-size: 14px;
 }
 
+/* ===== INPUT STYLES FOR EDIT MODE ===== */
+.input-edit,
+.input-number,
+.input-small {
+  border: 1px solid #cbd5e1;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 5px;
+  transition: 0.2s;
+  width: 100%;
+}
+
+.input-small {
+  width: 70px;
+  display: inline-block;
+}
+
+.input-number {
+  width: 100%;
+  text-align: center;
+}
+
+.input-edit:focus,
+.input-number:focus,
+.input-small:focus {
+  outline: none;
+  border-color: #3454d1;
+  box-shadow: 0 0 4px rgba(52, 84, 209, 0.5);
+}
+
+/* ===== EDIT BUTTONS ===== */
 .edit-btn {
   background-color: #3454d1;
   color: white;
   border: none;
-  padding: 8px 15px;
+  padding: 10px 20px;
   border-radius: 10px;
-  margin-top: 10px;
   cursor: pointer;
   font-size: 14px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   transition: 0.3s;
 }
 
@@ -124,6 +164,12 @@
   text-align: center;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .stat-card p {
@@ -146,6 +192,11 @@
   border-radius: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
+  transition: 0.2s;
+}
+
+.trip-stats div:hover {
+  transform: scale(1.03);
 }
 
 .trip-stats p {
@@ -182,6 +233,11 @@
   background: #f8faff;
   padding: 25px;
   border-radius: 15px;
+  transition: 0.2s;
+}
+
+.chart-section:hover {
+  transform: translateY(-3px);
 }
 
 .progress-bar {
@@ -197,6 +253,7 @@
   height: 100%;
   background-color: #3454d1;
   border-radius: 5px;
+  transition: width 0.4s ease;
 }
 
 .progress-text {

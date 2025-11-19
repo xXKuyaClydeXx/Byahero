@@ -1,111 +1,270 @@
-import React from "react";
-import { Home, CalendarDays, Car, Info, Edit3, Star } from "lucide-react";
+import React, { useState } from "react";
+import { Home, CalendarDays, Car, Info, Edit3, Save, X, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/DriverProfilePage.css";
 
 const DriverProfilePage = () => {
+  // =========================
+  //  DRIVER DATA (dynamic)
+  // =========================
+  const [driver, setDriver] = useState({
+    name: "Juan Dela Cruz",
+    rating: 5.0,
+    reviews: "1.2k",
+    joined: "March 2018",
+    avatar:
+      "https://cdn-icons-png.flaticon.com/512/219/219970.png",
+    performance: 50,
+    rewards: 128,
+    minPerformance: 25,
+    avgPerformance: 73,
+    trips: { total: 952, completed: 831, canceled: 21 },
+    earnings: { total: 1254, target: 2510, distance: 12, time: 125 },
+  });
+
+  // For editing mode
+  const [editing, setEditing] = useState(false);
+
+  // Temp copy while editing
+  const [temp, setTemp] = useState(driver);
+
+  // ==================================
+  //  HANDLERS
+  // ==================================
+  const handleChange = (section, key, value) => {
+    if (!section) {
+      setTemp({ ...temp, [key]: value });
+    } else {
+      setTemp({
+        ...temp,
+        [section]: {
+          ...temp[section],
+          [key]: value,
+        },
+      });
+    }
+  };
+
+  const handleSave = () => {
+    setDriver(temp);
+    setEditing(false);
+  };
+
+  const handleCancel = () => {
+    setTemp(driver);
+    setEditing(false);
+  };
+
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setTemp({ ...temp, avatar: url });
+  };
+
   return (
     <div className="driver-profile-page">
-      {/* ===== NAVBAR ===== */}
+      {/* NAVIGATION */}
       <nav className="navbar">
         <div className="nav-header">
           <h1 className="title">BYAHERO TERMINAL</h1>
         </div>
 
-        <div className="nav-icons">
-          <Link to="/" className="icon"><Home /></Link>
-          <Link to="/schedule" className="icon"><CalendarDays /></Link>
-          <button className="icon active"><Car /></button>
-          <Link to="/about" className="icon"><Info /></Link>
+        <div className="nav-links">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/schedule" className="nav-link">Schedule</Link>
+          <span className="nav-link active">Login</span>
+          <Link to="/about" className="nav-link">About Us</Link>
         </div>
       </nav>
+
+      {/* ===== EDIT MODE BUTTONS ===== */}
+      <div style={{ width: "100%", maxWidth: "1000px", margin: "20px auto", textAlign: "right" }}>
+        {!editing ? (
+          <button className="edit-btn" onClick={() => setEditing(true)}>
+            <Edit3 size={16} /> Edit Profile
+          </button>
+        ) : (
+          <>
+            <button className="edit-btn" style={{ marginRight: "10px", background: "#22c55e" }} onClick={handleSave}>
+              <Save size={16} /> Save
+            </button>
+            <button className="edit-btn" style={{ background: "#ef4444" }} onClick={handleCancel}>
+              <X size={16} /> Cancel
+            </button>
+          </>
+        )}
+      </div>
 
       {/* ===== PROFILE CARD ===== */}
       <section className="profile-container">
         <div className="profile-card">
           <div className="profile-header">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/219/219970.png"
-              alt="Driver"
-              className="profile-avatar"
-            />
+            {/* Avatar */}
+            <div style={{ position: "relative" }}>
+              <img
+                src={temp.avatar}
+                alt="Driver"
+                className="profile-avatar"
+              />
+
+              {editing && (
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
+                  style={{
+                    position: "absolute",
+                    bottom: "-10px",
+                    left: "0",
+                    width: "120px",
+                  }}
+                />
+              )}
+            </div>
+
+            {/* Profile Info */}
             <div className="profile-info">
-              <h2>Juan Dela Cruz</h2>
+              {!editing ? (
+                <h2>{driver.name}</h2>
+              ) : (
+                <input
+                  type="text"
+                  value={temp.name}
+                  onChange={(e) => handleChange(null, "name", e.target.value)}
+                  className="input-edit"
+                />
+              )}
+
               <div className="rating">
                 <Star className="star-icon" />
-                <span>5.0 • 1.2k Reviews</span>
+                {!editing ? (
+                  <span>{driver.rating} • {driver.reviews} Reviews</span>
+                ) : (
+                  <span>
+                    <input
+                      type="number"
+                      value={temp.rating}
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      onChange={(e) => handleChange(null, "rating", e.target.value)}
+                      className="input-small"
+                    />{" "}
+                    •{" "}
+                    <input
+                      type="text"
+                      value={temp.reviews}
+                      onChange={(e) => handleChange(null, "reviews", e.target.value)}
+                      className="input-small"
+                    />{" "}
+                    Reviews
+                  </span>
+                )}
               </div>
-              <p className="join-date">Joined March 2018</p>
-              <button className="edit-btn">
-                <Edit3 size={16} /> Edit
-              </button>
+
+              {!editing ? (
+                <p className="join-date">Joined {driver.joined}</p>
+              ) : (
+                <input
+                  type="text"
+                  value={temp.joined}
+                  onChange={(e) => handleChange(null, "joined", e.target.value)}
+                  className="input-edit"
+                />
+              )}
             </div>
           </div>
 
-          {/* Performance Summary */}
+          {/* ===== PERFORMANCE ===== */}
           <div className="stats-grid">
-            <div className="stat-card">
-              <p>Performance</p>
-              <h3>50</h3>
-            </div>
-            <div className="stat-card">
-              <p>Reward Point</p>
-              <h3>128</h3>
-            </div>
-            <div className="stat-card">
-              <p>Min. Performance</p>
-              <h3>25%</h3>
-            </div>
-            <div className="stat-card">
-              <p>Avg. Performance</p>
-              <h3>73%</h3>
-            </div>
+            {[
+              { label: "Performance", key: "performance" },
+              { label: "Reward Point", key: "rewards" },
+              { label: "Min. Performance", key: "minPerformance", suffix: "%" },
+              { label: "Avg. Performance", key: "avgPerformance", suffix: "%" },
+            ].map((item, idx) => (
+              <div className="stat-card" key={idx}>
+                <p>{item.label}</p>
+                {!editing ? (
+                  <h3>
+                    {driver[item.key]}
+                    {item.suffix || ""}
+                  </h3>
+                ) : (
+                  <input
+                    type="number"
+                    value={temp[item.key]}
+                    onChange={(e) => handleChange(null, item.key, e.target.value)}
+                    className="input-number"
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* Trip Statistics */}
+          {/* ===== TRIP STATS ===== */}
           <div className="trip-stats">
-            <div>
-              <p>Total Trips</p>
-              <h3>952</h3>
-            </div>
-            <div>
-              <p>Completed</p>
-              <h3>831</h3>
-            </div>
-            <div>
-              <p>Canceled</p>
-              <h3>21</h3>
-            </div>
+            {[
+              { label: "Total Trips", key: "total" },
+              { label: "Completed", key: "completed" },
+              { label: "Canceled", key: "canceled" },
+            ].map((stat, i) => (
+              <div key={i}>
+                <p>{stat.label}</p>
+                {!editing ? (
+                  <h3>{driver.trips[stat.key]}</h3>
+                ) : (
+                  <input
+                    type="number"
+                    value={temp.trips[stat.key]}
+                    onChange={(e) => handleChange("trips", stat.key, e.target.value)}
+                    className="input-number"
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* Earnings Section */}
+          {/* ===== EARNINGS ===== */}
           <div className="earnings-section">
-            <div>
-              <p>Total Earning</p>
-              <h3 className="green">$1254</h3>
-            </div>
-            <div>
-              <p>Target Earning</p>
-              <h3 className="red">$2510</h3>
-            </div>
-            <div>
-              <p>Total Distance</p>
-              <h3>12km</h3>
-            </div>
-            <div>
-              <p>Total Time</p>
-              <h3>125m</h3>
-            </div>
+            {[
+              { label: "Total Earning", key: "total", prefix: "$", color: "green" },
+              { label: "Target Earning", key: "target", prefix: "$", color: "red" },
+              { label: "Total Distance", key: "distance", suffix: "km" },
+              { label: "Total Time", key: "time", suffix: "m" },
+            ].map((item, i) => (
+              <div key={i}>
+                <p>{item.label}</p>
+                {!editing ? (
+                  <h3 className={item.color || ""}>
+                    {item.prefix || ""}
+                    {driver.earnings[item.key]}
+                    {item.suffix || ""}
+                  </h3>
+                ) : (
+                  <input
+                    type="number"
+                    value={temp.earnings[item.key]}
+                    onChange={(e) => handleChange("earnings", item.key, e.target.value)}
+                    className="input-number"
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* Statistics Chart Placeholder */}
+          {/* ===== CHART ===== */}
           <div className="chart-section">
             <h3>Statistics</h3>
             <p>Avg. Performance</p>
             <div className="progress-bar">
-              <div className="progress-fill" style={{ width: "64%" }}></div>
+              <div
+                className="progress-fill"
+                style={{ width: `${temp.avgPerformance || 0}%` }}
+              ></div>
             </div>
-            <p className="progress-text">64%</p>
+            <p className="progress-text">{temp.avgPerformance}%</p>
           </div>
         </div>
       </section>
