@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./DriverSchedulePage.css";
+import "../css/DriverPage.css";
 
 const DriverSchedulePage = () => {
   const [driverInfo, setDriverInfo] = useState({
@@ -17,9 +17,6 @@ const DriverSchedulePage = () => {
   };
 
   const handleSave = () => {
-    // Here you can call your backend API to save the updates
-    // fetch("/api/driver/update", { method: "POST", body: JSON.stringify(driverInfo) })
-    //   .then(...)
     alert("Schedule updated successfully!");
     setIsEditing(false);
   };

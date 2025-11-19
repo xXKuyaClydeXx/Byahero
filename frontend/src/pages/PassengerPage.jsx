@@ -29,17 +29,18 @@ const PassengerPage = () => {
         <div className="passenger-page">
             {/* NAVIGATION */}
             <nav className="navbar">
-                <div className="nav-header">
-                    <h1 className="title">BYAHERO TERMINAL</h1>
-                </div>
+                    <div className="nav-header">
+                      <h1 className="title">BYAHERO TERMINAL</h1>
+                    </div>
+            
+                    <div className="nav-links">
+                      <span className="nav-link active">Home</span>
+                      <Link to="/schedule" className="nav-link">Schedule</Link>
+                      <Link to="/login" className="nav-link">Login</Link>
+                      <Link to="/about" className="nav-link">About Us</Link>
+                    </div>
+                  </nav>
 
-                <div className="nav-icons">
-                    <button className="icon active"><Home /></button>
-                    <Link to="/schedule" className="icon"><CalendarDays /></Link>
-                    <Link to="/login" className="icon"><Car /></Link>
-                    <Link to="/about" className="icon"><Info /></Link>
-                </div>
-            </nav>
 
             {/* HERO */}
             <section className="hero-section">

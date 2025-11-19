@@ -71,24 +71,17 @@ const RegisterPage = () => {
   return (
     <div className="register-page">
       <nav className="navbar">
-        <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
-        </div>
-        <div className="nav-icons">
-          <Link to="/" className="icon">
-            <Home />
-          </Link>
-          <Link to="/schedule" className="icon">
-            <CalendarDays />
-          </Link>
-          <button className="icon active">
-            <Car />
-          </button>
-          <Link to="/about" className="icon">
-            <Info />
-          </Link>
-        </div>
-      </nav>
+              <div className="nav-header">
+                <h1 className="title">BYAHERO TERMINAL</h1>
+              </div>
+      
+              <div className="nav-links">
+                <Link to="/" className="nav-link">Home</Link>
+                <Link to="/schedule" className="nav-link">Schedule</Link>
+                <span className="nav-link active">Login</span>
+                <Link to="/about" className="nav-link">About Us</Link>
+              </div>
+            </nav>
 
       <section className="register-section">
         <div className="register-card">

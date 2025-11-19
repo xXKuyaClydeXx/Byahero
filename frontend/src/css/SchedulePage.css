@@ -6,11 +6,7 @@
   color: #111827;
 }
 
-/* remove overlay — keep the image in full color */
-.schedule-page::before {
-  content: none;
-}
-
+/* Navbar */
 .navbar {
   background-color: #ffffff;
   border-bottom: 4px solid #5673ff;
@@ -33,97 +29,33 @@
   text-align: center;
 }
 
-.nav-icons {
+/* MATCHES LOGIN + ABOUT */
+.nav-links {
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 65px;
   margin-top: 16px;
 }
 
-.icon {
-  background: transparent;
-  border: 0;
-  border-radius: 9999px;
-  padding: 10px;
+.nav-item {
+  color: #4a4a4a;
+  text-decoration: none;
+  padding: 6px 10px;
+  transition: all 0.25s ease;
   cursor: pointer;
-  transition: background 0.25s ease;
+  border-bottom: 2px solid transparent;
 }
 
-.icon:hover,
-.icon.active {
-  background-color: rgba(86, 115, 255, 0.25);
+.nav-item:hover {
+  color: #5673ff;
 }
 
-.icon svg {
-  width: 34px;
-  height: 34px;
-  display: block;
+.nav-item.active {
+  color: #5673ff;
+  border-bottom: 2px solid #5673ff;
 }
 
-.schedule-section {
-  padding: 36px 28px 64px;
-}
-
-.schedule-card {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 24px;
-  max-width: 1160px;
-  margin: 0 auto;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-}
-
-.schedule-heading {
-  color: #4c63e6;
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: .5px;
-  margin: 0 0 16px 0;
-}
-
-.table-wrap {
-  overflow-x: auto;
-}
-
-.schedule-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border: 1px solid #c7cbe9;
-}
-
-.schedule-table thead th {
-  background: #4c63e6;
-  color: #ffffff;
-  font-size: 12px;
-  letter-spacing: .3px;
-  padding: 10px 12px;
-  text-align: left;
-  border-right: 1px solid #3e52c7;
-}
-
-.schedule-table thead th:last-child {
-  border-right: 0;
-}
-
-.schedule-table tbody td {
-  height: 38px;
-  padding: 6px 12px;
-  border-top: 1px solid #dfe3ff;
-  border-right: 1px solid #e7e9f8;
-  font-size: 13px;
-}
-
-.schedule-table tbody td:last-child {
-  border-right: 0;
-}
-
-.schedule-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-/* ===== VEHICLE TABS (UPDATED BIG SQUARE STYLE) ===== */
+/* ===== VEHICLE TABS ===== */
 .vehicle-tabs {
   display: flex;
   justify-content: center;
@@ -146,7 +78,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
 }
 
 .tab-btn:hover {
@@ -161,59 +92,89 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* remove any leftover image class */
-.tab-image {
-  display: none;
+/* ===== TABLE SECTION ===== */
+.schedule-section {
+  padding: 36px 28px 64px;
+}
+
+.schedule-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 1160px;
+  margin: 0 auto;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.schedule-heading {
+  color: #4c63e6;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* TABLE */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #c7cbe9;
+}
+
+.schedule-table thead th {
+  background: #4c63e6;
+  color: #ffffff;
+  padding: 10px 12px;
+  letter-spacing: 0.3px;
+}
+
+.schedule-table tbody td {
+  padding: 6px 12px;
+  border-top: 1px solid #dfe3ff;
+  font-size: 13px;
 }
 
 /* ===== FOOTER ===== */
 .footer {
   display: flex;
-  justify-content: center;            /* center the columns horizontally */
-  align-items: center;                /* center vertically */
-  text-align: center;
-  gap: 80px;                          /* space between the two columns */
+  justify-content: center;
+  gap: 80px;
   padding: 40px 0;
-  font-size: 14px;
-  color: #070202;
-  background-color: rgba(86, 115, 255, 0.1); /* 10% blue opacity */
+  background-color: rgba(86, 115, 255, 0.1);
   margin-top: 40px;
-  width: 100%;
-  box-sizing: border-box;
-  flex-wrap: wrap;                    /* makes it responsive */
+  flex-wrap: wrap;
 }
 
-/* individual column styling */
-.footer-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.footer-links p {
+  margin: 6px 0;
+  cursor: pointer;
 }
 
-/* optional: make links or text hover nicely */
-.footer-column p,
-.footer-column a {
-  margin: 0;
-  color: #070202;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.footer-column p:hover,
-.footer-column a:hover {
+.footer-links p:hover {
   color: #4a63e7;
 }
 
-/* mobile responsiveness */
-@media (max-width: 768px) {
-  .footer {
-    flex-direction: column;
-    gap: 30px;
-  }
+.footer-social {
+  text-align: center;
+}
 
-  .tab-btn {
-    width: 100px;
-    height: 100px;
-    font-size: 1rem;
-  }
+.icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.social-link {
+  font-size: 20px;
+  color: #111;
+  transition: 0.2s;
+}
+
+.social-link:hover {
+  color: #4a63e7;
 }

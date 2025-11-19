@@ -29,32 +29,33 @@
   text-align: center;
 }
 
-.nav-icons {
+/* TEXT NAVIGATION LINKS */
+.nav-links {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 65px;
+  gap: 50px;
   margin-top: 16px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.icon {
-  background: transparent;
-  border: 0;
-  border-radius: 9999px;
-  padding: 10px;
+.nav-link {
+  color: #4a4a4a;
+  text-decoration: none;
+  padding: 6px 10px;
+  transition: all 0.25s ease;
   cursor: pointer;
-  transition: background 0.25s ease;
+  border-bottom: 2px solid transparent;
 }
 
-.icon:hover,
-.icon.active {
-  background-color: rgba(86, 115, 255, 0.25);
+.nav-link:hover {
+  color: #5673ff;
 }
 
-.icon svg {
-  width: 34px;
-  height: 34px;
-  display: block;
+.nav-link.active {
+  color: #5673ff;
+  border-bottom-color: #5673ff;
 }
 
 /* --- ABOUT SECTION --- */
@@ -102,7 +103,6 @@
   text-align: center;
   padding: 90px 24px;
   background: linear-gradient(180deg, rgba(33, 60, 136, 0.15) 0%, rgba(20, 20, 60, 0.05) 100%);
-  position: relative;
 }
 
 .team-heading {
@@ -147,7 +147,7 @@
   box-shadow: 0 15px 35px rgba(86, 115, 255, 0.35);
 }
 
-/* --- Avatar Glow Animation --- */
+/* Avatar Glow */
 .avatar {
   width: 110px;
   height: 110px;
@@ -166,7 +166,6 @@
   animation: pulseGlow 2.5s infinite ease-in-out;
 }
 
-/* Pulsing glow effect behind avatar */
 .avatar::after {
   content: "";
   position: absolute;
@@ -208,10 +207,7 @@
   padding: 40px 0;
   font-size: 14px;
   color: #fff;
-  background-color: transparent;
   margin-top: 40px;
-  width: 100%;
-  box-sizing: border-box;
   flex-wrap: wrap;
 }
 
@@ -227,11 +223,6 @@
   color: #f0f0f0;
   text-decoration: none;
   transition: color 0.3s;
-}
-
-.footer-column p:hover,
-.footer-column a:hover {
-  color: #b6c4ff;
 }
 
 .footer-social {
@@ -252,7 +243,6 @@
   transform: scale(1.2);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .team-grid {
     grid-template-columns: 1fr;

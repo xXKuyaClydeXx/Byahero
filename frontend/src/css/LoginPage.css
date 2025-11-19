@@ -1,11 +1,12 @@
 .login-page {
   font-family: 'Poppins', sans-serif;
-  background-color: #5673ff; /* blue background as in Figma */
+  background: linear-gradient(180deg, #5673ff 0%, #7a8bff 100%);
   min-height: 100vh;
   color: #111827;
+  overflow-x: hidden;
 }
 
-/* ===== NAVBAR ===== */
+/* ===== NAVBAR (IDENTICAL TO ABOUT US PAGE) ===== */
 .navbar {
   background-color: #ffffff;
   border-bottom: 4px solid #5673ff;
@@ -28,32 +29,33 @@
   text-align: center;
 }
 
-.nav-icons {
+/* NAVIGATION TEXT LINKS — MATCHED TO ABOUT PAGE */
+.nav-links {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 65px;
+  gap: 50px;
   margin-top: 16px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.icon {
-  background: transparent;
-  border: 0;
-  border-radius: 9999px;
-  padding: 10px;
+.nav-item {
+  color: #4a4a4a;
+  text-decoration: none;
+  padding: 6px 10px;
+  transition: all 0.25s ease;
   cursor: pointer;
-  transition: background 0.25s ease;
+  border-bottom: 2px solid transparent;
 }
 
-.icon:hover,
-.icon.active {
-  background-color: rgba(86, 115, 255, 0.25);
+.nav-item:hover {
+  color: #5673ff;
 }
 
-.icon svg {
-  width: 34px;
-  height: 34px;
-  display: block;
+.nav-item.active {
+  color: #5673ff;
+  border-bottom: 2px solid #5673ff;
 }
 
 /* ===== LOGIN SECTION ===== */
@@ -61,12 +63,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 200px);
 }
 
 .login-box {
   background: #ffffff;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 26px 30px;
   width: 300px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
@@ -89,10 +91,9 @@
   border-radius: 6px;
   padding: 8px 10px;
   font-size: 13px;
-  outline: none;
 }
 
-/* ===== BUTTONS ===== */
+/* BUTTONS */
 .signin-btn {
   background-color: #111;
   color: #fff;
@@ -102,16 +103,14 @@
   margin-top: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 .signin-btn:hover {
   background-color: #333;
 }
 
-/* ===== LINKS ===== */
+/* LINKS */
 .forgot {
-  display: inline-block;
   font-size: 12px;
   color: #111;
   text-decoration: none;
@@ -128,56 +127,48 @@
 .create-link {
   color: #111;
   font-weight: 600;
-  text-decoration: none;
 }
 
 .create-link:hover {
   text-decoration: underline;
 }
 
+/* ===== FOOTER ===== */
 .footer {
   display: flex;
-  justify-content: center;            /* center the columns horizontally */
-  align-items: center;                /* center vertically */
-  text-align: center;
-  gap: 80px;                          /* space between the two columns */
+  justify-content: center;
+  gap: 80px;
   padding: 40px 0;
   font-size: 14px;
   color: #070202;
-  background-color: rgba(86, 115, 255, 0.1); /* 10% blue opacity */
+  background-color: rgba(86, 115, 255, 0.1);
   margin-top: 40px;
-  width: 100%;
-  box-sizing: border-box;
-  flex-wrap: wrap;                    /* makes it responsive */
+  flex-wrap: wrap;
 }
 
+.footer-links {
+  display: flex;
+  gap: 60px;
+}
 
-/* individual column styling */
-.footer-column {
+.footer-social {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
 }
 
-
-/* optional: make links or text hover nicely */
-.footer-column p,
-.footer-column a {
-  margin: 0;
-  color: #070202;
-  text-decoration: none;
-  transition: color 0.3s;
+.icons a {
+  font-size: 22px;
+  margin: 0 8px;
 }
 
-
-.footer-column p:hover,
-.footer-column a:hover {
-  color: #4a63e7;
-}
-
-
-/* mobile responsiveness */
+/* RESPONSIVE */
 @media (max-width: 768px) {
+  .nav-links {
+    gap: 25px;
+    font-size: 15px;
+  }
+
   .footer {
     flex-direction: column;
     gap: 30px;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/SchedulePage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
@@ -9,6 +8,8 @@ import CustomerSupport from "./CustomerSupport";
 
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
+  const [showTerms, setShowTerms] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
 
   const scheduleData = [
     { driver: "Vaugn Ashton", vehicle: "Van", seats: 10, terminal: "Cubao", departure: "8:00 AM" },
@@ -17,25 +18,25 @@ const SchedulePage = () => {
   ];
 
   const filteredData = scheduleData.filter((row) => row.vehicle === activeTab);
-  const [showTerms, setShowTerms] = useState(false);
-  const [showSupport, setShowSupport] = useState(false);
 
   return (
     <div className="schedule-page">
+
+      {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
           <h1 className="title">BYAHERO TERMINAL</h1>
         </div>
 
-        <div className="nav-icons">
-          <Link to="/" className="icon" aria-label="Home"><Home /></Link>
-          <button className="icon active" aria-label="Schedule"><CalendarDays /></button>
-          <Link to="/login" className="icon" aria-label="Login"><Car /></Link>
-          <Link to="/about" className="icon" aria-label="About"><Info /></Link>
+        <div className="nav-links">
+          <Link to="/" className="nav-item">Home</Link>
+          <span className="nav-item active">Schedule</span>
+          <Link to="/login" className="nav-item">Login</Link>
+          <Link to="/about" className="nav-item">About Us</Link>
         </div>
       </nav>
 
-      {/* VEHICLE TABS */}
+      {/* ===== VEHICLE TABS ===== */}
       <section className="vehicle-tabs">
         {["Van", "Bus", "Jeepney"].map((type) => (
           <button
@@ -48,7 +49,7 @@ const SchedulePage = () => {
         ))}
       </section>
 
-      {/* SCHEDULE TABLE */}
+      {/* ===== TABLE SECTION ===== */}
       <section className="schedule-section">
         <div className="schedule-card">
           <h2 className="schedule-heading">{activeTab}</h2>
@@ -80,7 +81,7 @@ const SchedulePage = () => {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ===== FOOTER ===== */}
       <footer className="footer">
         <div className="footer-links">
           <div>
@@ -104,8 +105,10 @@ const SchedulePage = () => {
         </div>
       </footer>
 
-      {/* MODALS */}
-      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+      {/* ===== MODALS ===== */}
+      {showTerms && (
+        <TermsAndConditions onClose={() => setShowTerms(false)} />
+      )}
 
       {showSupport && (
         <div className="modal-overlay">
