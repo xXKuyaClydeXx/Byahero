@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/AboutPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
@@ -20,17 +19,18 @@ const AboutPage = () => {
 
   return (
     <div className="about-page">
+
       {/* NAVIGATION */}
       <nav className="navbar">
         <div className="nav-header">
           <h1 className="title">BYAHERO TERMINAL</h1>
         </div>
 
-        <div className="nav-icons">
-          <Link to="/" className="icon" aria-label="Home"><Home /></Link>
-          <Link to="/schedule" className="icon" aria-label="Schedule"><CalendarDays /></Link>
-          <Link to="/login" className="icon" aria-label="Driver"><Car /></Link>
-          <button className="icon active" aria-label="About"><Info /></button>
+        <div className="nav-links">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/schedule" className="nav-link">Schedule</Link>
+          <Link to="/login" className="nav-link">Login</Link>
+          <span className="nav-link active">About Us</span>
         </div>
       </nav>
 
@@ -84,23 +84,23 @@ const AboutPage = () => {
 
       {/* FOOTER */}
       <footer className="footer">
-        <div className="footer-links">
-          <div>
-            <p>About us</p>
-            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
-            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
-          </div>
-          <div>
-            <p>Vehicle Available</p>
-            <p>Trip Schedule</p>
-          </div>
+
+        <div className="footer-column">
+          <p>About Us</p>
+          <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
+          <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
+        </div>
+
+        <div className="footer-column">
+          <p>Vehicle Available</p>
+          <p>Trip Schedule</p>
         </div>
 
         <div className="footer-social">
           <div className="icons">
-            <a href="#" aria-label="Facebook" className="social-link"><FaFacebook /></a>
-            <a href="#" aria-label="Twitter" className="social-link"><FaTwitter /></a>
-            <a href="#" aria-label="Instagram" className="social-link"><FaInstagram /></a>
+            <a href="#"><FaFacebook /></a>
+            <a href="#"><FaTwitter /></a>
+            <a href="#"><FaInstagram /></a>
           </div>
           <a href="#" className="privacy-link">Privacy Policy</a>
         </div>

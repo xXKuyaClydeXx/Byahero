@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Home, CalendarDays, Car, Info } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/LoginPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 import TermsAndConditions from "./TermsAndConditions";
-import CustomerSupport from "./CustomerSupport"; 
+import CustomerSupport from "./CustomerSupport";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -17,10 +16,8 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    
-    // You can replace this with real authentication
+
     if (email && password) {
-      // Redirect to DriverProfilePage
       navigate("/driverprofile");
     } else {
       alert("Please enter email and password");
@@ -29,17 +26,18 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
+
       {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
           <h1 className="title">BYAHERO TERMINAL</h1>
         </div>
 
-        <div className="nav-icons">
-          <Link to="/" className="icon" aria-label="Home"><Home /></Link>
-          <Link to="/schedule" className="icon" aria-label="Schedule"><CalendarDays /></Link>
-          <button className="icon active" aria-label="Driver"><Car /></button>
-          <Link to="/about" className="icon" aria-label="Info"><Info /></Link>
+        <div className="nav-links">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/schedule" className="nav-link">Schedule</Link>
+          <span className="nav-link active">Login</span>
+          <Link to="/about" className="nav-link">About Us</Link>
         </div>
       </nav>
 
@@ -77,7 +75,7 @@ const LoginPage = () => {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ===== FOOTER ===== */}
       <footer className="footer">
         <div className="footer-links">
           <div>
@@ -85,6 +83,7 @@ const LoginPage = () => {
             <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
             <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
           </div>
+
           <div>
             <p>Vehicle Available</p>
             <p>Trip Schedule</p>
