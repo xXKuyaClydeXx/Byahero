@@ -79,3 +79,20 @@ h2 {
   background-color: #dc3545;
   color: white;
 }
+
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 4px solid #5673ff;
+  padding: 10px 24px 14px;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-logo {
+  height: 75px;
+  width: auto;
+}

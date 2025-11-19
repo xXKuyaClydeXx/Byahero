@@ -11,6 +11,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -71,9 +72,9 @@ const RegisterPage = () => {
   return (
     <div className="register-page">
       <nav className="navbar">
-              <div className="nav-header">
-                <h1 className="title">BYAHERO TERMINAL</h1>
-              </div>
+        <div className="nav-header">
+          <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
+        </div>
       
               <div className="nav-links">
                 <Link to="/" className="nav-link">Home</Link>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Home, CalendarDays, Car, Info, Edit3, Save, X, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/DriverProfilePage.css";
+import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 const DriverProfilePage = () => {
   // =========================
@@ -67,7 +68,7 @@ const DriverProfilePage = () => {
       {/* NAVIGATION */}
       <nav className="navbar">
         <div className="nav-header">
-          <h1 className="title">BYAHERO TERMINAL</h1>
+          <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
 
         <div className="nav-links">

@@ -22,10 +22,18 @@
   color: #3454d1;
 }
 
-.nav-icons {
+
+.nav-header {
   display: flex;
-  gap: 25px;
+  justify-content: center;
+  align-items: center;
 }
+
+.nav-logo {
+  height: 75px;
+  width: auto;
+}
+
 
 .icon {
   color: #555;
