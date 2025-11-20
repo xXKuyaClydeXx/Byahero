@@ -28,13 +28,13 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
 
   const locations = [
-    "Naga",
-    "Pili",
+    "Ligao",
+    "Oas",
     "Daraga",
     "Legazpi",
     "Pilar",
-    "Sorsogon",
-    "Tabaco",
+    "Camalig",
+    "Polangui",
   ];
 
   async function handleRegister(e) {

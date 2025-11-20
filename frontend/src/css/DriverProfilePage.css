@@ -270,3 +270,23 @@
   font-weight: 500;
   margin-top: 8px;
 }
+
+/* ===== LOGOUT BUTTON ===== */
+.logout-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #b91c1c;
+}
+
