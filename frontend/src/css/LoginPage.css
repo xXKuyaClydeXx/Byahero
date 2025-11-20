@@ -1,6 +1,6 @@
 .login-page {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(180deg, #5673ff 0%, #7a8bff 100%);
+  background: linear-gradient(180deg, #2c337e 0%, #2c337e 100%);
   min-height: 100vh;
   color: #111827;
   overflow-x: hidden;
@@ -9,7 +9,7 @@
 /* ===== NAVBAR (IDENTICAL TO ABOUT US PAGE) ===== */
 .navbar {
   background-color: #ffffff;
-  border-bottom: 4px solid #5673ff;
+  border-bottom: 4px solid #2c337e;
   padding: 10px 24px 14px;
 }
 
@@ -29,7 +29,7 @@
   margin: 0;
   font-weight: 800;
   letter-spacing: 1px;
-  color: #5a67d8;
+  color: #2c337e;
   font-size: 26px;
   text-align: center;
 }
@@ -60,7 +60,7 @@
 
 .nav-item.active {
   color: #5673ff;
-  border-bottom: 2px solid #5673ff;
+  border-bottom: 2px solid #2c337e;
 }
 
 /* ===== LOGIN SECTION ===== */
@@ -146,7 +146,7 @@
   padding: 40px 0;
   font-size: 14px;
   color: #070202;
-  background-color: rgba(86, 115, 255, 0.1);
+  background-color: rgb(255, 255, 255);
   margin-top: 40px;
   flex-wrap: wrap;
 }

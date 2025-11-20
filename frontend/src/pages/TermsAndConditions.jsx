@@ -5,7 +5,9 @@ const TermsAndConditions = ({ onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+        <div classname="modal-header">
         <h2>BYAHERO — TERMS AND CONDITIONS</h2>
+        </div>
         <div className="modal-body">
           <p><strong>1. Introduction</strong><br />
             Welcome to Byahero, an online booking platform developed for bus and van transportation. 

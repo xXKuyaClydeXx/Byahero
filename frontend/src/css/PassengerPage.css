@@ -261,14 +261,14 @@ background-image:
   /* Using the light, centered footer style to resolve conflict */
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Aligning links to the top */
-  text-align: left;
+  align-items: center; /* Aligning links to the top */
+  text-align: center;
   gap: 80px;
-  padding: 40px 24px;
+  padding: 40px 0px;
   font-size: 14px;
   color: #070202;
   /* 10% blue opacity (rgba(86, 115, 255, 0.1)) */
-  background-color: rgba(86, 115, 255, 0.1);
+  background-color: rgb(255, 255, 255);
   margin-top: 40px;
   width: 100%;
   box-sizing: border-box;
