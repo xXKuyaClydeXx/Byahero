@@ -1,5 +1,8 @@
+// src/App.jsx
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { auth, onAuthStateChanged } from "./firebase";
+
 import PassengerPage from "./pages/PassengerPage";
 import SchedulePage from "./pages/SchedulePage";
 import LoginPage from "./pages/LoginPage";
@@ -11,46 +14,102 @@ import TripSchedulePage from "./pages/TripSchedulePage";
 import DriverProfilePage from "./pages/DriverProfilePage";
 import DriverDashboard from "./pages/DriverDashboard";
 import DriverSchedulePage from "./pages/DriverSchedulePage";
+import ForgotPassword from "./pages/ForgotPassword";
+import EnterEmail from "./pages/EnterEmail.jsx";
+
+// ProtectedRoute Component: Requires user to be logged in
+const ProtectedRoute = ({ user, children }) => {
+  if (!user) return <Navigate to="/login" />;
+  return children;
+};
+
+// AuthRoute Component: Redirects user away from login/register if already logged in
+const AuthRoute = ({ user, children }) => {
+  // Assuming a logged-in user is a 'driver' by default for this redirect
+  if (user) return <Navigate to="/driverprofile" />; 
+  return children;
+};
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function verifyToken() {
-      const token = localStorage.getItem("byahero_token");
-      if (!token) return;
-      try {
-        const res = await fetch("/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) throw new Error("Invalid token");
-        const data = await res.json();
-        setUser(data);
-      } catch {
-        localStorage.removeItem("byahero_token");
-        setUser(null);
-      }
-    }
-    verifyToken();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <Routes>
+      {/* Public Routes */}
       <Route path="/" element={<PassengerPage />} />
       <Route path="/schedule" element={<SchedulePage />} />
-      <Route
-        path="/login"
-        element={!user ? <LoginPage /> : <Navigate to="/schedule" replace />}
-      />
-      <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/enteremail" element={<EnterEmail />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/support" element={<CustomerSupport />} />
       <Route path="/terms" element={<TermsAndConditions />} />
-      <Route path="/tripsched" element={<TripSchedulePage />} />
-      <Route path="/driverprofile" element={<DriverProfilePage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-      <Route path="/driverdashboard" element={<DriverDashboard />} />
-      <Route path="/driverschedule" element={<DriverSchedulePage />} />
+
+      {/* Auth Routes */}
+      <Route
+        path="/login"
+        element={
+          <AuthRoute user={user}>
+            <LoginPage />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <AuthRoute user={user}>
+            <RegisterPage />
+          </AuthRoute>
+        }
+      />
+
+      {/* Protected Routes */}
+      <Route
+        path="/driverprofile"
+        element={
+          <ProtectedRoute user={user}>
+            <DriverProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/driverdashboard"
+        element={
+          <ProtectedRoute user={user}>
+            <DriverDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/driverschedule"
+        element={
+          <ProtectedRoute user={user}>
+            <DriverSchedulePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/tripsched"
+        element={
+          <ProtectedRoute user={user}>
+            <TripSchedulePage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Catch-All */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }

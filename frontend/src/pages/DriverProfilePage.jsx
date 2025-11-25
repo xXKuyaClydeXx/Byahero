@@ -1,10 +1,16 @@
+// src/pages/DriverProfilePage.jsx
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Home, CalendarDays, Car, Edit3, Save, X, Star, LogOut } from "lucide-react";
-import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase"; // Make sure your firebase.js exports 'auth'
+
 import "../css/DriverProfilePage.css";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 const DriverProfilePage = () => {
+  const navigate = useNavigate();
+
   // =========================
   //  DRIVER DATA (dynamic)
   // =========================
@@ -13,8 +19,7 @@ const DriverProfilePage = () => {
     rating: 5.0,
     reviews: "1.2k",
     joined: "March 2018",
-    avatar:
-      "https://cdn-icons-png.flaticon.com/512/219/219970.png",
+    avatar: "https://cdn-icons-png.flaticon.com/512/219/219970.png",
     performance: 50,
     rewards: 128,
     minPerformance: 25,
@@ -60,12 +65,16 @@ const DriverProfilePage = () => {
     setTemp({ ...temp, avatar: url });
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     const confirmed = window.confirm("Are you sure you want to logout?");
-    if (confirmed) {
-      console.log("Logging out...");
-      // Clear session or auth data here if needed
-      window.location.href = "/";
+    if (!confirmed) return;
+
+    try {
+      await signOut(auth); // Properly sign out the Firebase user
+      navigate("/login");  // Redirect to login page
+    } catch (error) {
+      console.error("Error logging out:", error);
+      alert("Failed to logout. Please try again.");
     }
   };
 
@@ -95,10 +104,18 @@ const DriverProfilePage = () => {
           </button>
         ) : (
           <>
-            <button className="edit-btn" style={{ marginRight: "10px", background: "#22c55e" }} onClick={handleSave}>
+            <button
+              className="edit-btn"
+              style={{ marginRight: "10px", background: "#22c55e" }}
+              onClick={handleSave}
+            >
               <Save size={16} /> Save
             </button>
-            <button className="edit-btn" style={{ background: "#ef4444" }} onClick={handleCancel}>
+            <button
+              className="edit-btn"
+              style={{ background: "#ef4444" }}
+              onClick={handleCancel}
+            >
               <X size={16} /> Cancel
             </button>
           </>
@@ -182,10 +199,12 @@ const DriverProfilePage = () => {
 
           {/* ===== PERFORMANCE ===== */}
           <div className="stats-grid">
-            {[{ label: "Performance", key: "performance" },
+            {[
+              { label: "Performance", key: "performance" },
               { label: "Reward Point", key: "rewards" },
               { label: "Min. Performance", key: "minPerformance", suffix: "%" },
-              { label: "Avg. Performance", key: "avgPerformance", suffix: "%" }].map((item, idx) => (
+              { label: "Avg. Performance", key: "avgPerformance", suffix: "%" },
+            ].map((item, idx) => (
               <div className="stat-card" key={idx}>
                 <p>{item.label}</p>
                 {!editing ? (
@@ -204,9 +223,11 @@ const DriverProfilePage = () => {
 
           {/* ===== TRIP STATS ===== */}
           <div className="trip-stats">
-            {[{ label: "Total Trips", key: "total" },
+            {[
+              { label: "Total Trips", key: "total" },
               { label: "Completed", key: "completed" },
-              { label: "Canceled", key: "canceled" }].map((stat, i) => (
+              { label: "Canceled", key: "canceled" },
+            ].map((stat, i) => (
               <div key={i}>
                 <p>{stat.label}</p>
                 {!editing ? (
@@ -225,10 +246,12 @@ const DriverProfilePage = () => {
 
           {/* ===== EARNINGS ===== */}
           <div className="earnings-section">
-            {[{ label: "Total Earning", key: "total", prefix: "$", color: "green" },
+            {[
+              { label: "Total Earning", key: "total", prefix: "$", color: "green" },
               { label: "Target Earning", key: "target", prefix: "$", color: "red" },
               { label: "Total Distance", key: "distance", suffix: "km" },
-              { label: "Total Time", key: "time", suffix: "m" }].map((item, i) => (
+              { label: "Total Time", key: "time", suffix: "m" },
+            ].map((item, i) => (
               <div key={i}>
                 <p>{item.label}</p>
                 {!editing ? (
