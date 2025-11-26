@@ -7,9 +7,6 @@ import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
-
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -17,30 +14,26 @@ const LoginPage = () => {
   const [showSupport, setShowSupport] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    if (!email || !password) return alert("Please enter email and password");
 
-    try {
-      setLoading(true);
-      await signInWithEmailAndPassword(auth, email, password);
+    if (email && password) {
       navigate("/driverprofile");
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setLoading(false);
+    } else {
+      alert("Please enter email and password");
     }
   };
 
   return (
     <div className="login-page">
+
       {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
+
         <div className="nav-links">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/schedule" className="nav-link">Schedule</Link>
@@ -56,7 +49,7 @@ const LoginPage = () => {
             <label>Email</label>
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder="vaprams@gbox.adnu.edu.ph"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -65,17 +58,15 @@ const LoginPage = () => {
             <label>Password</label>
             <input
               type="password"
-              placeholder="Enter your password"
+              placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
 
-            <a href="/enteremail" className="forgot">Forgot password?</a>
+            <a href="#" className="forgot">Forgot password?</a>
 
-            <button type="submit" className="signin-btn" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
-            </button>
+            <button type="submit" className="signin-btn">Sign in</button>
 
             <p className="create-account">
               Don’t have an account?{" "}
@@ -89,15 +80,22 @@ const LoginPage = () => {
       <footer className="footer">
         <div className="footer-links">
           <div>
-            <p onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>About Us</p>
+            <p
+              onClick={() => navigate("/about")}
+              style={{ cursor: "pointer" }}
+            >
+              About Us
+            </p>
             <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
             <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
           </div>
+
           <div>
             <p>Vehicle Available</p>
             <p>Trip Schedule</p>
           </div>
         </div>
+
         <div className="footer-social">
           <div className="icons">
             <a href="#" aria-label="Facebook" className="social-link"><FaFacebook /></a>
@@ -110,6 +108,7 @@ const LoginPage = () => {
 
       {/* MODALS */}
       {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">
