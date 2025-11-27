@@ -1,20 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./../css/DriverDashboard.css";
 import { Chart } from "chart.js/auto"; 
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import TermsAndConditions from "./TermsAndConditions";
-import CustomerSupport from "./CustomerSupport";  
+import CustomerSupport from "./CustomerSupport";
+import { LogOut } from "lucide-react";
 
 const Dashboard = () => {
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [showTerms, setShowTerms] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
 
+  // ======================
+  // LOGOUT FUNCTION (ADDED)
+  // ======================
+  const handleLogout = () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      console.log("Logging out...");
+      window.location.href = "/";
+    }
+  };
+
+  // ======================
+  // CHART INITIALIZATION
+  // ======================
   useEffect(() => {
     const ctx = chartRef.current;
     if (!ctx) return;
@@ -50,6 +65,7 @@ const Dashboard = () => {
     };
   }, []);
 
+  // Trip data
   const trips = [
     { plate: "NGA-3456", cap: 15, dest: "Naga", arr: "10:30 AM", status: "Arrived" },
     { plate: "BIC-6789", cap: 12, dest: "Legazpi", arr: "11:00 AM", status: "On Route" },
@@ -58,18 +74,23 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
+      {/* NAVIGATION */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
         <div className="nav-links">
-          <span className="nav-link active" onClick={() => navigate("/driver-dashboard")}>Home</span>
-          <span className="nav-link" onClick={() => navigate("/schedule")}>Schedule</span>
-          <span className="nav-link" onClick={() => navigate("/vehicles")}>Profile</span>
-          <span className="nav-link" onClick={() => navigate("/about")}>About Us</span>
+          <span className="nav-link active">Home</span>
+          <Link to="/driverschedule" className="nav-link">Schedule</Link>
+          <Link to="/driverprofile" className="nav-link">Profile</Link>
+
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={16} /> Logout
+          </button>
         </div>
       </nav>
 
+      {/* OVERVIEW */}
       <section className="dashboard-overview">
         <h2>Dashboard Overview</h2>
         <div className="stats-grid">
@@ -80,6 +101,7 @@ const Dashboard = () => {
         </div>
       </section>
 
+      {/* TRIP STATUS + CHART */}
       <section className="trip-section">
         <div className="trip-status">
           <h3>Trip Status</h3>
@@ -126,6 +148,7 @@ const Dashboard = () => {
             <p>Trip Schedule</p>
           </div>
         </div>
+
         <div className="footer-column footer-social">
           <div className="icons">
             <a href="#" aria-label="Facebook"><FaFacebook /></a>
@@ -138,6 +161,7 @@ const Dashboard = () => {
 
       {/* MODALS */}
       {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">

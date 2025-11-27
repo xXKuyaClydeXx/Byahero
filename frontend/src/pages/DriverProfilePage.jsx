@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Home, CalendarDays, Car, Info, Edit3, Save, X, Star } from "lucide-react";
+import { Home, CalendarDays, Car, Edit3, Save, X, Star, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../css/DriverProfilePage.css";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
@@ -23,15 +23,12 @@ const DriverProfilePage = () => {
     earnings: { total: 1254, target: 2510, distance: 12, time: 125 },
   });
 
-  // For editing mode
   const [editing, setEditing] = useState(false);
-
-  // Temp copy while editing
   const [temp, setTemp] = useState(driver);
 
-  // ==================================
+  // =========================
   //  HANDLERS
-  // ==================================
+  // =========================
   const handleChange = (section, key, value) => {
     if (!section) {
       setTemp({ ...temp, [key]: value });
@@ -63,6 +60,15 @@ const DriverProfilePage = () => {
     setTemp({ ...temp, avatar: url });
   };
 
+  const handleLogout = () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      console.log("Logging out...");
+      // Clear session or auth data here if needed
+      window.location.href = "/";
+    }
+  };
+
   return (
     <div className="driver-profile-page">
       {/* NAVIGATION */}
@@ -72,10 +78,12 @@ const DriverProfilePage = () => {
         </div>
 
         <div className="nav-links">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/schedule" className="nav-link">Schedule</Link>
-          <span className="nav-link active">Login</span>
-          <Link to="/about" className="nav-link">About Us</Link>
+          <Link to="/driverdashboard" className="nav-link">Home</Link>
+          <Link to="/driverschedule" className="nav-link">Schedule</Link>
+          <span className="nav-link active">Profile</span>
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={16} /> Logout
+          </button>
         </div>
       </nav>
 
@@ -103,12 +111,7 @@ const DriverProfilePage = () => {
           <div className="profile-header">
             {/* Avatar */}
             <div style={{ position: "relative" }}>
-              <img
-                src={temp.avatar}
-                alt="Driver"
-                className="profile-avatar"
-              />
-
+              <img src={temp.avatar} alt="Driver" className="profile-avatar" />
               {editing && (
                 <input
                   type="file"
@@ -179,19 +182,14 @@ const DriverProfilePage = () => {
 
           {/* ===== PERFORMANCE ===== */}
           <div className="stats-grid">
-            {[
-              { label: "Performance", key: "performance" },
+            {[{ label: "Performance", key: "performance" },
               { label: "Reward Point", key: "rewards" },
               { label: "Min. Performance", key: "minPerformance", suffix: "%" },
-              { label: "Avg. Performance", key: "avgPerformance", suffix: "%" },
-            ].map((item, idx) => (
+              { label: "Avg. Performance", key: "avgPerformance", suffix: "%" }].map((item, idx) => (
               <div className="stat-card" key={idx}>
                 <p>{item.label}</p>
                 {!editing ? (
-                  <h3>
-                    {driver[item.key]}
-                    {item.suffix || ""}
-                  </h3>
+                  <h3>{driver[item.key]}{item.suffix || ""}</h3>
                 ) : (
                   <input
                     type="number"
@@ -206,11 +204,9 @@ const DriverProfilePage = () => {
 
           {/* ===== TRIP STATS ===== */}
           <div className="trip-stats">
-            {[
-              { label: "Total Trips", key: "total" },
+            {[{ label: "Total Trips", key: "total" },
               { label: "Completed", key: "completed" },
-              { label: "Canceled", key: "canceled" },
-            ].map((stat, i) => (
+              { label: "Canceled", key: "canceled" }].map((stat, i) => (
               <div key={i}>
                 <p>{stat.label}</p>
                 {!editing ? (
@@ -229,20 +225,14 @@ const DriverProfilePage = () => {
 
           {/* ===== EARNINGS ===== */}
           <div className="earnings-section">
-            {[
-              { label: "Total Earning", key: "total", prefix: "$", color: "green" },
+            {[{ label: "Total Earning", key: "total", prefix: "$", color: "green" },
               { label: "Target Earning", key: "target", prefix: "$", color: "red" },
               { label: "Total Distance", key: "distance", suffix: "km" },
-              { label: "Total Time", key: "time", suffix: "m" },
-            ].map((item, i) => (
+              { label: "Total Time", key: "time", suffix: "m" }].map((item, i) => (
               <div key={i}>
                 <p>{item.label}</p>
                 {!editing ? (
-                  <h3 className={item.color || ""}>
-                    {item.prefix || ""}
-                    {driver.earnings[item.key]}
-                    {item.suffix || ""}
-                  </h3>
+                  <h3 className={item.color || ""}>{item.prefix || ""}{driver.earnings[item.key]}{item.suffix || ""}</h3>
                 ) : (
                   <input
                     type="number"
@@ -260,10 +250,7 @@ const DriverProfilePage = () => {
             <h3>Statistics</h3>
             <p>Avg. Performance</p>
             <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{ width: `${temp.avgPerformance || 0}%` }}
-              ></div>
+              <div className="progress-fill" style={{ width: `${temp.avgPerformance || 0}%` }}></div>
             </div>
             <p className="progress-text">{temp.avgPerformance}%</p>
           </div>

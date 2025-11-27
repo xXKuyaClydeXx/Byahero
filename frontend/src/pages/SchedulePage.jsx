@@ -1,34 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/SchedulePage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
+import { SchedulesContext } from "../context/SchedulesContext";
 
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
   const [showTerms, setShowTerms] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
 
-  const scheduleData = [
-    { driver: "Vaugn Ashton", vehicle: "Van", seats: 10, terminal: "Cubao", departure: "8:00 AM" },
-    { driver: "Klayd Dranreb", vehicle: "Bus", seats: 30, terminal: "Pasay", departure: "9:15 AM" },
-    { driver: "Marjun Mapa", vehicle: "Jeepney", seats: 8, terminal: "Caloocan", departure: "10:00 AM" },
-  ];
+  const { schedules, fetchSchedules } = useContext(SchedulesContext);
 
-  const filteredData = scheduleData.filter((row) => row.vehicle === activeTab);
+  // Fetch schedules on mount
+  useEffect(() => {
+    fetchSchedules();
+  }, [fetchSchedules]);
+
+  const filteredData = schedules.filter(row => row.vehicle === activeTab);
+
+  const formatTime12 = (time24) => {
+    if (!time24) return "";
+    const [hourStr, minute] = time24.split(":");
+    let hour = parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
+    return `${hour}:${minute} ${ampm}`;
+  };
 
   return (
     <div className="schedule-page">
-
-      {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
-
         <div className="nav-links">
           <Link to="/" className="nav-item">Home</Link>
           <span className="nav-item active">Schedule</span>
@@ -37,19 +44,11 @@ const SchedulePage = () => {
         </div>
       </nav>
 
-
-      {/* ===== TABLE + TABS IN ONE CARD ===== */}
       <section className="schedule-section">
         <div className="schedule-card">
-
-          {/* ===== VEHICLE TABS INSIDE WHITE BOX ===== */}
           <div className="vehicle-tabs inside">
-            {["Van", "Bus", "Jeepney"].map((type) => (
-              <button
-                key={type}
-                className={`tab-btn ${activeTab === type ? "active" : ""}`}
-                onClick={() => setActiveTab(type)}
-              >
+            {["Van", "Bus", "Jeepney"].map(type => (
+              <button key={type} className={`tab-btn ${activeTab === type ? "active" : ""}`} onClick={() => setActiveTab(type)}>
                 {type}
               </button>
             ))}
@@ -69,32 +68,33 @@ const SchedulePage = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((row, index) => (
-                  <tr key={index}>
-                    <td>{row.driver}</td>
-                    <td>{row.vehicle}</td>
-                    <td>{row.seats}</td>
-                    <td>{row.terminal}</td>
-                    <td>{row.departure}</td>
+                {filteredData.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: "center" }}>
+                      No schedules available for {activeTab}.
+                    </td>
                   </tr>
-                ))}
+                ) : (
+                  filteredData.map((row, idx) => (
+                    <tr key={idx}>
+                      <td>{row.driver?.name || "Unknown"}</td>
+                      <td>{row.vehicle}</td>
+                      <td>{row.seats}</td>
+                      <td>{row.terminal || row.from}</td>
+                      <td>{formatTime12(row.departureTime)}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
         </div>
       </section>
 
-
-      {/* ===== FOOTER ===== */}
       <footer className="footer">
         <div className="footer-links">
           <div>
-            <p
-              onClick={() => navigate("/about")}
-              style={{ cursor: "pointer" }}
-            >
-              About Us
-            </p>
+            <p style={{ cursor: "pointer" }}>About Us</p>
             <p onClick={() => setShowSupport(true)}>Customer Support</p>
             <p onClick={() => setShowTerms(true)}>Terms & Condition</p>
           </div>
@@ -103,7 +103,6 @@ const SchedulePage = () => {
             <p>Trip Schedule</p>
           </div>
         </div>
-
         <div className="footer-social">
           <div className="icons">
             <a href="#" className="social-link"><FaFacebook /></a>
@@ -114,10 +113,7 @@ const SchedulePage = () => {
         </div>
       </footer>
 
-
-      {/* ===== MODALS ===== */}
       {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
-
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -126,7 +122,6 @@ const SchedulePage = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
