@@ -78,7 +78,7 @@ const DriverProfilePage = () => {
         </div>
 
         <div className="nav-links">
-          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/driverdashboard" className="nav-link">Home</Link>
           <Link to="/driverschedule" className="nav-link">Schedule</Link>
           <span className="nav-link active">Profile</span>
           <button className="logout-btn" onClick={handleLogout}>

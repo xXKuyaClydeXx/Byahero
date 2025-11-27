@@ -14,26 +14,54 @@ const LoginPage = () => {
   const [showSupport, setShowSupport] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (email && password) {
-      navigate("/driverprofile");
-    } else {
+    if (!email || !password) {
       alert("Please enter email and password");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // send cookies if backend uses sessions
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Login failed. Check your credentials.");
+        setLoading(false);
+        return;
+      }
+
+      // Optionally save token if backend uses JWT
+      localStorage.setItem("byahero_token", data.token);
+
+      // Redirect after successful login
+      navigate("/driverdashboard"); // or route based on role
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Network error. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-page">
-
-      {/* ===== NAVBAR ===== */}
+      {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
-
         <div className="nav-links">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/schedule" className="nav-link">Schedule</Link>
@@ -42,14 +70,14 @@ const LoginPage = () => {
         </div>
       </nav>
 
-      {/* ===== LOGIN SECTION ===== */}
+      {/* LOGIN FORM */}
       <section className="login-section">
         <div className="login-box">
           <form onSubmit={handleLogin}>
             <label>Email</label>
             <input
               type="email"
-              placeholder="vaprams@gbox.adnu.edu.ph"
+              placeholder="youremail@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -66,7 +94,9 @@ const LoginPage = () => {
 
             <a href="#" className="forgot">Forgot password?</a>
 
-            <button type="submit" className="signin-btn">Sign in</button>
+            <button type="submit" className="signin-btn" disabled={loading}>
+              {loading ? "Signing in..." : "Sign in"}
+            </button>
 
             <p className="create-account">
               Don’t have an account?{" "}
@@ -76,20 +106,14 @@ const LoginPage = () => {
         </div>
       </section>
 
-      {/* ===== FOOTER ===== */}
+      {/* FOOTER */}
       <footer className="footer">
         <div className="footer-links">
           <div>
-            <p
-              onClick={() => navigate("/about")}
-              style={{ cursor: "pointer" }}
-            >
-              About Us
-            </p>
+            <p onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>About Us</p>
             <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
             <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
           </div>
-
           <div>
             <p>Vehicle Available</p>
             <p>Trip Schedule</p>
@@ -108,7 +132,6 @@ const LoginPage = () => {
 
       {/* MODALS */}
       {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
-
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">

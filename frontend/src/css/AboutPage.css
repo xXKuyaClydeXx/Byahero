@@ -1,6 +1,6 @@
 .about-page {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(180deg, #5673ff 0%, #7a8bff 100%);
+  background: linear-gradient(180deg, #2c337e 0%, #2c337e 100%);
   min-height: 100vh;
   color: #111827;
   overflow-x: hidden;
@@ -9,7 +9,7 @@
 /* --- NAVBAR --- */
 .navbar {
   background-color: #ffffff;
-  border-bottom: 4px solid #5673ff;
+  border-bottom: 4px solid #2c337e;
   padding: 10px 24px 14px;
 }
 
@@ -28,7 +28,7 @@
   margin: 0;
   font-weight: 800;
   letter-spacing: 1px;
-  color: #5a67d8;
+  color: #2c337e;
   font-size: 26px;
   text-align: center;
 }
@@ -156,7 +156,7 @@
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5673ff, #4b63f0);
+  background: linear-gradient(135deg, #2c337e, #2c337e);
   color: white;
   font-weight: 700;
   font-size: 32px;
@@ -210,48 +210,38 @@
   gap: 80px;
   padding: 40px 0;
   font-size: 14px;
-  color: #fff;
+  color: #4a4a4a; /* text color */
+  background-color: #ffffff !important; /* force solid white */
   margin-top: 40px;
   flex-wrap: wrap;
+  border-top: 2px solid #e2e2e2; /* subtle separation */
+  position: relative; /* ensures it sits above any background layers */
+  z-index: 10;
 }
 
-.footer-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
+/* Footer text and links */
 .footer-column p,
 .footer-column a {
-  margin: 0;
-  color: #f0f0f0;
+  color: #4a4a4a;
   text-decoration: none;
   transition: color 0.3s;
 }
 
-.footer-social {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
+/* Social icons */
 .footer-social .icons a {
+  color: #2c337e;
   font-size: 20px;
   margin: 0 8px;
-  text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .footer-social .icons a:hover {
   transform: scale(1.2);
+  color: #2c337e;
 }
 
+/* Responsive for smaller screens */
 @media (max-width: 768px) {
-  .team-grid {
-    grid-template-columns: 1fr;
-  }
-
   .footer {
     flex-direction: column;
     gap: 30px;
