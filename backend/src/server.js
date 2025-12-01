@@ -12,6 +12,7 @@ import User from "../models/User.js";
 
 const app = express();
 
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -21,17 +22,15 @@ app.use(
   })
 );
 
-// AUTH ROUTES
+// ROUTES
 app.use("/api/auth", authRoutes);
-
-// SCHEDULE ROUTES (IMPORTANT!)
 app.use("/api/schedules", scheduleRoutes);
 
-// GET LOGGED-IN USER
+// CHECK LOGGED-IN USER
 app.get("/api/auth/me", requireAuth, async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
   if (!user) return res.status(404).json({ message: "User not found" });
-  return res.json(user);
+  res.json(user);
 });
 
 // START SERVER
