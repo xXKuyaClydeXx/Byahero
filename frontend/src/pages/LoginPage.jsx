@@ -4,25 +4,20 @@ import "../css/LoginPage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
-
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
 
-
 const LoginPage = () => {
   const navigate = useNavigate();
-
 
   const [showTerms, setShowTerms] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
-  // ⭐ NEW WORKING LOGIN FUNCTION
+  // ⭐ FIXED LOGIN FUNCTION
   const handleLogin = async (e) => {
     e.preventDefault();
-
 
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
@@ -31,21 +26,17 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password })
       });
 
-
       const data = await res.json();
-
 
       if (!res.ok) {
         alert(data.message || "Invalid email or password");
         return;
       }
 
-
-      // Save JWT token
+      // ⭐ FIXED: Save the REAL token
       localStorage.setItem("token", data.token);
 
-
-      // Redirect by role
+      // ⭐ Navigate by role
       if (data.user.role === "driver") {
         navigate("/driverprofile");
       } else if (data.user.role === "operator") {
@@ -54,23 +45,19 @@ const LoginPage = () => {
         navigate("/");
       }
 
-
     } catch (error) {
       alert("Server error. Please try again.");
     }
   };
 
-
   return (
     <div className="login-page">
-
 
       {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
-
 
         <div className="nav-links">
           <Link to="/" className="nav-link">Home</Link>
@@ -79,7 +66,6 @@ const LoginPage = () => {
           <Link to="/about" className="nav-link">About Us</Link>
         </div>
       </nav>
-
 
       {/* ===== LOGIN SECTION ===== */}
       <section className="login-section">
@@ -94,7 +80,6 @@ const LoginPage = () => {
               required
             />
 
-
             <label>Password</label>
             <input
               type="password"
@@ -104,12 +89,9 @@ const LoginPage = () => {
               required
             />
 
-
             <a href="#" className="forgot">Forgot password?</a>
 
-
             <button type="submit" className="signin-btn">Sign in</button>
-
 
             <p className="create-account">
               Don’t have an account?{" "}
@@ -119,28 +101,26 @@ const LoginPage = () => {
         </div>
       </section>
 
-
       {/* ===== FOOTER ===== */}
       <footer className="footer">
         <div className="footer-links">
           <div>
-            <p
-              onClick={() => navigate("/about")}
-              style={{ cursor: "pointer" }}
-            >
+            <p onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>
               About Us
             </p>
-            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>Customer Support</p>
-            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>Terms & Condition</p>
+            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>
+              Customer Support
+            </p>
+            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>
+              Terms & Condition
+            </p>
           </div>
-
 
           <div>
             <p>Vehicle Available</p>
             <p>Trip Schedule</p>
           </div>
         </div>
-
 
         <div className="footer-social">
           <div className="icons">
@@ -152,22 +132,26 @@ const LoginPage = () => {
         </div>
       </footer>
 
-
-      {/* MODALS */}
-      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
-
+      {/* ===== MODALS ===== */}
+      {showTerms && (
+        <TermsAndConditions onClose={() => setShowTerms(false)} />
+      )}
 
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">
             <CustomerSupport />
-            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+            <button
+              onClick={() => setShowSupport(false)}
+              className="close-btn"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
     </div>
   );
 };
-
 
 export default LoginPage;
