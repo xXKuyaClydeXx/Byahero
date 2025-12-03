@@ -5,11 +5,11 @@ import User from "../models/User.js";
 
 const router = Router();
 
-
+// REGISTER
 router.post("/register", async (req, res) => {
   try {
     const {
-      role,               
+      role,
       fullName,
       email,
       password,
@@ -62,6 +62,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// LOGIN
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -90,11 +91,6 @@ router.post("/login", async (req, res) => {
     console.error(err);
     return res.status(500).json({ message: "Server error" });
   }
-});
-
-
-router.get("/me", async (req, res) => {
-  return res.status(400).json({ message: "Use /api/auth/me with auth middleware in server.js" });
 });
 
 export default router;

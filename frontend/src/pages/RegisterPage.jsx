@@ -40,7 +40,9 @@ const RegisterPage = () => {
   async function handleRegister(e) {
     e.preventDefault();
     setLoading(true);
+
     try {
+      // ✅ FIX: backend expects "routes", not currentLocation/destination
       const payload = {
         role: "driver",
         fullName,
@@ -50,18 +52,21 @@ const RegisterPage = () => {
         address,
         contactNumber,
         vehicleType,
-        currentLocation: routeFrom,
-        destination: routeTo,
+        routes: `${routeFrom} → ${routeTo}`, // ⭐ FINAL FIX
       };
+
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Registration failed");
+
       alert("Registered successfully!");
       navigate("/login");
+
     } catch (err) {
       alert(err.message);
     } finally {
@@ -71,21 +76,24 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
+      
+      {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
         </div>
-      
-              <div className="nav-links">
-                <Link to="/" className="nav-link">Home</Link>
-                <Link to="/schedule" className="nav-link">Schedule</Link>
-                <span className="nav-link active">Login</span>
-                <Link to="/about" className="nav-link">About Us</Link>
-              </div>
-            </nav>
+
+        <div className="nav-links">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/schedule" className="nav-link">Schedule</Link>
+          <span className="nav-link active">Login</span>
+          <Link to="/about" className="nav-link">About Us</Link>
+        </div>
+      </nav>
 
       <section className="register-section">
         <div className="register-card">
+
           <div className="register-header">
             <Link to="/login" className="back-btn">
               <ArrowLeft size={18} /> Back
@@ -94,7 +102,8 @@ const RegisterPage = () => {
           </div>
 
           <div className="register-layout">
-            {/* Profile Upload Section */}
+            
+            {/* PROFILE UPLOAD BOX */}
             <div className="profile-section">
               <div className="profile-circle"></div>
               <label htmlFor="profileUpload" className="upload-picture-label">
@@ -103,9 +112,10 @@ const RegisterPage = () => {
               <input type="file" id="profileUpload" hidden />
             </div>
 
-            {/* Registration Form */}
+            {/* REGISTRATION FORM */}
             <form className="register-form" onSubmit={handleRegister}>
               <div className="form-grid">
+
                 {/* Full Name */}
                 <div className="input-group">
                   <label>Full Name</label>
@@ -159,29 +169,6 @@ const RegisterPage = () => {
                   />
                 </div>
 
-                {/* Upload Section */}
-                <div className="upload-row">
-                  <div className="input-group upload-group">
-                    <label>Driver’s License</label>
-                    <div className="upload-box">
-                      <input type="file" id="licenseUpload" hidden />
-                      <label htmlFor="licenseUpload" className="upload-label">
-                        UPLOAD IMAGE <Upload size={16} />
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="input-group upload-group">
-                    <label>OR/CR</label>
-                    <div className="upload-box">
-                      <input type="file" id="orcrUpload" hidden />
-                      <label htmlFor="orcrUpload" className="upload-label">
-                        UPLOAD IMAGE <Upload size={16} />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Contact Number */}
                 <div className="input-group">
                   <label>Contact Number</label>
@@ -207,10 +194,12 @@ const RegisterPage = () => {
                   </select>
                 </div>
 
-                {/* Routes */}
+                {/* ROUTES */}
                 <div className="input-group routes-group">
                   <label>Routes</label>
+
                   <div className="routes-row">
+                    {/* FROM */}
                     <select
                       value={routeFrom}
                       onChange={(e) => {
@@ -231,6 +220,7 @@ const RegisterPage = () => {
 
                     <ArrowRight className="route-arrow" size={20} />
 
+                    {/* TO */}
                     <select
                       value={routeTo}
                       onChange={(e) => {
@@ -250,14 +240,40 @@ const RegisterPage = () => {
                     </select>
                   </div>
                 </div>
+
+                {/* LICENSE + OR/CR UPLOAD */}
+                <div className="upload-row">
+                  <div className="input-group upload-group">
+                    <label>Driver’s License</label>
+                    <div className="upload-box">
+                      <input type="file" id="licenseUpload" hidden />
+                      <label htmlFor="licenseUpload" className="upload-label">
+                        UPLOAD IMAGE <Upload size={16} />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="input-group upload-group">
+                    <label>OR/CR</label>
+                    <div className="upload-box">
+                      <input type="file" id="orcrUpload" hidden />
+                      <label htmlFor="orcrUpload" className="upload-label">
+                        UPLOAD IMAGE <Upload size={16} />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
-              {/* Submit Button */}
+              {/* SUBMIT BUTTON */}
               <button className="register-btn" type="submit" disabled={loading}>
                 {loading ? "Registering..." : "Register"}
               </button>
+
             </form>
           </div>
+
         </div>
       </section>
     </div>
