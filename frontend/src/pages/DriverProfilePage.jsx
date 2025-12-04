@@ -44,16 +44,41 @@ const DriverProfilePage = () => {
     setTemp({ ...temp, [key]: value });
   };
 
+  // TEMPORARY IMAGE PREVIEW ONLY
   const handleAvatarUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file); // TEMPORARY ONLY
     setTemp({ ...temp, profileImageUrl: url });
   };
 
+  // FINAL SAVE — DB UPDATE (Option C)
   const handleSave = () => {
-    setDriver(temp);
-    setEditing(false);
+    const token = localStorage.getItem("token");
+
+    // Only send fields that actually exist in DB
+    const dataToSend = {
+      fullName: temp.fullName,
+      contactNumber: temp.contactNumber,
+      vehicleType: temp.vehicleType,
+      routes: temp.routes,
+      birthday: temp.birthday,
+      address: temp.address
+    };
+
+    axios
+      .put("http://localhost:5000/api/auth/update", dataToSend, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setDriver(res.data.user);
+        setEditing(false);
+        alert("Profile updated successfully!");
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Failed to update profile.");
+      });
   };
 
   const handleCancel = () => {
@@ -70,7 +95,6 @@ const DriverProfilePage = () => {
 
   return (
     <div className="driver-profile-page">
-
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
@@ -112,12 +136,21 @@ const DriverProfilePage = () => {
 
           {/* HEADER */}
           <div className="profile-header-modern">
-
             <img
               src={temp.profileImageUrl}
               className="profile-avatar-modern"
               alt="Driver"
             />
+
+            {/* Upload Button (Temporary Only) */}
+            {editing && (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarUpload}
+                style={{ marginTop: "10px" }}
+              />
+            )}
 
             <div className="profile-info-modern">
               {!editing ? (
