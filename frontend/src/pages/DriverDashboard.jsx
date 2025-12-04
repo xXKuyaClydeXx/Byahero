@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import "./../css/DriverDashboard.css";
-import { Chart } from "chart.js/auto"; 
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import TermsAndConditions from "./TermsAndConditions";
@@ -9,72 +9,51 @@ import CustomerSupport from "./CustomerSupport";
 import { LogOut } from "lucide-react";
 
 const Dashboard = () => {
-  const chartRef = useRef(null);
-  const chartInstanceRef = useRef(null);
   const navigate = useNavigate();
+
+  const [driver, setDriver] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [showTerms, setShowTerms] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
 
   // ======================
-  // LOGOUT FUNCTION (ADDED)
+  // FETCH DRIVER DATA
+  // ======================
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:5000/api/auth/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setDriver(res.data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  // ======================
+  // LOGOUT
   // ======================
   const handleLogout = () => {
     const confirmed = window.confirm("Are you sure you want to logout?");
     if (confirmed) {
-      console.log("Logging out...");
+      localStorage.removeItem("token");
       window.location.href = "/";
     }
   };
 
-  // ======================
-  // CHART INITIALIZATION
-  // ======================
-  useEffect(() => {
-    const ctx = chartRef.current;
-    if (!ctx) return;
+  if (loading)
+    return <p style={{ marginTop: "40px", textAlign: "center" }}>Loading dashboard...</p>;
 
-    if (chartInstanceRef.current) {
-      chartInstanceRef.current.destroy();
-    }
-
-    chartInstanceRef.current = new Chart(ctx, {
-      type: "pie",
-      data: {
-        labels: ["Completed", "Ongoing", "Pending", "Cancelled"],
-        datasets: [
-          {
-            data: [40, 25, 20, 15],
-            backgroundColor: ["#4cd964", "#4a63e7", "#ff9500", "#ff3b30"],
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: "bottom",
-            labels: { color: "#111" },
-          },
-        },
-      },
-    });
-
-    return () => {
-      if (chartInstanceRef.current) chartInstanceRef.current.destroy();
-    };
-  }, []);
-
-  // Trip data
-  const trips = [
-    { plate: "NGA-3456", cap: 15, dest: "Naga", arr: "10:30 AM", status: "Arrived" },
-    { plate: "BIC-6789", cap: 12, dest: "Legazpi", arr: "11:00 AM", status: "On Route" },
-    { plate: "CAM-1122", cap: 14, dest: "Pili", arr: "12:00 PM", status: "Pending" },
-  ];
+  if (!driver)
+    return <p style={{ marginTop: "40px", textAlign: "center" }}>Driver not found.</p>;
 
   return (
     <div className="dashboard-container">
-      {/* NAVIGATION */}
+      {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
@@ -90,52 +69,92 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* OVERVIEW */}
+      {/* ================= OVERVIEW ================= */}
       <section className="dashboard-overview">
-        <h2>Dashboard Overview</h2>
-        <div className="stats-grid">
-          <div className="card highlight"><p>Today's Trip</p><h3>48</h3></div>
-          <div className="card"><p>Onboard</p><h3>50</h3></div>
-          <div className="card"><p>Weekly Revenue</p><h3>₱140,920</h3></div>
-          <div className="card"><p>Vehicle Dispatched</p><h3>30/80</h3></div>
+        <h2>Welcome, {driver.fullName}</h2>
+
+        <div className="stats-grid" style={{ marginTop: "1rem" }}>
+          <div className="card">
+            <p>Vehicle Type</p>
+            <h3>{driver.vehicleType || "—"}</h3>
+          </div>
+
+          <div className="card">
+            <p>Route</p>
+            <h3>{driver.routes || "—"}</h3>
+          </div>
+
+          <div className="card">
+            <p>Contact Number</p>
+            <h3>{driver.contactNumber || "—"}</h3>
+          </div>
+
+          <div className="card">
+            <p>Email</p>
+            <h3 style={{ fontSize: "14px" }}>{driver.email}</h3>
+          </div>
         </div>
       </section>
 
-      {/* TRIP STATUS + CHART */}
+      {/* ================= PROFILE DOCUMENTS ================= */}
       <section className="trip-section">
         <div className="trip-status">
-          <h3>Trip Status</h3>
+          <h3>Driver Images</h3>
+
           <table>
-            <thead>
-              <tr>
-                <th>Plate Number</th>
-                <th>Capacity</th>
-                <th>Destination</th>
-                <th>Arrival</th>
-                <th>Status</th>
-              </tr>
-            </thead>
             <tbody>
-              {trips.map((trip, idx) => (
-                <tr key={idx}>
-                  <td>{trip.plate}</td>
-                  <td>{trip.cap}</td>
-                  <td>{trip.dest}</td>
-                  <td>{trip.arr}</td>
-                  <td>{trip.status}</td>
-                </tr>
-              ))}
+              <tr>
+                <td><strong>Profile Image</strong></td>
+                <td>
+                  {driver.profileImageUrl ? (
+                    <img
+                      src={driver.profileImageUrl}
+                      alt="Profile"
+                      style={{ width: "120px", borderRadius: "10px" }}
+                    />
+                  ) : "—"}
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>License Image</strong></td>
+                <td>
+                  {driver.licenseImageUrl ? (
+                    <img
+                      src={driver.licenseImageUrl}
+                      alt="License"
+                      style={{ width: "120px", borderRadius: "10px" }}
+                    />
+                  ) : "—"}
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>OR/CR Image</strong></td>
+                <td>
+                  {driver.orcrImageUrl ? (
+                    <img
+                      src={driver.orcrImageUrl}
+                      alt="ORCR"
+                      style={{ width: "120px", borderRadius: "10px" }}
+                    />
+                  ) : "—"}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
 
+        {/* RIGHT SIDE: Reports Placeholder */}
         <div className="recent-report">
-          <h3>Recent Report</h3>
-          <canvas ref={chartRef}></canvas>
+          <h3>Reports</h3>
+          <p style={{ marginTop: "10px", opacity: 0.6 }}>
+            No data available yet. Reports will appear here once trip logs are recorded.
+          </p>
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ================= FOOTER ================= */}
       <footer className="footer">
         <div className="footer-links">
           <div className="footer-column">
@@ -151,9 +170,9 @@ const Dashboard = () => {
 
         <div className="footer-column footer-social">
           <div className="icons">
-            <a href="#" aria-label="Facebook"><FaFacebook /></a>
-            <a href="#" aria-label="Twitter"><FaTwitter /></a>
-            <a href="#" aria-label="Instagram"><FaInstagram /></a>
+            <a href="#"><FaFacebook /></a>
+            <a href="#"><FaTwitter /></a>
+            <a href="#"><FaInstagram /></a>
           </div>
           <a href="#" className="privacy-link">Privacy Policy</a>
         </div>
@@ -161,7 +180,6 @@ const Dashboard = () => {
 
       {/* MODALS */}
       {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
-
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">

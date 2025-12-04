@@ -38,7 +38,7 @@ const LoginPage = () => {
 
       // ⭐ Navigate by role
       if (data.user.role === "driver") {
-        navigate("/driverprofile");
+        navigate("/driverdashboard");
       } else if (data.user.role === "operator") {
         navigate("/operatorprofile");
       } else {
