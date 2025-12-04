@@ -2,10 +2,13 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { requireAuth } from "../middleware/auth.js";  // <-- IMPORTANT
 
 const router = Router();
 
+// =========================
 // REGISTER
+// =========================
 router.post("/register", async (req, res) => {
   try {
     const {
@@ -62,7 +65,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// =========================
 // LOGIN
+// =========================
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -90,6 +95,44 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// =========================
+// UPDATE PROFILE
+// =========================
+router.put("/update", requireAuth, async (req, res) => {
+  try {
+    const { id } = req.user; // from JWT payload
+
+    const updates = {
+      fullName: req.body.fullName,
+      contactNumber: req.body.contactNumber,
+      vehicleType: req.body.vehicleType,
+      routes: req.body.routes,
+      birthday: req.body.birthday,
+      address: req.body.address,
+      profileImageUrl: req.body.profileImageUrl,
+      licenseImageUrl: req.body.licenseImageUrl,
+      orcrImageUrl: req.body.orcrImageUrl
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(id, updates, {
+      new: true
+    }).select("-password");
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.json({
+      message: "Profile updated successfully",
+      user: updatedUser
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error updating profile" });
   }
 });
 
