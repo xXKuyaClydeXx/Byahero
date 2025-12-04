@@ -169,7 +169,7 @@
 
 /* ===== SUBMIT BUTTON ===== */
 .submit-btn {
-  background-color: #3454d1;
+  background-color: #253b96;
   color: white;
   border: none;
   padding: 12px;
@@ -183,7 +183,7 @@
 }
 
 .submit-btn:hover {
-  background-color: #253b96;
+  background-color: #3454d1;
 }
 
 /* ===== SUBMITTED SCHEDULES ===== */
@@ -233,3 +233,4 @@
   margin-top: 60px;
   font-size: 14px;
 }
+
