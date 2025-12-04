@@ -20,7 +20,7 @@ const DriverSchedulePage = () => {
   // Fetch schedules on mount
   useEffect(() => {
     fetchSchedules();
-  }, [fetchSchedules]);
+  }, []);
 
   const handleFromChange = (e) => {
     const selected = e.target.value;
@@ -36,24 +36,48 @@ const DriverSchedulePage = () => {
       return;
     }
 
-    const newSchedule = { from, to, departureTime, seats: Number(seats), vehicle, terminal: from };
+    const newSchedule = {
+      from,
+      to,
+      vehicle,
+      departureTime,
+      seats: Number(seats),
+      terminal: from,
+    };
 
     try {
-      await fetch("http://localhost:5000/api/schedules", {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Missing authentication token. Please login again.");
+        return;
+      }
+
+      const res = await fetch("http://localhost:5000/api/schedules", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(newSchedule),
       });
 
-      // Refresh schedules in context
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+      }
+
       fetchSchedules();
 
       // Reset form
-      setFrom(""); setTo(""); setDepartureTime(""); setSeats(""); setVehicle(vehicleTypes[0]);
+      setFrom("");
+      setTo("");
+      setDepartureTime("");
+      setSeats("");
+      setVehicle(vehicleTypes[0]);
     } catch (err) {
       console.error("Error submitting schedule:", err);
-      alert("Error saving schedule.");
+      alert("Error saving schedule: " + err.message);
     }
   };
 
@@ -67,11 +91,15 @@ const DriverSchedulePage = () => {
   };
 
   const handleLogout = () => {
-    if (window.confirm("Are you sure you want to logout?")) window.location.href = "/";
+    if (window.confirm("Are you sure you want to logout?")) {
+      window.location.href = "/";
+    }
   };
 
   return (
     <div className="driver-schedule-page">
+
+      {/* Navbar */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} className="nav-logo" alt="Byahero Logo" />
@@ -80,7 +108,9 @@ const DriverSchedulePage = () => {
           <Link to="/driverdashboard" className="nav-link">Home</Link>
           <span className="nav-link active">Schedule</span>
           <Link to="/driverprofile" className="nav-link">Profile</Link>
-          <button className="logout-btn" onClick={handleLogout}><LogOut size={16} /> Logout</button>
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={16} /> Logout
+          </button>
         </div>
       </nav>
 
@@ -88,48 +118,78 @@ const DriverSchedulePage = () => {
       <div className="schedule-container">
         <div className="schedule-card">
           <h2 className="schedule-title">Driver Trip Schedule</h2>
+
           <form className="schedule-form" onSubmit={handleSubmit}>
+
             <div className="input-group">
               <label>From</label>
               <select className="schedule-input" value={from} onChange={handleFromChange}>
                 <option value="">Select location</option>
-                {locations.map(loc => <option key={loc} value={loc}>{loc}</option>)}
+                {locations.map((loc) => (
+                  <option key={loc} value={loc}>{loc}</option>
+                ))}
               </select>
             </div>
+
             <div className="input-group">
               <label>To</label>
-              <select className="schedule-input" value={to} onChange={e => setTo(e.target.value)}>
+              <select className="schedule-input" value={to} onChange={(e) => setTo(e.target.value)}>
                 <option value="">Select destination</option>
-                {locations.filter(loc => loc !== from).map(loc => <option key={loc} value={loc}>{loc}</option>)}
+                {locations
+                  .filter((loc) => loc !== from)
+                  .map((loc) => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
               </select>
             </div>
+
             <div className="input-group">
               <label>Vehicle Type</label>
-              <select className="schedule-input" value={vehicle} onChange={e => setVehicle(e.target.value)}>
-                {vehicleTypes.map(v => <option key={v} value={v}>{v}</option>)}
+              <select className="schedule-input" value={vehicle} onChange={(e) => setVehicle(e.target.value)}>
+                {vehicleTypes.map((v) => (
+                  <option key={v} value={v}>{v}</option>
+                ))}
               </select>
             </div>
+
             <div className="input-group">
               <label>Departure Time</label>
-              <input type="time" className="schedule-input" value={departureTime} onChange={e => setDepartureTime(e.target.value)} />
+              <input
+                type="time"
+                className="schedule-input"
+                value={departureTime}
+                onChange={(e) => setDepartureTime(e.target.value)}
+              />
             </div>
+
             <div className="input-group">
               <label>Available Seats</label>
-              <input type="number" min="1" className="schedule-input" value={seats} onChange={e => setSeats(e.target.value)} />
+              <input
+                type="number"
+                min="1"
+                className="schedule-input"
+                value={seats}
+                onChange={(e) => setSeats(e.target.value)}
+              />
             </div>
+
             <button type="submit" className="submit-btn">Submit Schedule</button>
           </form>
         </div>
       </div>
 
-      {/* Submitted schedules */}
+      {/* Display submitted schedules */}
       {schedules.length > 0 && (
         <div className="submitted-schedules">
           <h3>Submitted Schedules</h3>
           <ul>
             {schedules.map((sched, idx) => (
               <li key={idx} className="schedule-item">
-                <strong>From:</strong> {sched.from} | <strong>To:</strong> {sched.to} | <strong>Vehicle:</strong> {sched.vehicle} | <strong>Time:</strong> {formatTime12(sched.departureTime)} | <strong>Seats:</strong> {sched.seats}
+                <strong>From:</strong> {sched.from} |{" "}
+                <strong>To:</strong> {sched.to} |{" "}
+                <strong>Vehicle:</strong> {sched.vehicle} |{" "}
+                <strong>Time:</strong> {formatTime12(sched.departureTime)} |{" "}
+                <strong>Seats:</strong> {sched.seats}
               </li>
             ))}
           </ul>

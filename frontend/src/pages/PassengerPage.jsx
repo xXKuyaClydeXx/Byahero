@@ -20,7 +20,12 @@ const PassengerPage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate("/schedule");
+    const from = document.getElementById("from").value.trim();
+    const to = document.getElementById("to").value.trim();
+    const vehicle = document.getElementById("vehicle").value;
+
+    // Redirect WITH search params
+    navigate(`/schedule?from=${from}&to=${to}&vehicle=${vehicle}`);
   };
 
   return (

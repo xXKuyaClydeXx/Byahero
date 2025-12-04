@@ -6,6 +6,7 @@ import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
 import { SchedulesContext } from "../context/SchedulesContext";
+import { useLocation } from "react-router-dom";
 
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
@@ -14,12 +15,40 @@ const SchedulePage = () => {
 
   const { schedules, fetchSchedules } = useContext(SchedulesContext);
 
-  // Fetch schedules on mount
-  useEffect(() => {
-    fetchSchedules();
-  }, [fetchSchedules]);
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
 
-  const filteredData = schedules.filter(row => row.vehicle === activeTab);
+  const searchFrom = query.get("from") || "";
+  const searchTo = query.get("to") || "";
+  const searchVehicle = query.get("vehicle") || "";
+
+
+  // Fetch schedules on mount
+ useEffect(() => {
+  // ALWAYS fetch schedules when entering the page
+  fetchSchedules();
+
+  // Set active tab based on vehicle selected
+  if (searchVehicle) {
+    setActiveTab(searchVehicle.charAt(0).toUpperCase() + searchVehicle.slice(1));
+  }
+}, [searchVehicle]);
+
+  const filteredData = schedules.filter(row => {
+  const matchVehicle = searchVehicle
+    ? row.vehicle.toLowerCase() === searchVehicle.toLowerCase()
+    : row.vehicle === activeTab;
+
+  const matchFrom = searchFrom
+    ? row.from.toLowerCase().includes(searchFrom.toLowerCase())
+    : true;
+
+  const matchTo = searchTo
+    ? row.to.toLowerCase().includes(searchTo.toLowerCase())
+    : true;
+
+  return matchVehicle && matchFrom && matchTo;
+});
 
   const formatTime12 = (time24) => {
     if (!time24) return "";
@@ -77,7 +106,7 @@ const SchedulePage = () => {
                 ) : (
                   filteredData.map((row, idx) => (
                     <tr key={idx}>
-                      <td>{row.driver?.name || "Unknown"}</td>
+                      <td>{row.driverName || "Unknown"}</td>
                       <td>{row.vehicle}</td>
                       <td>{row.seats}</td>
                       <td>{row.terminal || row.from}</td>
