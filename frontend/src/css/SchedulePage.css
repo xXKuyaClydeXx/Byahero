@@ -1,10 +1,14 @@
 /* ===== PAGE BACKGROUND ===== */
 .schedule-page {
   font-family: 'Poppins', sans-serif;
-  background: url("/src/assets/images/BG-busInside.jpg") no-repeat center center;
+  background: linear-gradient(180deg, #2c337e 0%, #2c337e 100%);
   background-size: cover;
   min-height: 100vh;
   color: #111827;
+
+  /* ★ Add these: allow footer to stick at bottom */
+  display: flex;
+  flex-direction: column;
 }
 
 /* ===== NAVBAR ===== */
@@ -64,6 +68,9 @@
 /* ===== WHITE CARD AREA ===== */
 .schedule-section {
   padding: 36px 28px 64px;
+
+  /* ★ Add this so content expands and pushes footer */
+  flex: 1;
 }
 
 .schedule-card {
@@ -78,7 +85,7 @@
 /* ===== VEHICLE TABS INSIDE WHITE CARD ===== */
 .vehicle-tabs.inside {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 2.5rem;
   margin-bottom: 28px;
 }
@@ -149,7 +156,10 @@
   gap: 80px;
   padding: 40px 0;
   background-color: rgb(255, 255, 255);
-  margin-top: 40px;
+
+  /* Footer stays at bottom */
+  margin-top: auto;
+
   flex-wrap: wrap;
 }
 
