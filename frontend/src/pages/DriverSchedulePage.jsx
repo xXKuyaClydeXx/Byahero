@@ -6,7 +6,15 @@ import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import { SchedulesContext } from "../context/SchedulesContext";
 
 const DriverSchedulePage = () => {
-  const locations = ["Daraga", "Pilar", "Legazpi", "Camalig", "Oas", "Polangui", "Ligao"];
+  const locations = [
+    "Daraga",
+    "Pilar",
+    "Legazpi",
+    "Camalig",
+    "Oas",
+    "Polangui",
+    "Ligao",
+  ];
   const vehicleTypes = ["Van", "Bus", "Jeepney"];
 
   const [from, setFrom] = useState("");
@@ -57,7 +65,7 @@ const DriverSchedulePage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // ✅ FIXED: send token
         },
         body: JSON.stringify(newSchedule),
       });
@@ -67,7 +75,7 @@ const DriverSchedulePage = () => {
         throw new Error(msg);
       }
 
-      fetchSchedules();
+      fetchSchedules(); // refresh frontend list
 
       // Reset form
       setFrom("");
@@ -98,16 +106,19 @@ const DriverSchedulePage = () => {
 
   return (
     <div className="driver-schedule-page">
-
       {/* Navbar */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} className="nav-logo" alt="Byahero Logo" />
         </div>
         <div className="nav-links">
-          <Link to="/driverdashboard" className="nav-link">Home</Link>
+          <Link to="/driverdashboard" className="nav-link">
+            Home
+          </Link>
           <span className="nav-link active">Schedule</span>
-          <Link to="/driverprofile" className="nav-link">Profile</Link>
+          <Link to="/driverprofile" className="nav-link">
+            Profile
+          </Link>
           <button className="logout-btn" onClick={handleLogout}>
             <LogOut size={16} /> Logout
           </button>
@@ -120,34 +131,51 @@ const DriverSchedulePage = () => {
           <h2 className="schedule-title">Driver Trip Schedule</h2>
 
           <form className="schedule-form" onSubmit={handleSubmit}>
-
             <div className="input-group">
               <label>From</label>
-              <select className="schedule-input" value={from} onChange={handleFromChange}>
+              <select
+                className="schedule-input"
+                value={from}
+                onChange={handleFromChange}
+              >
                 <option value="">Select location</option>
                 {locations.map((loc) => (
-                  <option key={loc} value={loc}>{loc}</option>
+                  <option key={loc} value={loc}>
+                    {loc}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div className="input-group">
               <label>To</label>
-              <select className="schedule-input" value={to} onChange={(e) => setTo(e.target.value)}>
+              <select
+                className="schedule-input"
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+              >
                 <option value="">Select destination</option>
                 {locations
                   .filter((loc) => loc !== from)
                   .map((loc) => (
-                    <option key={loc} value={loc}>{loc}</option>
+                    <option key={loc} value={loc}>
+                      {loc}
+                    </option>
                   ))}
               </select>
             </div>
 
             <div className="input-group">
               <label>Vehicle Type</label>
-              <select className="schedule-input" value={vehicle} onChange={(e) => setVehicle(e.target.value)}>
+              <select
+                className="schedule-input"
+                value={vehicle}
+                onChange={(e) => setVehicle(e.target.value)}
+              >
                 {vehicleTypes.map((v) => (
-                  <option key={v} value={v}>{v}</option>
+                  <option key={v} value={v}>
+                    {v}
+                  </option>
                 ))}
               </select>
             </div>
@@ -173,28 +201,46 @@ const DriverSchedulePage = () => {
               />
             </div>
 
-            <button type="submit" className="submit-btn">Submit Schedule</button>
+            <button type="submit" className="submit-btn">
+              Submit Schedule
+            </button>
           </form>
         </div>
       </div>
 
       {/* Display submitted schedules */}
-      {schedules.length > 0 && (
-        <div className="submitted-schedules">
-          <h3>Submitted Schedules</h3>
-          <ul>
-            {schedules.map((sched, idx) => (
-              <li key={idx} className="schedule-item">
-                <strong>From:</strong> {sched.from} |{" "}
-                <strong>To:</strong> {sched.to} |{" "}
-                <strong>Vehicle:</strong> {sched.vehicle} |{" "}
-                <strong>Time:</strong> {formatTime12(sched.departureTime)} |{" "}
-                <strong>Seats:</strong> {sched.seats}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/* Display submitted schedules */}
+<div className="submitted-schedules">
+  <h3>Submitted Schedules</h3>
+
+  {schedules.length === 0 ? (
+    <p className="no-schedule-text">No schedules submitted yet.</p>
+  ) : (
+    <table className="schedule-table">
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th>Vehicle</th>
+          <th>Departure</th>
+          <th>Seats</th>
+        </tr>
+      </thead>
+      <tbody>
+        {schedules.map((sched, idx) => (
+          <tr key={idx}>
+            <td>{sched.from}</td>
+            <td>{sched.to}</td>
+            <td>{sched.vehicle}</td>
+            <td>{formatTime12(sched.departureTime)}</td>
+            <td>{sched.seats}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+</div>
+
 
       <footer className="footer">
         <p>© 2025 Byahero. All rights reserved.</p>
