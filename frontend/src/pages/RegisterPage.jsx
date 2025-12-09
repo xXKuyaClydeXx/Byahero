@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import {
-  Home,
-  CalendarDays,
-  Car,
-  Info,
   Upload,
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import { validateDriverRegistration } from "../validation"; // ✅ IMPORT VALIDATION
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
 
+  // FORM STATES
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -37,12 +34,34 @@ const RegisterPage = () => {
     "Polangui",
   ];
 
+  // ============================
+  // HANDLE REGISTER
+  // ============================
   async function handleRegister(e) {
     e.preventDefault();
     setLoading(true);
 
+    // 1️⃣ VALIDATION FIRST
+    const errors = validateDriverRegistration({
+      fullName,
+      email,
+      password,
+      birthday,
+      address,
+      contactNumber,
+      vehicleType,
+      routeFrom,
+      routeTo,
+    });
+
+    if (errors.length > 0) {
+      alert(errors[0]); // show first error only
+      setLoading(false);
+      return;
+    }
+
+    // 2️⃣ IF VALID → SEND TO BACKEND
     try {
-      // ✅ FIX: backend expects "routes", not currentLocation/destination
       const payload = {
         role: "driver",
         fullName,
@@ -52,7 +71,7 @@ const RegisterPage = () => {
         address,
         contactNumber,
         vehicleType,
-        routes: `${routeFrom} → ${routeTo}`, // ⭐ FINAL FIX
+        routes: `${routeFrom} → ${routeTo}`,
       };
 
       const res = await fetch("/api/auth/register", {
@@ -76,7 +95,7 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
-      
+
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
@@ -91,9 +110,11 @@ const RegisterPage = () => {
         </div>
       </nav>
 
+      {/* MAIN CONTENT */}
       <section className="register-section">
         <div className="register-card">
 
+          {/* HEADER */}
           <div className="register-header">
             <Link to="/login" className="back-btn">
               <ArrowLeft size={18} /> Back
@@ -102,8 +123,8 @@ const RegisterPage = () => {
           </div>
 
           <div className="register-layout">
-            
-            {/* PROFILE UPLOAD BOX */}
+
+            {/* PROFILE PLACEHOLDER */}
             <div className="profile-section">
               <div className="profile-circle"></div>
               <label htmlFor="profileUpload" className="upload-picture-label">
@@ -112,33 +133,31 @@ const RegisterPage = () => {
               <input type="file" id="profileUpload" hidden />
             </div>
 
-            {/* REGISTRATION FORM */}
+            {/* FORM */}
             <form className="register-form" onSubmit={handleRegister}>
               <div className="form-grid">
 
-                {/* Full Name */}
+                {/* FULL NAME */}
                 <div className="input-group">
                   <label>Full Name</label>
                   <input
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    required
                   />
                 </div>
 
-                {/* Email */}
+                {/* EMAIL */}
                 <div className="input-group">
                   <label>Email</label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                   />
                 </div>
 
-                {/* Birthday */}
+                {/* BIRTHDAY */}
                 <div className="input-group">
                   <label>Birthday</label>
                   <input
@@ -148,18 +167,17 @@ const RegisterPage = () => {
                   />
                 </div>
 
-                {/* Password */}
+                {/* PASSWORD */}
                 <div className="input-group">
                   <label>Password</label>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
                   />
                 </div>
 
-                {/* Address */}
+                {/* ADDRESS */}
                 <div className="input-group">
                   <label>Address</label>
                   <input
@@ -169,7 +187,7 @@ const RegisterPage = () => {
                   />
                 </div>
 
-                {/* Contact Number */}
+                {/* CONTACT NUMBER */}
                 <div className="input-group">
                   <label>Contact Number</label>
                   <input
@@ -179,13 +197,12 @@ const RegisterPage = () => {
                   />
                 </div>
 
-                {/* Vehicle Type */}
+                {/* VEHICLE TYPE */}
                 <div className="input-group">
                   <label>Vehicle Type</label>
                   <select
                     value={vehicleType}
                     onChange={(e) => setVehicleType(e.target.value)}
-                    required
                   >
                     <option value="">Select vehicle type</option>
                     <option value="bus">Bus</option>
@@ -199,6 +216,7 @@ const RegisterPage = () => {
                   <label>Routes</label>
 
                   <div className="routes-row">
+
                     {/* FROM */}
                     <select
                       value={routeFrom}
@@ -206,7 +224,6 @@ const RegisterPage = () => {
                         setRouteFrom(e.target.value);
                         if (routeTo === e.target.value) setRouteTo("");
                       }}
-                      required
                     >
                       <option value="">From</option>
                       {locations
@@ -227,7 +244,6 @@ const RegisterPage = () => {
                         setRouteTo(e.target.value);
                         if (routeFrom === e.target.value) setRouteFrom("");
                       }}
-                      required
                     >
                       <option value="">To</option>
                       {locations
@@ -238,10 +254,11 @@ const RegisterPage = () => {
                           </option>
                         ))}
                     </select>
+
                   </div>
                 </div>
 
-                {/* LICENSE + OR/CR UPLOAD */}
+                {/* LICENSE & OR/CR UPLOAD */}
                 <div className="upload-row">
                   <div className="input-group upload-group">
                     <label>Driver’s License</label>
