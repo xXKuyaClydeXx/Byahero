@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Upload, ArrowLeft, ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
-import { validateDriverRegistration } from "../validation"; 
+import { validateDriverRegistration } from "../validation";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 const RegisterPage = () => {
@@ -25,11 +25,16 @@ const RegisterPage = () => {
   const [licenseImage, setLicenseImage] = useState(null);
   const [orcrImage, setOrcrImage] = useState(null);
 
+  // PREVIEW STATES
+  const [profilePreview, setProfilePreview] = useState(null);
+  const [licensePreview, setLicensePreview] = useState(null);
+  const [orcrPreview, setOrcrPreview] = useState(null);
+
   const locations = ["Ligao", "Oas", "Daraga", "Legazpi", "Pilar", "Camalig", "Polangui"];
 
-  // ======================================
-  // CLOUDINARY UPLOAD FUNCTION
-  // ======================================
+  // ==========================================
+  // CLOUDINARY UPLOAD
+  // ==========================================
   async function uploadToCloudinary(file) {
     const formData = new FormData();
     formData.append("file", file);
@@ -40,17 +45,17 @@ const RegisterPage = () => {
     });
 
     const data = await res.json();
-    return data.url; // Cloudinary URL returned by backend
+    return data.url;
   }
 
-  // ======================================
-  // REGISTER HANDLER
-  // ======================================
+  // ==========================================
+  // HANDLE REGISTER
+  // ==========================================
   async function handleRegister(e) {
     e.preventDefault();
     setLoading(true);
 
-    // 1️⃣ VALIDATION
+    // VALIDATION
     const errors = validateDriverRegistration({
       fullName,
       email,
@@ -70,12 +75,12 @@ const RegisterPage = () => {
     }
 
     try {
-      // 2️⃣ UPLOAD IMAGES TO CLOUDINARY
+      // UPLOAD FILES TO CLOUDINARY
       let profileImageUrl = profileImage ? await uploadToCloudinary(profileImage) : "";
       let licenseImageUrl = licenseImage ? await uploadToCloudinary(licenseImage) : "";
       let orcrImageUrl = orcrImage ? await uploadToCloudinary(orcrImage) : "";
 
-      // 3️⃣ FINAL PAYLOAD
+      // SEND FINAL PAYLOAD
       const payload = {
         role: "driver",
         fullName,
@@ -91,7 +96,6 @@ const RegisterPage = () => {
         orcrImageUrl,
       };
 
-      // 4️⃣ SEND REQUEST TO BACKEND
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -114,7 +118,7 @@ const RegisterPage = () => {
   return (
     <div className="register-page">
 
-      {/* NAVBAR */}
+      {/* NAVIGATION BAR */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
@@ -131,11 +135,11 @@ const RegisterPage = () => {
       <section className="register-section">
         <div className="register-card">
 
-          {/* HEADER */}
           <div className="register-header">
             <Link to="/login" className="back-btn">
               <ArrowLeft size={18} /> Back
             </Link>
+
             <h3 className="register-heading">REGISTER</h3>
           </div>
 
@@ -143,7 +147,13 @@ const RegisterPage = () => {
 
             {/* PROFILE UPLOAD */}
             <div className="profile-section">
-              <div className="profile-circle"></div>
+              <div className="profile-circle">
+                {profilePreview ? (
+                  <img src={profilePreview} alt="Profile Preview" className="preview-img" />
+                ) : (
+                  <span>No Image</span>
+                )}
+              </div>
 
               <label htmlFor="profileUpload" className="upload-picture-label">
                 Upload Picture
@@ -153,7 +163,12 @@ const RegisterPage = () => {
                 type="file"
                 id="profileUpload"
                 hidden
-                onChange={(e) => setProfileImage(e.target.files[0])}
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setProfileImage(file);
+                  setProfilePreview(URL.createObjectURL(file));
+                }}
               />
             </div>
 
@@ -161,73 +176,46 @@ const RegisterPage = () => {
             <form className="register-form" onSubmit={handleRegister}>
               <div className="form-grid">
 
-                {/* NAME */}
+                {/* Full Name */}
                 <div className="input-group">
                   <label>Full Name</label>
-                  <input
-                    type="text"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                  />
+                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                 </div>
 
-                {/* EMAIL */}
+                {/* Email */}
                 <div className="input-group">
                   <label>Email</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
-                {/* BIRTHDAY */}
+                {/* Birthday */}
                 <div className="input-group">
                   <label>Birthday</label>
-                  <input
-                    type="date"
-                    value={birthday}
-                    onChange={(e) => setBirthday(e.target.value)}
-                  />
+                  <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
                 </div>
 
-                {/* PASSWORD */}
+                {/* Password */}
                 <div className="input-group">
                   <label>Password</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
 
-                {/* ADDRESS */}
+                {/* Address */}
                 <div className="input-group">
                   <label>Address</label>
-                  <input
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
+                  <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
                 </div>
 
-                {/* CONTACT */}
+                {/* Contact Number */}
                 <div className="input-group">
                   <label>Contact Number</label>
-                  <input
-                    type="text"
-                    value={contactNumber}
-                    onChange={(e) => setContactNumber(e.target.value)}
-                  />
+                  <input type="text" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
                 </div>
 
                 {/* VEHICLE TYPE */}
                 <div className="input-group">
                   <label>Vehicle Type</label>
-                  <select
-                    value={vehicleType}
-                    onChange={(e) => setVehicleType(e.target.value)}
-                  >
+                  <select value={vehicleType} onChange={(e) => setVehicleType(e.target.value)}>
                     <option value="">Select vehicle type</option>
                     <option value="bus">Bus</option>
                     <option value="van">Van</option>
@@ -250,13 +238,9 @@ const RegisterPage = () => {
                       }}
                     >
                       <option value="">From</option>
-                      {locations
-                        .filter((loc) => loc !== routeTo)
-                        .map((loc) => (
-                          <option key={loc} value={loc}>
-                            {loc}
-                          </option>
-                        ))}
+                      {locations.filter((loc) => loc !== routeTo).map((loc) => (
+                        <option key={loc} value={loc}>{loc}</option>
+                      ))}
                     </select>
 
                     <ArrowRight className="route-arrow" size={20} />
@@ -270,27 +254,33 @@ const RegisterPage = () => {
                       }}
                     >
                       <option value="">To</option>
-                      {locations
-                        .filter((loc) => loc !== routeFrom)
-                        .map((loc) => (
-                          <option key={loc} value={loc}>
-                            {loc}
-                          </option>
-                        ))}
+                      {locations.filter((loc) => loc !== routeFrom).map((loc) => (
+                        <option key={loc} value={loc}>{loc}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
 
-                {/* DRIVER LICENSE + OR/CR */}
+                {/* LICENSE UPLOAD */}
                 <div className="upload-row">
                   <div className="input-group upload-group">
                     <label>Driver’s License</label>
+
+                    {licensePreview && (
+                      <img src={licensePreview} alt="License" className="preview-small" />
+                    )}
+
                     <div className="upload-box">
                       <input
                         type="file"
                         id="licenseUpload"
                         hidden
-                        onChange={(e) => setLicenseImage(e.target.files[0])}
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          setLicenseImage(file);
+                          setLicensePreview(URL.createObjectURL(file));
+                        }}
                       />
                       <label htmlFor="licenseUpload" className="upload-label">
                         UPLOAD IMAGE <Upload size={16} />
@@ -298,14 +288,25 @@ const RegisterPage = () => {
                     </div>
                   </div>
 
+                  {/* OR/CR Upload */}
                   <div className="input-group upload-group">
                     <label>OR/CR</label>
+
+                    {orcrPreview && (
+                      <img src={orcrPreview} alt="ORCR" className="preview-small" />
+                    )}
+
                     <div className="upload-box">
                       <input
                         type="file"
                         id="orcrUpload"
                         hidden
-                        onChange={(e) => setOrcrImage(e.target.files[0])}
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          setOrcrImage(file);
+                          setOrcrPreview(URL.createObjectURL(file));
+                        }}
                       />
                       <label htmlFor="orcrUpload" className="upload-label">
                         UPLOAD IMAGE <Upload size={16} />
@@ -313,19 +314,17 @@ const RegisterPage = () => {
                     </div>
                   </div>
                 </div>
-
               </div>
 
               {/* SUBMIT BUTTON */}
               <button className="register-btn" type="submit" disabled={loading}>
                 {loading ? "Registering..." : "Register"}
               </button>
-
             </form>
           </div>
-
         </div>
       </section>
+
     </div>
   );
 };
