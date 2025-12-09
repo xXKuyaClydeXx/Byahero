@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import {
-  Upload,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+import { Upload, ArrowLeft, ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
-import { validateDriverRegistration } from "../validation"; // ✅ IMPORT VALIDATION
+import { validateDriverRegistration } from "../validation"; 
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
 const RegisterPage = () => {
@@ -24,24 +20,37 @@ const RegisterPage = () => {
   const [routeTo, setRouteTo] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const locations = [
-    "Ligao",
-    "Oas",
-    "Daraga",
-    "Legazpi",
-    "Pilar",
-    "Camalig",
-    "Polangui",
-  ];
+  // IMAGE STATES
+  const [profileImage, setProfileImage] = useState(null);
+  const [licenseImage, setLicenseImage] = useState(null);
+  const [orcrImage, setOrcrImage] = useState(null);
 
-  // ============================
-  // HANDLE REGISTER
-  // ============================
+  const locations = ["Ligao", "Oas", "Daraga", "Legazpi", "Pilar", "Camalig", "Polangui"];
+
+  // ======================================
+  // CLOUDINARY UPLOAD FUNCTION
+  // ======================================
+  async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload/image", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    return data.url; // Cloudinary URL returned by backend
+  }
+
+  // ======================================
+  // REGISTER HANDLER
+  // ======================================
   async function handleRegister(e) {
     e.preventDefault();
     setLoading(true);
 
-    // 1️⃣ VALIDATION FIRST
+    // 1️⃣ VALIDATION
     const errors = validateDriverRegistration({
       fullName,
       email,
@@ -55,13 +64,18 @@ const RegisterPage = () => {
     });
 
     if (errors.length > 0) {
-      alert(errors[0]); // show first error only
+      alert(errors[0]);
       setLoading(false);
       return;
     }
 
-    // 2️⃣ IF VALID → SEND TO BACKEND
     try {
+      // 2️⃣ UPLOAD IMAGES TO CLOUDINARY
+      let profileImageUrl = profileImage ? await uploadToCloudinary(profileImage) : "";
+      let licenseImageUrl = licenseImage ? await uploadToCloudinary(licenseImage) : "";
+      let orcrImageUrl = orcrImage ? await uploadToCloudinary(orcrImage) : "";
+
+      // 3️⃣ FINAL PAYLOAD
       const payload = {
         role: "driver",
         fullName,
@@ -72,8 +86,12 @@ const RegisterPage = () => {
         contactNumber,
         vehicleType,
         routes: `${routeFrom} → ${routeTo}`,
+        profileImageUrl,
+        licenseImageUrl,
+        orcrImageUrl,
       };
 
+      // 4️⃣ SEND REQUEST TO BACKEND
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -110,7 +128,6 @@ const RegisterPage = () => {
         </div>
       </nav>
 
-      {/* MAIN CONTENT */}
       <section className="register-section">
         <div className="register-card">
 
@@ -124,20 +141,27 @@ const RegisterPage = () => {
 
           <div className="register-layout">
 
-            {/* PROFILE PLACEHOLDER */}
+            {/* PROFILE UPLOAD */}
             <div className="profile-section">
               <div className="profile-circle"></div>
+
               <label htmlFor="profileUpload" className="upload-picture-label">
                 Upload Picture
               </label>
-              <input type="file" id="profileUpload" hidden />
+
+              <input
+                type="file"
+                id="profileUpload"
+                hidden
+                onChange={(e) => setProfileImage(e.target.files[0])}
+              />
             </div>
 
             {/* FORM */}
             <form className="register-form" onSubmit={handleRegister}>
               <div className="form-grid">
 
-                {/* FULL NAME */}
+                {/* NAME */}
                 <div className="input-group">
                   <label>Full Name</label>
                   <input
@@ -187,7 +211,7 @@ const RegisterPage = () => {
                   />
                 </div>
 
-                {/* CONTACT NUMBER */}
+                {/* CONTACT */}
                 <div className="input-group">
                   <label>Contact Number</label>
                   <input
@@ -254,16 +278,20 @@ const RegisterPage = () => {
                           </option>
                         ))}
                     </select>
-
                   </div>
                 </div>
 
-                {/* LICENSE & OR/CR UPLOAD */}
+                {/* DRIVER LICENSE + OR/CR */}
                 <div className="upload-row">
                   <div className="input-group upload-group">
                     <label>Driver’s License</label>
                     <div className="upload-box">
-                      <input type="file" id="licenseUpload" hidden />
+                      <input
+                        type="file"
+                        id="licenseUpload"
+                        hidden
+                        onChange={(e) => setLicenseImage(e.target.files[0])}
+                      />
                       <label htmlFor="licenseUpload" className="upload-label">
                         UPLOAD IMAGE <Upload size={16} />
                       </label>
@@ -273,7 +301,12 @@ const RegisterPage = () => {
                   <div className="input-group upload-group">
                     <label>OR/CR</label>
                     <div className="upload-box">
-                      <input type="file" id="orcrUpload" hidden />
+                      <input
+                        type="file"
+                        id="orcrUpload"
+                        hidden
+                        onChange={(e) => setOrcrImage(e.target.files[0])}
+                      />
                       <label htmlFor="orcrUpload" className="upload-label">
                         UPLOAD IMAGE <Upload size={16} />
                       </label>
