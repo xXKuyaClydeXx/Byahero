@@ -23,7 +23,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://byahero.vercel.app",
-      "https://byahero-qfs9w85of-clyde-arizalas-projects.vercel.app" // ← your real deploy URL
+      "byahero-4aj3ty6tk-clyde-arizalas-projects.vercel.app" // ← your real deploy URL
     ],
     credentials: true,
   })
