@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import API from "../api"; // ✅ USE CENTRALIZED API
 import "./../css/DriverDashboard.css";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import { LogOut } from "lucide-react";
@@ -21,10 +21,9 @@ const Dashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    axios
-      .get("http://localhost:5000/api/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    API.get("/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => {
         setDriver(res.data);
         setLoading(false);
@@ -42,14 +41,21 @@ const Dashboard = () => {
   };
 
   if (loading)
-    return <p style={{ marginTop: "40px", textAlign: "center" }}>Loading dashboard...</p>;
+    return (
+      <p style={{ marginTop: "40px", textAlign: "center" }}>
+        Loading dashboard...
+      </p>
+    );
 
   if (!driver)
-    return <p style={{ marginTop: "40px", textAlign: "center" }}>Driver not found.</p>;
+    return (
+      <p style={{ marginTop: "40px", textAlign: "center" }}>
+        Driver not found.
+      </p>
+    );
 
   return (
     <div className="dashboard-container">
-
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
@@ -57,8 +63,12 @@ const Dashboard = () => {
         </div>
         <div className="nav-links">
           <span className="nav-link active">Home</span>
-          <Link to="/driverschedule" className="nav-link">Schedule</Link>
-          <Link to="/driverprofile" className="nav-link">Profile</Link>
+          <Link to="/driverschedule" className="nav-link">
+            Schedule
+          </Link>
+          <Link to="/driverprofile" className="nav-link">
+            Profile
+          </Link>
 
           <button className="logout-btn" onClick={handleLogout}>
             <LogOut size={16} /> Logout
@@ -101,7 +111,9 @@ const Dashboard = () => {
           <table>
             <tbody>
               <tr>
-                <td><strong>Profile Image</strong></td>
+                <td>
+                  <strong>Profile Image</strong>
+                </td>
                 <td>
                   {driver.profileImageUrl ? (
                     <img
@@ -109,12 +121,16 @@ const Dashboard = () => {
                       alt="Profile"
                       style={{ width: "120px", borderRadius: "10px" }}
                     />
-                  ) : "—"}
+                  ) : (
+                    "—"
+                  )}
                 </td>
               </tr>
 
               <tr>
-                <td><strong>License Image</strong></td>
+                <td>
+                  <strong>License Image</strong>
+                </td>
                 <td>
                   {driver.licenseImageUrl ? (
                     <img
@@ -122,12 +138,16 @@ const Dashboard = () => {
                       alt="License"
                       style={{ width: "120px", borderRadius: "10px" }}
                     />
-                  ) : "—"}
+                  ) : (
+                    "—"
+                  )}
                 </td>
               </tr>
 
               <tr>
-                <td><strong>OR/CR Image</strong></td>
+                <td>
+                  <strong>OR/CR Image</strong>
+                </td>
                 <td>
                   {driver.orcrImageUrl ? (
                     <img
@@ -135,7 +155,9 @@ const Dashboard = () => {
                       alt="ORCR"
                       style={{ width: "120px", borderRadius: "10px" }}
                     />
-                  ) : "—"}
+                  ) : (
+                    "—"
+                  )}
                 </td>
               </tr>
             </tbody>
@@ -146,7 +168,8 @@ const Dashboard = () => {
         <div className="recent-report">
           <h3>Reports</h3>
           <p style={{ marginTop: "10px", opacity: 0.6 }}>
-            No data available yet. Reports will appear here once trip logs are recorded.
+            No data available yet. Reports will appear here once trip logs are
+            recorded.
           </p>
         </div>
       </section>

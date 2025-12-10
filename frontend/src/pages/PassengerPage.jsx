@@ -14,15 +14,18 @@ import PrivacyPolicy from "./Policy";
 
 const PassengerPage = () => {
   const navigate = useNavigate();
+
   const [showTerms, setShowTerms] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
+  // Controlled form values (React-friendly)
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [vehicle, setVehicle] = useState("");
+
   const handleSearch = (e) => {
     e.preventDefault();
-    const from = document.getElementById("from").value.trim();
-    const to = document.getElementById("to").value.trim();
-    const vehicle = document.getElementById("vehicle").value;
 
     // Redirect WITH search params
     navigate(`/schedule?from=${from}&to=${to}&vehicle=${vehicle}`);
@@ -62,23 +65,47 @@ const PassengerPage = () => {
           <div className="search-grid">
             <div className="input-group">
               <label htmlFor="from">From</label>
-              <input type="text" id="from" placeholder="Current Location" />
+              <input
+                type="text"
+                id="from"
+                placeholder="Current Location"
+                value={from}
+                onChange={(e) => setFrom(e.target.value)}
+              />
             </div>
+
             <div className="input-group">
               <label htmlFor="to">To</label>
-              <input type="text" id="to" placeholder="Destination" />
+              <input
+                type="text"
+                id="to"
+                placeholder="Destination"
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+              />
             </div>
+
             <div className="input-group">
               <label htmlFor="vehicle">Vehicle</label>
-              <select id="vehicle" className="vehicle-select" defaultValue="">
-                <option value="" disabled>Select Vehicle Type</option>
+              <select
+                id="vehicle"
+                className="vehicle-select"
+                value={vehicle}
+                onChange={(e) => setVehicle(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select Vehicle Type
+                </option>
                 <option value="bus">Bus</option>
                 <option value="jeepney">Jeepney</option>
                 <option value="van">Van</option>
               </select>
             </div>
+
             <div className="action-cell">
-              <button type="submit" className="search-btn">SEARCH</button>
+              <button type="submit" className="search-btn">
+                SEARCH
+              </button>
             </div>
           </div>
         </form>
@@ -99,10 +126,16 @@ const PassengerPage = () => {
         <div className="footer-links">
           <div>
             <p>About us</p>
-            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>
+            <p
+              onClick={() => setShowSupport(true)}
+              style={{ cursor: "pointer" }}
+            >
               Customer Support
             </p>
-            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>
+            <p
+              onClick={() => setShowTerms(true)}
+              style={{ cursor: "pointer" }}
+            >
               Terms & Condition
             </p>
           </div>
@@ -111,13 +144,18 @@ const PassengerPage = () => {
             <p>Trip Schedule</p>
           </div>
         </div>
+
         <div className="footer-social">
           <div className="icons">
             <a href="#"><FaFacebook /></a>
             <a href="#"><FaTwitter /></a>
             <a href="#"><FaInstagram /></a>
           </div>
-          <p onClick={() => setShowPrivacy(true)} className="privacy-link" style={{ cursor: "pointer" }}>
+          <p
+            onClick={() => setShowPrivacy(true)}
+            className="privacy-link"
+            style={{ cursor: "pointer" }}
+          >
             Privacy Policy
           </p>
         </div>
@@ -125,19 +163,31 @@ const PassengerPage = () => {
 
       {/* MODALS */}
       {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
+
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">
             <CustomerSupport />
-            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+            <button
+              onClick={() => setShowSupport(false)}
+              className="close-btn"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
+
       {showPrivacy && (
         <div className="modal-overlay">
           <div className="modal-content">
             <PrivacyPolicy />
-            <button onClick={() => setShowPrivacy(false)} className="close-btn">Close</button>
+            <button
+              onClick={() => setShowPrivacy(false)}
+              className="close-btn"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

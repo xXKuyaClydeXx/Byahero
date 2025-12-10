@@ -4,7 +4,7 @@ import { LogOut } from "lucide-react";
 import "../css/DriverSchedulePage.css";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import { SchedulesContext } from "../context/SchedulesContext";
-import axios from "axios";
+import API from "../api"; // ✅ Use centralized API
 
 const DriverSchedulePage = () => {
   const [driver, setDriver] = useState(null);
@@ -25,11 +25,15 @@ const DriverSchedulePage = () => {
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   };
 
+  // =========================
+  // FETCH DRIVER DATA
+  // =========================
   useEffect(() => {
     const fetchDriver = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/auth/me", {
+
+        const res = await API.get("/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -52,6 +56,9 @@ const DriverSchedulePage = () => {
     fetchSchedules();
   }, []);
 
+  // =========================
+  // SUBMIT NEW SCHEDULE
+  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -72,19 +79,13 @@ const DriverSchedulePage = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/schedules", {
-        method: "POST",
+      await API.post("/api/schedules", newSchedule, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newSchedule),
       });
 
-      if (!res.ok) throw new Error(await res.text());
-
       fetchSchedules();
-
       setDepartureTime("");
       setSeats("");
     } catch (err) {
@@ -92,6 +93,9 @@ const DriverSchedulePage = () => {
     }
   };
 
+  // =========================
+  // TIME FORMAT
+  // =========================
   const formatTime12 = (time24) => {
     if (!time24) return "";
     const [hourStr, minute] = time24.split(":");
@@ -101,6 +105,9 @@ const DriverSchedulePage = () => {
     return `${hour}:${minute} ${ampm}`;
   };
 
+  // =========================
+  // LOGOUT
+  // =========================
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
       localStorage.removeItem("token");
@@ -108,13 +115,11 @@ const DriverSchedulePage = () => {
     }
   };
 
-  const filteredSchedules =
-    [...schedules].reverse().filter((s) => {
-      const v = s.vehicle.toLowerCase();
-      const f = filterType.toLowerCase();
-
-      return f === "all" ? true : v === f;
-    });
+  const filteredSchedules = [...schedules].reverse().filter((s) => {
+    const v = s.vehicle.toLowerCase();
+    const f = filterType.toLowerCase();
+    return f === "all" ? true : v === f;
+  });
 
   return (
     <div className="driver-schedule-page">

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Edit3, Save, X, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import API from "../api"; // ✅ USE CENTRALIZED API
 import "../css/DriverProfilePage.css";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 
@@ -29,7 +29,7 @@ const formatVehicle = (text) => {
 };
 
 // =========================
-// CAPITALIZE ROUTES → "ligao → oas" becomes "Ligao → Oas"
+// CAPITALIZE ROUTES
 // =========================
 const formatRoute = (routeString) => {
   if (!routeString) return "";
@@ -56,10 +56,9 @@ const DriverProfilePage = () => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    axios
-      .get("http://localhost:5000/api/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    API.get("/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => {
         setDriver(res.data);
         setTemp(res.data);
@@ -111,7 +110,6 @@ const DriverProfilePage = () => {
 
   return (
     <div className="driver-profile-page">
-
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
@@ -119,8 +117,12 @@ const DriverProfilePage = () => {
         </div>
 
         <div className="nav-links">
-          <Link to="/driverdashboard" className="nav-link">Home</Link>
-          <Link to="/driverschedule" className="nav-link">Schedule</Link>
+          <Link to="/driverdashboard" className="nav-link">
+            Home
+          </Link>
+          <Link to="/driverschedule" className="nav-link">
+            Schedule
+          </Link>
           <span className="nav-link active">Profile</span>
 
           <button className="logout-btn" onClick={handleLogout}>
@@ -129,7 +131,7 @@ const DriverProfilePage = () => {
         </div>
       </nav>
 
-      {/* EDIT BUTTON */}
+      {/* EDIT BUTTONS */}
       <div className="edit-buttons-container">
         {!editing ? (
           <button className="edit-btn" onClick={() => setEditing(true)}>
@@ -150,7 +152,6 @@ const DriverProfilePage = () => {
       {/* MAIN PROFILE CARD */}
       <div className="profile-container">
         <div className="profile-card">
-
           {/* PROFILE HEADER */}
           <div className="profile-header-modern">
             <img
@@ -160,7 +161,6 @@ const DriverProfilePage = () => {
             />
 
             <div className="profile-info-modern">
-
               {/* NAME */}
               {!editing ? (
                 <h2 className="profile-name">{driver.fullName}</h2>
@@ -195,7 +195,6 @@ const DriverProfilePage = () => {
 
           {/* GRID OF CARDS */}
           <div className="card-grid">
-
             {/* Vehicle Type */}
             <div className="info-card">
               <p>Vehicle Type</p>
@@ -243,9 +242,7 @@ const DriverProfilePage = () => {
                 className="doc-image"
               />
             </div>
-
           </div>
-
         </div>
       </div>
     </div>

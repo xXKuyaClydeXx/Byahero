@@ -7,6 +7,8 @@ import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
 
+import API from "../api"; // ✅ Use centralized axios instance
+
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -15,28 +17,22 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // ⭐ FIXED LOGIN FUNCTION
+  // ⭐ PRODUCTION LOGIN FUNCTION
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
+      const res = await API.post("/api/auth/login", {
+        email,
+        password,
       });
 
-      const data = await res.json();
+      const data = res.data;
 
-      if (!res.ok) {
-        alert(data.message || "Invalid email or password");
-        return;
-      }
-
-      // ⭐ FIXED: Save the REAL token
+      // Save token
       localStorage.setItem("token", data.token);
 
-      // ⭐ Navigate by role
+      // Navigate based on role
       if (data.user.role === "driver") {
         navigate("/driverdashboard");
       } else if (data.user.role === "operator") {
@@ -44,15 +40,16 @@ const LoginPage = () => {
       } else {
         navigate("/");
       }
-
     } catch (error) {
-      alert("Server error. Please try again.");
+      alert(
+        error.response?.data?.message ||
+          "Invalid email or password. Please try again."
+      );
     }
   };
 
   return (
     <div className="login-page">
-
       {/* ===== NAVBAR ===== */}
       <nav className="navbar">
         <div className="nav-header">
@@ -60,10 +57,16 @@ const LoginPage = () => {
         </div>
 
         <div className="nav-links">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/schedule" className="nav-link">Schedule</Link>
+          <Link to="/" className="nav-link">
+            Home
+          </Link>
+          <Link to="/schedule" className="nav-link">
+            Schedule
+          </Link>
           <span className="nav-link active">Login</span>
-          <Link to="/about" className="nav-link">About Us</Link>
+          <Link to="/about" className="nav-link">
+            About Us
+          </Link>
         </div>
       </nav>
 
@@ -89,13 +92,19 @@ const LoginPage = () => {
               required
             />
 
-            <a href="#" className="forgot">Forgot password?</a>
+            <a href="#" className="forgot">
+              Forgot password?
+            </a>
 
-            <button type="submit" className="signin-btn">Sign in</button>
+            <button type="submit" className="signin-btn">
+              Sign in
+            </button>
 
             <p className="create-account">
               Don’t have an account?{" "}
-              <Link to="/register" className="create-link">Create Account</Link>
+              <Link to="/register" className="create-link">
+                Create Account
+              </Link>
             </p>
           </form>
         </div>
@@ -108,10 +117,16 @@ const LoginPage = () => {
             <p onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>
               About Us
             </p>
-            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>
+            <p
+              onClick={() => setShowSupport(true)}
+              style={{ cursor: "pointer" }}
+            >
               Customer Support
             </p>
-            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>
+            <p
+              onClick={() => setShowTerms(true)}
+              style={{ cursor: "pointer" }}
+            >
               Terms & Condition
             </p>
           </div>
@@ -124,11 +139,19 @@ const LoginPage = () => {
 
         <div className="footer-social">
           <div className="icons">
-            <a href="#" aria-label="Facebook" className="social-link"><FaFacebook /></a>
-            <a href="#" aria-label="Twitter" className="social-link"><FaTwitter /></a>
-            <a href="#" aria-label="Instagram" className="social-link"><FaInstagram /></a>
+            <a href="#" aria-label="Facebook" className="social-link">
+              <FaFacebook />
+            </a>
+            <a href="#" aria-label="Twitter" className="social-link">
+              <FaTwitter />
+            </a>
+            <a href="#" aria-label="Instagram" className="social-link">
+              <FaInstagram />
+            </a>
           </div>
-          <a href="#" className="privacy-link">Privacy Policy</a>
+          <a href="#" className="privacy-link">
+            Privacy Policy
+          </a>
         </div>
       </footer>
 
