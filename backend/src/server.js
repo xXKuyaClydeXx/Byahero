@@ -1,15 +1,17 @@
+// src/server.js
 import "dotenv/config.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 
-import authRoutes from "../routes/authRoutes.js";
-import scheduleRoutes from "../routes/scheduleRoutes.js";
-import uploadRoutes from "../routes/uploadRoutes.js";  // ⭐ CORRECT PATH
+// ✅ FIXED PATHS – must use ./ because server.js is inside /src
+import authRoutes from "./routes/authRoutes.js";
+import scheduleRoutes from "./routes/scheduleRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
-import { requireAuth } from "../middleware/auth.js";
-import User from "../models/User.js";
+import { requireAuth } from "./middleware/auth.js";
+import User from "./models/User.js";
 
 const app = express();
 
@@ -30,7 +32,7 @@ app.use(
 // ======================
 app.use("/api/auth", authRoutes);
 app.use("/api/schedules", scheduleRoutes);
-app.use("/api/upload", uploadRoutes);  // ⭐ ENABLE CLOUDINARY ROUTE
+app.use("/api/upload", uploadRoutes);
 
 // ======================
 // AUTHENTICATED USER CHECK
@@ -55,6 +57,5 @@ const PORT = process.env.PORT || 5000;
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`🌐 http://localhost:${PORT}`);
   });
 });
