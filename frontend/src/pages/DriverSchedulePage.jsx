@@ -25,16 +25,9 @@ const DriverSchedulePage = () => {
 
   const { schedules, fetchSchedules } = useContext(SchedulesContext);
 
-  // Fetch schedules on mount
   useEffect(() => {
     fetchSchedules();
   }, []);
-
-  const handleFromChange = (e) => {
-    const selected = e.target.value;
-    setFrom(selected);
-    if (selected === to) setTo("");
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,26 +58,22 @@ const DriverSchedulePage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ FIXED: send token
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newSchedule),
       });
 
-      if (!res.ok) {
-        const msg = await res.text();
-        throw new Error(msg);
-      }
+      if (!res.ok) throw new Error(await res.text());
 
-      fetchSchedules(); // refresh frontend list
+      fetchSchedules();
 
-      // Reset form
       setFrom("");
       setTo("");
       setDepartureTime("");
       setSeats("");
       setVehicle(vehicleTypes[0]);
+
     } catch (err) {
-      console.error("Error submitting schedule:", err);
       alert("Error saving schedule: " + err.message);
     }
   };
@@ -106,19 +95,16 @@ const DriverSchedulePage = () => {
 
   return (
     <div className="driver-schedule-page">
+
       {/* Navbar */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} className="nav-logo" alt="Byahero Logo" />
         </div>
         <div className="nav-links">
-          <Link to="/driverdashboard" className="nav-link">
-            Home
-          </Link>
+          <Link to="/driverdashboard" className="nav-link">Home</Link>
           <span className="nav-link active">Schedule</span>
-          <Link to="/driverprofile" className="nav-link">
-            Profile
-          </Link>
+          <Link to="/driverprofile" className="nav-link">Profile</Link>
           <button className="logout-btn" onClick={handleLogout}>
             <LogOut size={16} /> Logout
           </button>
@@ -131,19 +117,16 @@ const DriverSchedulePage = () => {
           <h2 className="schedule-title">Driver Trip Schedule</h2>
 
           <form className="schedule-form" onSubmit={handleSubmit}>
+            
             <div className="input-group">
               <label>From</label>
               <select
                 className="schedule-input"
                 value={from}
-                onChange={handleFromChange}
+                onChange={(e) => setFrom(e.target.value)}
               >
                 <option value="">Select location</option>
-                {locations.map((loc) => (
-                  <option key={loc} value={loc}>
-                    {loc}
-                  </option>
-                ))}
+                {locations.map((loc) => <option key={loc}>{loc}</option>)}
               </select>
             </div>
 
@@ -157,11 +140,8 @@ const DriverSchedulePage = () => {
                 <option value="">Select destination</option>
                 {locations
                   .filter((loc) => loc !== from)
-                  .map((loc) => (
-                    <option key={loc} value={loc}>
-                      {loc}
-                    </option>
-                  ))}
+                  .map((loc) => <option key={loc}>{loc}</option>)
+                }
               </select>
             </div>
 
@@ -172,11 +152,7 @@ const DriverSchedulePage = () => {
                 value={vehicle}
                 onChange={(e) => setVehicle(e.target.value)}
               >
-                {vehicleTypes.map((v) => (
-                  <option key={v} value={v}>
-                    {v}
-                  </option>
-                ))}
+                {vehicleTypes.map((v) => <option key={v}>{v}</option>)}
               </select>
             </div>
 
@@ -194,8 +170,8 @@ const DriverSchedulePage = () => {
               <label>Available Seats</label>
               <input
                 type="number"
-                min="1"
                 className="schedule-input"
+                min="1"
                 value={seats}
                 onChange={(e) => setSeats(e.target.value)}
               />
@@ -208,39 +184,40 @@ const DriverSchedulePage = () => {
         </div>
       </div>
 
-      {/* Display submitted schedules */}
-      {/* Display submitted schedules */}
-<div className="submitted-schedules">
-  <h3>Submitted Schedules</h3>
+      {/* Submitted Schedules */}
+      <div className="submitted-schedules">
+        <h3>Submitted Schedules</h3>
 
-  {schedules.length === 0 ? (
-    <p className="no-schedule-text">No schedules submitted yet.</p>
-  ) : (
-    <table className="schedule-table">
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>To</th>
-          <th>Vehicle</th>
-          <th>Departure</th>
-          <th>Seats</th>
-        </tr>
-      </thead>
-      <tbody>
-        {schedules.map((sched, idx) => (
-          <tr key={idx}>
-            <td>{sched.from}</td>
-            <td>{sched.to}</td>
-            <td>{sched.vehicle}</td>
-            <td>{formatTime12(sched.departureTime)}</td>
-            <td>{sched.seats}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )}
-</div>
+        {schedules.length === 0 ? (
+          <p className="no-schedule-text">No schedules submitted yet.</p>
+        ) : (
+          <table className="schedule-table">
+            <thead>
+              <tr>
+                <th>Driver</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Vehicle</th>
+                <th>Departure</th>
+                <th>Seats</th>
+              </tr>
+            </thead>
 
+            <tbody>
+              {schedules.map((sched, idx) => (
+                <tr key={idx}>
+                  <td>{sched.driver?.fullName || "Unknown"}</td>
+                  <td>{sched.from}</td>
+                  <td>{sched.to}</td>
+                  <td>{sched.vehicle}</td>
+                  <td>{formatTime12(sched.departureTime)}</td>
+                  <td>{sched.seats}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
 
       <footer className="footer">
         <p>© 2025 Byahero. All rights reserved.</p>

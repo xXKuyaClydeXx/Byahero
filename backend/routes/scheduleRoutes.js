@@ -12,7 +12,8 @@ router.post("/", requireAuth, async (req, res) => {
       driver: req.user.id,  // Attach schedule to current driver
     });
 
-    await schedule.populate("driver", "name");
+    // Populate fullName instead of name
+    await schedule.populate("driver", "fullName");
 
     res.json(schedule);
   } catch (err) {
@@ -20,11 +21,10 @@ router.post("/", requireAuth, async (req, res) => {
   }
 });
 
-// GET ALL SCHEDULES or FILTERED SCHEDULES (public)
+// GET ALL SCHEDULES (public or filtered)
 router.get("/", async (req, res) => {
   try {
-    const { from, to, vehicle } = req.query; // search parameters
-
+    const { from, to, vehicle } = req.query;
     const filters = {};
 
     if (from) filters.from = { $regex: new RegExp(from, "i") };
@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
     if (vehicle) filters.vehicle = { $regex: new RegExp(vehicle, "i") };
 
     const schedules = await Schedule.find(filters)
-      .populate("driver", "name");
+      .populate("driver", "fullName");
 
     res.json(schedules);
   } catch (err) {
@@ -40,10 +40,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET DRIVER'S OWN SCHEDULES (private)
+// GET DRIVER'S OWN SCHEDULES
 router.get("/my", requireAuth, async (req, res) => {
   try {
-    const schedules = await Schedule.find({ driver: req.user.id });
+    const schedules = await Schedule.find({ driver: req.user.id })
+      .populate("driver", "fullName"); // FIXED: populate fullName
+
     res.json(schedules);
   } catch (err) {
     res.status(500).json({ error: err.message });
