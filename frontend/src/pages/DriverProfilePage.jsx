@@ -20,6 +20,30 @@ const formatJoined = (dateString) => {
   });
 };
 
+// =========================
+// CAPITALIZE VEHICLE TYPE
+// =========================
+const formatVehicle = (text) => {
+  if (!text) return "";
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
+// =========================
+// CAPITALIZE ROUTES → "ligao → oas" becomes "Ligao → Oas"
+// =========================
+const formatRoute = (routeString) => {
+  if (!routeString) return "";
+
+  return routeString
+    .split("→")
+    .map((side) =>
+      side
+        .trim()
+        .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize each word
+    )
+    .join(" → ");
+};
+
 const DriverProfilePage = () => {
   const [driver, setDriver] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -87,6 +111,7 @@ const DriverProfilePage = () => {
 
   return (
     <div className="driver-profile-page">
+
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
@@ -161,7 +186,7 @@ const DriverProfilePage = () => {
                 />
               )}
 
-              {/* REPLACED BIRTHDAY → JOINED DATE */}
+              {/* JOINED DATE */}
               <p className="profile-sub">
                 Joined: {formatJoined(driver.createdAt)}
               </p>
@@ -170,11 +195,12 @@ const DriverProfilePage = () => {
 
           {/* GRID OF CARDS */}
           <div className="card-grid">
+
             {/* Vehicle Type */}
             <div className="info-card">
               <p>Vehicle Type</p>
               {!editing ? (
-                <h3>{driver.vehicleType}</h3>
+                <h3>{formatVehicle(driver.vehicleType)}</h3>
               ) : (
                 <input
                   className="input-edit"
@@ -188,7 +214,7 @@ const DriverProfilePage = () => {
             <div className="info-card">
               <p>Route</p>
               {!editing ? (
-                <h3>{driver.routes}</h3>
+                <h3>{formatRoute(driver.routes)}</h3>
               ) : (
                 <input
                   className="input-edit"
@@ -219,6 +245,7 @@ const DriverProfilePage = () => {
             </div>
 
           </div>
+
         </div>
       </div>
     </div>
