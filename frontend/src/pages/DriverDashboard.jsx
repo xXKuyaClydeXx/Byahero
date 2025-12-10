@@ -3,10 +3,13 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./../css/DriverDashboard.css";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
-import TermsAndConditions from "./TermsAndConditions";
-import CustomerSupport from "./CustomerSupport";
 import { LogOut } from "lucide-react";
+
+// Capitalize vehicle type
+const formatVehicle = (text) => {
+  if (!text) return "";
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -14,12 +17,7 @@ const Dashboard = () => {
   const [driver, setDriver] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [showTerms, setShowTerms] = useState(false);
-  const [showSupport, setShowSupport] = useState(false);
-
-  // ======================
   // FETCH DRIVER DATA
-  // ======================
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -34,9 +32,7 @@ const Dashboard = () => {
       .catch(() => setLoading(false));
   }, []);
 
-  // ======================
   // LOGOUT
-  // ======================
   const handleLogout = () => {
     const confirmed = window.confirm("Are you sure you want to logout?");
     if (confirmed) {
@@ -53,7 +49,8 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* ================= NAVBAR ================= */}
+
+      {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
@@ -69,14 +66,14 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* ================= OVERVIEW ================= */}
+      {/* OVERVIEW */}
       <section className="dashboard-overview">
         <h2>Welcome, {driver.fullName}</h2>
 
         <div className="stats-grid" style={{ marginTop: "1rem" }}>
           <div className="card">
             <p>Vehicle Type</p>
-            <h3>{driver.vehicleType || "—"}</h3>
+            <h3>{formatVehicle(driver.vehicleType) || "—"}</h3>
           </div>
 
           <div className="card">
@@ -96,7 +93,7 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* ================= PROFILE DOCUMENTS ================= */}
+      {/* DOCUMENTS SECTION */}
       <section className="trip-section">
         <div className="trip-status">
           <h3>Driver Images</h3>
@@ -145,7 +142,7 @@ const Dashboard = () => {
           </table>
         </div>
 
-        {/* RIGHT SIDE: Reports Placeholder */}
+        {/* Reports Placeholder */}
         <div className="recent-report">
           <h3>Reports</h3>
           <p style={{ marginTop: "10px", opacity: 0.6 }}>
@@ -153,41 +150,6 @@ const Dashboard = () => {
           </p>
         </div>
       </section>
-
-      {/* ================= FOOTER ================= */}
-      <footer className="footer">
-        <div className="footer-links">
-          <div className="footer-column">
-            <p onClick={() => navigate("/about")}>About Us</p>
-            <p onClick={() => setShowSupport(true)}>Customer Support</p>
-            <p onClick={() => setShowTerms(true)}>Terms & Condition</p>
-          </div>
-          <div className="footer-column">
-            <p>Vehicle Available</p>
-            <p>Trip Schedule</p>
-          </div>
-        </div>
-
-        <div className="footer-column footer-social">
-          <div className="icons">
-            <a href="#"><FaFacebook /></a>
-            <a href="#"><FaTwitter /></a>
-            <a href="#"><FaInstagram /></a>
-          </div>
-          <a href="#" className="privacy-link">Privacy Policy</a>
-        </div>
-      </footer>
-
-      {/* MODALS */}
-      {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
-      {showSupport && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <CustomerSupport />
-            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

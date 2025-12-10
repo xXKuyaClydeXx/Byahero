@@ -21,33 +21,36 @@ const SchedulePage = () => {
   const searchTo = query.get("to") || "";
   const searchVehicle = query.get("vehicle") || "";
 
-  // Fetch schedules on mount
   useEffect(() => {
     fetchSchedules();
 
     if (searchVehicle) {
-      setActiveTab(searchVehicle.charAt(0).toUpperCase() + searchVehicle.slice(1));
+      const formatted = searchVehicle.charAt(0).toUpperCase() + searchVehicle.slice(1);
+      setActiveTab(formatted);
     }
   }, [searchVehicle]);
 
+  // FINAL WORKING FILTER LOGIC
+  const filteredData = schedules.filter((row) => {
+    const rowVehicle = row.vehicle.toLowerCase(); // stored vehicle
+    const tabVehicle = activeTab.toLowerCase();   // tab filter: van, bus, jeep
 
-  // Filter logic
-  const filteredData = schedules.filter(row => {
-    const matchVehicle = searchVehicle
-      ? row.vehicle.toLowerCase() === searchVehicle.toLowerCase()
-      : row.vehicle === activeTab;
+    const matchesTab = rowVehicle === tabVehicle;
 
-    const matchFrom = searchFrom
+    const matchesSearchVehicle = searchVehicle
+      ? rowVehicle === searchVehicle.toLowerCase()
+      : true;
+
+    const matchesFrom = searchFrom
       ? row.from.toLowerCase().includes(searchFrom.toLowerCase())
       : true;
 
-    const matchTo = searchTo
+    const matchesTo = searchTo
       ? row.to.toLowerCase().includes(searchTo.toLowerCase())
       : true;
 
-    return matchVehicle && matchFrom && matchTo;
+    return matchesTab && matchesSearchVehicle && matchesFrom && matchesTo;
   });
-
 
   const formatTime12 = (time24) => {
     if (!time24) return "";
@@ -57,7 +60,6 @@ const SchedulePage = () => {
     hour = hour % 12 || 12;
     return `${hour}:${minute} ${ampm}`;
   };
-
 
   return (
     <div className="schedule-page">
@@ -81,7 +83,7 @@ const SchedulePage = () => {
 
           {/* VEHICLE TABS */}
           <div className="vehicle-tabs inside">
-            {["Van", "Bus", "Jeepney"].map(type => (
+            {["Van", "Bus", "Jeep"].map((type) => (
               <button
                 key={type}
                 className={`tab-btn ${activeTab === type ? "active" : ""}`}
@@ -94,7 +96,7 @@ const SchedulePage = () => {
 
           <h2 className="schedule-heading">{activeTab}</h2>
 
-          {/* TABLE */}
+          {/* SCHEDULE TABLE */}
           <div className="table-wrap">
             <table className="schedule-table">
               <thead>
@@ -121,7 +123,7 @@ const SchedulePage = () => {
                       <td>{row.driver?.fullName || "Unknown"}</td>
                       <td>{row.from}</td>
                       <td>{row.to}</td>
-                      <td>{row.vehicle}</td>
+                      <td>{row.vehicle.charAt(0).toUpperCase() + row.vehicle.slice(1)}</td>
                       <td>{formatTime12(row.departureTime)}</td>
                       <td>{row.seats}</td>
                     </tr>
@@ -162,7 +164,9 @@ const SchedulePage = () => {
         <div className="modal-overlay">
           <div className="modal-content">
             <CustomerSupport />
-            <button onClick={() => setShowSupport(false)} className="close-btn">Close</button>
+            <button onClick={() => setShowSupport(false)} className="close-btn">
+              Close
+            </button>
           </div>
         </div>
       )}
