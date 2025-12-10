@@ -22,7 +22,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://byahero.vercel.app",   // YOUR FRONTEND DOMAIN
+      "https://byahero.vercel.app",
+      "byahero-4aj3ty6tk-clyde-arizalas-projects.vercel.app" // ← your real deploy URL
     ],
     credentials: true,
   })
