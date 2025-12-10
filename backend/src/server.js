@@ -1,17 +1,18 @@
-// src/server.js
+// backend/src/server.js
 import "dotenv/config.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 
-// ✅ FIXED PATHS – must use ./ because server.js is inside /src
-import authRoutes from "./routes/authRoutes.js";
-import scheduleRoutes from "./routes/scheduleRoutes.js";
-import uploadRoutes from "./routes/uploadRoutes.js";
+// Correct paths (go OUT of /src, then INTO routes/)
+import authRoutes from "../routes/authRoutes.js";
+import scheduleRoutes from "../routes/scheduleRoutes.js";
+import uploadRoutes from "../routes/uploadRoutes.js";
 
-import { requireAuth } from "./middleware/auth.js";
-import User from "./models/User.js";
+// Correct paths for middleware + models
+import { requireAuth } from "../middleware/auth.js";
+import User from "../models/User.js";
 
 const app = express();
 
