@@ -2,15 +2,19 @@ import React, { useState, useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../css/SchedulePage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
+import PrivacyPolicy from "./Policy"; // ⭐ Added missing component
+
 import { SchedulesContext } from "../context/SchedulesContext";
 
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
   const [showTerms, setShowTerms] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const { schedules, fetchSchedules } = useContext(SchedulesContext);
 
@@ -25,15 +29,16 @@ const SchedulePage = () => {
     fetchSchedules();
 
     if (searchVehicle) {
-      const formatted = searchVehicle.charAt(0).toUpperCase() + searchVehicle.slice(1);
+      const formatted =
+        searchVehicle.charAt(0).toUpperCase() + searchVehicle.slice(1);
       setActiveTab(formatted);
     }
   }, [searchVehicle]);
 
-  // FINAL WORKING FILTER LOGIC
+  // ⭐ FILTER LOGIC (final and correct)
   const filteredData = schedules.filter((row) => {
-    const rowVehicle = row.vehicle.toLowerCase(); // stored vehicle
-    const tabVehicle = activeTab.toLowerCase();   // tab filter: van, bus, jeep
+    const rowVehicle = row.vehicle.toLowerCase();
+    const tabVehicle = activeTab.toLowerCase();
 
     const matchesTab = rowVehicle === tabVehicle;
 
@@ -63,7 +68,7 @@ const SchedulePage = () => {
 
   return (
     <div className="schedule-page">
-      
+
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
@@ -141,30 +146,49 @@ const SchedulePage = () => {
         <div className="footer-links">
           <div>
             <p style={{ cursor: "pointer" }}>About Us</p>
-            <p onClick={() => setShowSupport(true)}>Customer Support</p>
-            <p onClick={() => setShowTerms(true)}>Terms & Condition</p>
+            <p onClick={() => setShowSupport(true)} style={{ cursor: "pointer" }}>
+              Customer Support
+            </p>
+            <p onClick={() => setShowTerms(true)} style={{ cursor: "pointer" }}>
+              Terms & Condition
+            </p>
           </div>
           <div>
             <p>Vehicle Available</p>
             <p>Trip Schedule</p>
           </div>
         </div>
+
         <div className="footer-social">
           <div className="icons">
             <a href="#" className="social-link"><FaFacebook /></a>
             <a href="#" className="social-link"><FaTwitter /></a>
             <a href="#" className="social-link"><FaInstagram /></a>
           </div>
-          <a href="#" className="privacy-link">Privacy Policy</a>
+
+          <p onClick={() => setShowPrivacy(true)} className="privacy-link" style={{ cursor: "pointer" }}>
+            Privacy Policy
+          </p>
         </div>
       </footer>
 
+      {/* MODALS */}
       {showTerms && <TermsAndConditions onClose={() => setShowTerms(false)} />}
       {showSupport && (
         <div className="modal-overlay">
           <div className="modal-content">
             <CustomerSupport />
             <button onClick={() => setShowSupport(false)} className="close-btn">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      {showPrivacy && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <PrivacyPolicy />
+            <button onClick={() => setShowPrivacy(false)} className="close-btn">
               Close
             </button>
           </div>

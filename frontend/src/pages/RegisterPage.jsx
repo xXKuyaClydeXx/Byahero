@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Upload } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/RegisterPage.css";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
+import API from "../api"; // ⭐ use centralized API instance
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -35,32 +36,36 @@ const RegisterPage = () => {
 
   const locations = ["Ligao", "Oas", "Daraga", "Legazpi", "Pilar", "Camalig", "Polangui"];
 
-  // Auto-capitalizing address
-  const formatAddress = (text) => {
-    return text.replace(/\b\w/g, (char) => char.toUpperCase());
-  };
+  // Capitalize each word in address
+  const formatAddress = (text) =>
+    text.replace(/\b\w/g, (char) => char.toUpperCase());
 
-  // IMAGE UPLOAD HANDLER
+  // ⭐ IMAGE UPLOADER (Cloudinary)
   const uploadImage = async (file) => {
     if (!file) return null;
 
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch("http://localhost:5000/api/upload/image", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await API.post("/api/upload/image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-    const data = await res.json();
-    return data.url;
+      return res.data.url;
+    } catch (err) {
+      console.error("Image upload error:", err);
+      alert("Failed to upload image. Please try again.");
+      return null;
+    }
   };
 
-  // REGISTER USER
+  // ⭐ REGISTER USER
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    // VALIDATIONS
     if (password.length < 8) {
       alert("Password must be at least 8 characters long.");
       setLoading(false);
@@ -69,7 +74,6 @@ const RegisterPage = () => {
 
     const birthYear = new Date(birthday).getFullYear();
     const age = new Date().getFullYear() - birthYear;
-
     if (age < 18) {
       alert("You must be at least 18 years old to register.");
       setLoading(false);
@@ -83,11 +87,12 @@ const RegisterPage = () => {
     }
 
     try {
-      // Upload images
+      // Upload images to Cloudinary
       const profileImageUrl = await uploadImage(profileFile);
       const licenseImageUrl = await uploadImage(licenseFile);
       const orcrImageUrl = await uploadImage(orcrFile);
 
+      // Final payload to backend
       const payload = {
         role: "driver",
         fullName,
@@ -103,20 +108,14 @@ const RegisterPage = () => {
         orcrImageUrl,
       };
 
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Registration failed");
+      const res = await API.post("/api/auth/register", payload);
 
       alert("Registered successfully!");
       navigate("/login");
 
     } catch (err) {
-      alert(err.message);
+      console.error("Registration error:", err);
+      alert(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -124,7 +123,6 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
-      
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
@@ -142,7 +140,6 @@ const RegisterPage = () => {
       {/* MAIN CARD */}
       <section className="register-section">
         <div className="register-card">
-
           <div className="register-header">
             <Link to="/login" className="back-btn">
               <ArrowLeft size={18} /> Back
@@ -151,7 +148,6 @@ const RegisterPage = () => {
           </div>
 
           <div className="register-layout">
-            
             {/* PROFILE IMAGE */}
             <div className="profile-section">
               <div className="profile-circle">
@@ -179,22 +175,25 @@ const RegisterPage = () => {
             <form className="register-form" onSubmit={handleRegister}>
               <div className="form-grid">
 
+                {/* Full Name */}
                 <div className="input-group">
                   <label>Full Name</label>
                   <input value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                 </div>
 
+                {/* Email */}
                 <div className="input-group">
                   <label>Email</label>
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
 
+                {/* Birthday */}
                 <div className="input-group">
                   <label>Birthday</label>
                   <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} required />
                 </div>
 
-                {/* PASSWORD */}
+                {/* Password */}
                 <div className="input-group password-group">
                   <label>Password</label>
                   <div className="password-wrapper">
@@ -214,37 +213,31 @@ const RegisterPage = () => {
                   </div>
                 </div>
 
+                {/* Address */}
                 <div className="input-group">
                   <label>Address</label>
-                  <input
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    required
-                  />
+                  <input value={address} onChange={(e) => setAddress(e.target.value)} required />
                 </div>
 
+                {/* Contact Number */}
                 <div className="input-group">
                   <label>Contact Number</label>
                   <input
                     value={contactNumber}
                     maxLength="11"
                     onChange={(e) => {
-                      const val = e.target.value;
-                      if (/^\d*$/.test(val)) {
-                        setContactNumber(val);
+                      if (/^\d*$/.test(e.target.value)) {
+                        setContactNumber(e.target.value);
                       }
                     }}
                     required
                   />
                 </div>
 
+                {/* Vehicle Type */}
                 <div className="input-group">
                   <label>Vehicle Type</label>
-                  <select
-                    value={vehicleType}
-                    onChange={(e) => setVehicleType(e.target.value)}
-                    required
-                  >
+                  <select value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} required>
                     <option value="">Select vehicle type</option>
                     <option value="bus">Bus</option>
                     <option value="van">Van</option>
@@ -252,39 +245,25 @@ const RegisterPage = () => {
                   </select>
                 </div>
 
-                {/* ROUTES — UPDATED WITH FILTER LOGIC */}
+                {/* ROUTES */}
                 <div className="input-group routes-group">
                   <label>Routes</label>
 
                   <div className="routes-row">
-                    {/* FROM */}
-                    <select
-                      value={routeFrom}
-                      onChange={(e) => setRouteFrom(e.target.value)}
-                      required
-                    >
+                    <select value={routeFrom} onChange={(e) => setRouteFrom(e.target.value)} required>
                       <option value="">From</option>
-                      {locations
-                        .filter((loc) => loc !== routeTo)
-                        .map((loc) => (
-                          <option key={loc}>{loc}</option>
-                        ))}
+                      {locations.filter((loc) => loc !== routeTo).map((loc) => (
+                        <option key={loc}>{loc}</option>
+                      ))}
                     </select>
 
                     <ArrowRight size={20} />
 
-                    {/* TO */}
-                    <select
-                      value={routeTo}
-                      onChange={(e) => setRouteTo(e.target.value)}
-                      required
-                    >
+                    <select value={routeTo} onChange={(e) => setRouteTo(e.target.value)} required>
                       <option value="">To</option>
-                      {locations
-                        .filter((loc) => loc !== routeFrom)
-                        .map((loc) => (
-                          <option key={loc}>{loc}</option>
-                        ))}
+                      {locations.filter((loc) => loc !== routeFrom).map((loc) => (
+                        <option key={loc}>{loc}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -339,11 +318,8 @@ const RegisterPage = () => {
               <button className="register-btn" type="submit" disabled={loading}>
                 {loading ? "Registering..." : "Register"}
               </button>
-
             </form>
-
           </div>
-
         </div>
       </section>
     </div>
