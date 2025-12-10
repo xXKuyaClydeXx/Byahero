@@ -1,12 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../css/SchedulePage.css";
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import ByaheroLogo from "../assets/images/ByaheroLogo.png";
 import TermsAndConditions from "./TermsAndConditions";
 import CustomerSupport from "./CustomerSupport";
 import { SchedulesContext } from "../context/SchedulesContext";
-import { useLocation } from "react-router-dom";
 
 const SchedulePage = () => {
   const [activeTab, setActiveTab] = useState("Van");
@@ -22,33 +21,33 @@ const SchedulePage = () => {
   const searchTo = query.get("to") || "";
   const searchVehicle = query.get("vehicle") || "";
 
-
   // Fetch schedules on mount
- useEffect(() => {
-  // ALWAYS fetch schedules when entering the page
-  fetchSchedules();
+  useEffect(() => {
+    fetchSchedules();
 
-  // Set active tab based on vehicle selected
-  if (searchVehicle) {
-    setActiveTab(searchVehicle.charAt(0).toUpperCase() + searchVehicle.slice(1));
-  }
-}, [searchVehicle]);
+    if (searchVehicle) {
+      setActiveTab(searchVehicle.charAt(0).toUpperCase() + searchVehicle.slice(1));
+    }
+  }, [searchVehicle]);
 
+
+  // Filter logic
   const filteredData = schedules.filter(row => {
-  const matchVehicle = searchVehicle
-    ? row.vehicle.toLowerCase() === searchVehicle.toLowerCase()
-    : row.vehicle === activeTab;
+    const matchVehicle = searchVehicle
+      ? row.vehicle.toLowerCase() === searchVehicle.toLowerCase()
+      : row.vehicle === activeTab;
 
-  const matchFrom = searchFrom
-    ? row.from.toLowerCase().includes(searchFrom.toLowerCase())
-    : true;
+    const matchFrom = searchFrom
+      ? row.from.toLowerCase().includes(searchFrom.toLowerCase())
+      : true;
 
-  const matchTo = searchTo
-    ? row.to.toLowerCase().includes(searchTo.toLowerCase())
-    : true;
+    const matchTo = searchTo
+      ? row.to.toLowerCase().includes(searchTo.toLowerCase())
+      : true;
 
-  return matchVehicle && matchFrom && matchTo;
-});
+    return matchVehicle && matchFrom && matchTo;
+  });
+
 
   const formatTime12 = (time24) => {
     if (!time24) return "";
@@ -59,8 +58,11 @@ const SchedulePage = () => {
     return `${hour}:${minute} ${ampm}`;
   };
 
+
   return (
     <div className="schedule-page">
+      
+      {/* NAVBAR */}
       <nav className="navbar">
         <div className="nav-header">
           <img src={ByaheroLogo} alt="Byahero Logo" className="nav-logo" />
@@ -73,11 +75,18 @@ const SchedulePage = () => {
         </div>
       </nav>
 
+      {/* MAIN CONTENT */}
       <section className="schedule-section">
         <div className="schedule-card">
+
+          {/* VEHICLE TABS */}
           <div className="vehicle-tabs inside">
             {["Van", "Bus", "Jeepney"].map(type => (
-              <button key={type} className={`tab-btn ${activeTab === type ? "active" : ""}`} onClick={() => setActiveTab(type)}>
+              <button
+                key={type}
+                className={`tab-btn ${activeTab === type ? "active" : ""}`}
+                onClick={() => setActiveTab(type)}
+              >
                 {type}
               </button>
             ))}
@@ -85,41 +94,47 @@ const SchedulePage = () => {
 
           <h2 className="schedule-heading">{activeTab}</h2>
 
+          {/* TABLE */}
           <div className="table-wrap">
             <table className="schedule-table">
               <thead>
                 <tr>
-                  <th>DRIVER'S NAME</th>
-                  <th>VEHICLE TYPE</th>
-                  <th>AVAILABLE SEAT</th>
-                  <th>TERMINAL</th>
-                  <th>TIME OF DEPARTURE</th>
+                  <th>Driver</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Vehicle</th>
+                  <th>Departure</th>
+                  <th>Seats</th>
                 </tr>
               </thead>
+
               <tbody>
                 {filteredData.length === 0 ? (
                   <tr>
-                    <td colSpan="5" style={{ textAlign: "center" }}>
+                    <td colSpan="6" style={{ textAlign: "center" }}>
                       No schedules available for {activeTab}.
                     </td>
                   </tr>
                 ) : (
                   filteredData.map((row, idx) => (
                     <tr key={idx}>
-                      <td>{row.driverName || "Unknown"}</td>
+                      <td>{row.driver?.fullName || "Unknown"}</td>
+                      <td>{row.from}</td>
+                      <td>{row.to}</td>
                       <td>{row.vehicle}</td>
-                      <td>{row.seats}</td>
-                      <td>{row.terminal || row.from}</td>
                       <td>{formatTime12(row.departureTime)}</td>
+                      <td>{row.seats}</td>
                     </tr>
                   ))
                 )}
               </tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className="footer">
         <div className="footer-links">
           <div>
@@ -151,6 +166,7 @@ const SchedulePage = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
