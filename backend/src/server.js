@@ -5,44 +5,39 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 
-// Correct paths (go OUT of /src, then INTO routes/)
+// Correct paths
 import authRoutes from "../routes/authRoutes.js";
 import scheduleRoutes from "../routes/scheduleRoutes.js";
 import uploadRoutes from "../routes/uploadRoutes.js";
-
-// Correct paths for middleware + models
 import { requireAuth } from "../middleware/auth.js";
 import User from "../models/User.js";
 
 const app = express();
 
-// ======================
-// MIDDLEWARES
-// ======================
 app.use(express.json());
 app.use(cookieParser());
+
+// ✅ Allow localhost + Vercel frontend
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://byahero.vercel.app",   // YOUR FRONTEND DOMAIN
+    ],
     credentials: true,
   })
 );
 
-// ======================
 // ROUTES
-// ======================
 app.use("/api/auth", authRoutes);
 app.use("/api/schedules", scheduleRoutes);
 app.use("/api/upload", uploadRoutes);
 
-// ======================
-// AUTHENTICATED USER CHECK
-// ======================
+// GET CURRENT USER
 app.get("/api/auth/me", requireAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
-
     res.json(user);
   } catch (error) {
     console.error("Error in /api/auth/me:", error);
@@ -50,9 +45,7 @@ app.get("/api/auth/me", requireAuth, async (req, res) => {
   }
 });
 
-// ======================
 // START SERVER
-// ======================
 const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
